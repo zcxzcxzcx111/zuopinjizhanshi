@@ -1,0 +1,1015 @@
+{
+  "ok": false,
+  "frames_root": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames",
+  "states": [
+    "idle",
+    "running-right",
+    "running-left",
+    "waving",
+    "jumping",
+    "failed",
+    "waiting",
+    "running",
+    "review"
+  ],
+  "errors": [
+    "idle used extraction method slots; regenerate the row or inspect slot slicing",
+    "running-right used extraction method slots; regenerate the row or inspect slot slicing",
+    "running-left used extraction method slots; regenerate the row or inspect slot slicing",
+    "jumping used extraction method slots; regenerate the row or inspect slot slicing",
+    "waiting used extraction method slots; regenerate the row or inspect slot slicing",
+    "running frame 00 has 805 non-transparent pixels close to the chroma key",
+    "running frame 01 is empty or too sparse (1 pixels)",
+    "running frame 02 is empty or too sparse (1 pixels)",
+    "running frame 03 has 806 non-transparent pixels close to the chroma key",
+    "running frame 04 is empty or too sparse (6 pixels)",
+    "running frame 05 is empty or too sparse (2 pixels)",
+    "review used extraction method slots; regenerate the row or inspect slot slicing"
+  ],
+  "warnings": [
+    "running frame 00 is much larger than the row median (21985 vs 4)",
+    "running frame 01 is much smaller than the row median (1 vs 4)",
+    "running frame 02 is much smaller than the row median (1 vs 4)",
+    "running frame 03 is much larger than the row median (25875 vs 4)"
+  ],
+  "rows": [
+    {
+      "state": "idle",
+      "expected_frames": 6,
+      "actual_frames": 6,
+      "extraction_method": "slots",
+      "ok": false,
+      "errors": [
+        "idle used extraction method slots; regenerate the row or inspect slot slicing"
+      ],
+      "warnings": [],
+      "frames": [
+        {
+          "index": 0,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\idle\\00.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 10107,
+          "bbox": [
+            64,
+            5,
+            127,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 93
+        },
+        {
+          "index": 1,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\idle\\01.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 12279,
+          "bbox": [
+            58,
+            5,
+            134,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 128
+        },
+        {
+          "index": 2,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\idle\\02.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 12181,
+          "bbox": [
+            58,
+            5,
+            134,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 144
+        },
+        {
+          "index": 3,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\idle\\03.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 11847,
+          "bbox": [
+            58,
+            5,
+            134,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 147
+        },
+        {
+          "index": 4,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\idle\\04.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 12303,
+          "bbox": [
+            58,
+            5,
+            134,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 142
+        },
+        {
+          "index": 5,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\idle\\05.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 10496,
+          "bbox": [
+            65,
+            5,
+            127,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 104
+        }
+      ]
+    },
+    {
+      "state": "running-right",
+      "expected_frames": 8,
+      "actual_frames": 8,
+      "extraction_method": "slots",
+      "ok": false,
+      "errors": [
+        "running-right used extraction method slots; regenerate the row or inspect slot slicing"
+      ],
+      "warnings": [],
+      "frames": [
+        {
+          "index": 0,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running-right\\00.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 9668,
+          "bbox": [
+            64,
+            5,
+            127,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 150
+        },
+        {
+          "index": 1,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running-right\\01.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 13206,
+          "bbox": [
+            56,
+            5,
+            135,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 214
+        },
+        {
+          "index": 2,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running-right\\02.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 13655,
+          "bbox": [
+            56,
+            5,
+            136,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 193
+        },
+        {
+          "index": 3,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running-right\\03.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 13074,
+          "bbox": [
+            56,
+            5,
+            136,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 210
+        },
+        {
+          "index": 4,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running-right\\04.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 13614,
+          "bbox": [
+            56,
+            5,
+            136,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 202
+        },
+        {
+          "index": 5,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running-right\\05.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 13822,
+          "bbox": [
+            56,
+            5,
+            136,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 211
+        },
+        {
+          "index": 6,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running-right\\06.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 13188,
+          "bbox": [
+            56,
+            5,
+            136,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 206
+        },
+        {
+          "index": 7,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running-right\\07.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 9475,
+          "bbox": [
+            64,
+            5,
+            128,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 119
+        }
+      ]
+    },
+    {
+      "state": "running-left",
+      "expected_frames": 8,
+      "actual_frames": 8,
+      "extraction_method": "slots",
+      "ok": false,
+      "errors": [
+        "running-left used extraction method slots; regenerate the row or inspect slot slicing"
+      ],
+      "warnings": [],
+      "frames": [
+        {
+          "index": 0,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running-left\\00.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 8099,
+          "bbox": [
+            68,
+            5,
+            124,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 167
+        },
+        {
+          "index": 1,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running-left\\01.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 12098,
+          "bbox": [
+            62,
+            5,
+            129,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 194
+        },
+        {
+          "index": 2,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running-left\\02.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 5947,
+          "bbox": [
+            75,
+            5,
+            117,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 77
+        },
+        {
+          "index": 3,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running-left\\03.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 6942,
+          "bbox": [
+            77,
+            5,
+            115,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 63
+        },
+        {
+          "index": 4,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running-left\\04.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 6972,
+          "bbox": [
+            77,
+            5,
+            115,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 66
+        },
+        {
+          "index": 5,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running-left\\05.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 5666,
+          "bbox": [
+            75,
+            5,
+            117,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 60
+        },
+        {
+          "index": 6,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running-left\\06.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 12113,
+          "bbox": [
+            62,
+            5,
+            129,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 193
+        },
+        {
+          "index": 7,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running-left\\07.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 9443,
+          "bbox": [
+            66,
+            5,
+            125,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 151
+        }
+      ]
+    },
+    {
+      "state": "waving",
+      "expected_frames": 4,
+      "actual_frames": 4,
+      "extraction_method": "components",
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "frames": [
+        {
+          "index": 0,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\waving\\00.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 12517,
+          "bbox": [
+            54,
+            5,
+            138,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 213
+        },
+        {
+          "index": 1,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\waving\\01.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 12400,
+          "bbox": [
+            55,
+            5,
+            136,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 197
+        },
+        {
+          "index": 2,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\waving\\02.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 12660,
+          "bbox": [
+            51,
+            5,
+            141,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 217
+        },
+        {
+          "index": 3,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\waving\\03.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 12557,
+          "bbox": [
+            51,
+            5,
+            141,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 198
+        }
+      ]
+    },
+    {
+      "state": "jumping",
+      "expected_frames": 5,
+      "actual_frames": 5,
+      "extraction_method": "slots",
+      "ok": false,
+      "errors": [
+        "jumping used extraction method slots; regenerate the row or inspect slot slicing"
+      ],
+      "warnings": [],
+      "frames": [
+        {
+          "index": 0,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\jumping\\00.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 10655,
+          "bbox": [
+            58,
+            5,
+            133,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 315
+        },
+        {
+          "index": 1,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\jumping\\01.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 12002,
+          "bbox": [
+            54,
+            5,
+            138,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 581
+        },
+        {
+          "index": 2,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\jumping\\02.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 10055,
+          "bbox": [
+            58,
+            5,
+            133,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 482
+        },
+        {
+          "index": 3,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\jumping\\03.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 12167,
+          "bbox": [
+            54,
+            5,
+            138,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 561
+        },
+        {
+          "index": 4,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\jumping\\04.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 10485,
+          "bbox": [
+            59,
+            5,
+            133,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 314
+        }
+      ]
+    },
+    {
+      "state": "failed",
+      "expected_frames": 8,
+      "actual_frames": 8,
+      "extraction_method": "components",
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "frames": [
+        {
+          "index": 0,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\failed\\00.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 13922,
+          "bbox": [
+            50,
+            5,
+            141,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 288
+        },
+        {
+          "index": 1,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\failed\\01.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 13694,
+          "bbox": [
+            49,
+            5,
+            142,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 291
+        },
+        {
+          "index": 2,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\failed\\02.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 5736,
+          "bbox": [
+            73,
+            5,
+            118,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 112
+        },
+        {
+          "index": 3,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\failed\\03.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 5440,
+          "bbox": [
+            73,
+            5,
+            119,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 110
+        },
+        {
+          "index": 4,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\failed\\04.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 13951,
+          "bbox": [
+            52,
+            5,
+            140,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 285
+        },
+        {
+          "index": 5,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\failed\\05.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 14123,
+          "bbox": [
+            50,
+            5,
+            141,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 281
+        },
+        {
+          "index": 6,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\failed\\06.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 13539,
+          "bbox": [
+            52,
+            5,
+            140,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 289
+        },
+        {
+          "index": 7,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\failed\\07.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 13750,
+          "bbox": [
+            52,
+            5,
+            140,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 283
+        }
+      ]
+    },
+    {
+      "state": "waiting",
+      "expected_frames": 6,
+      "actual_frames": 6,
+      "extraction_method": "slots",
+      "ok": false,
+      "errors": [
+        "waiting used extraction method slots; regenerate the row or inspect slot slicing"
+      ],
+      "warnings": [],
+      "frames": [
+        {
+          "index": 0,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\waiting\\00.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 10926,
+          "bbox": [
+            60,
+            5,
+            132,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 320
+        },
+        {
+          "index": 1,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\waiting\\01.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 12674,
+          "bbox": [
+            54,
+            5,
+            137,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 468
+        },
+        {
+          "index": 2,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\waiting\\02.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 12773,
+          "bbox": [
+            54,
+            5,
+            137,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 492
+        },
+        {
+          "index": 3,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\waiting\\03.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 12624,
+          "bbox": [
+            54,
+            5,
+            138,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 499
+        },
+        {
+          "index": 4,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\waiting\\04.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 12448,
+          "bbox": [
+            54,
+            5,
+            137,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 474
+        },
+        {
+          "index": 5,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\waiting\\05.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 12000,
+          "bbox": [
+            58,
+            5,
+            134,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 425
+        }
+      ]
+    },
+    {
+      "state": "running",
+      "expected_frames": 6,
+      "actual_frames": 6,
+      "extraction_method": "components",
+      "ok": false,
+      "errors": [
+        "running frame 00 has 805 non-transparent pixels close to the chroma key",
+        "running frame 01 is empty or too sparse (1 pixels)",
+        "running frame 02 is empty or too sparse (1 pixels)",
+        "running frame 03 has 806 non-transparent pixels close to the chroma key",
+        "running frame 04 is empty or too sparse (6 pixels)",
+        "running frame 05 is empty or too sparse (2 pixels)"
+      ],
+      "warnings": [
+        "running frame 00 is much larger than the row median (21985 vs 4)",
+        "running frame 01 is much smaller than the row median (1 vs 4)",
+        "running frame 02 is much smaller than the row median (1 vs 4)",
+        "running frame 03 is much larger than the row median (25875 vs 4)"
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running\\00.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 21985,
+          "bbox": [
+            5,
+            5,
+            187,
+            202
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 805
+        },
+        {
+          "index": 1,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running\\01.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 1,
+          "bbox": [
+            95,
+            103,
+            96,
+            104
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 1
+        },
+        {
+          "index": 2,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running\\02.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 1,
+          "bbox": [
+            95,
+            103,
+            96,
+            104
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 1
+        },
+        {
+          "index": 3,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running\\03.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 25875,
+          "bbox": [
+            15,
+            5,
+            176,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 806
+        },
+        {
+          "index": 4,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running\\04.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 6,
+          "bbox": [
+            95,
+            102,
+            97,
+            106
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 4
+        },
+        {
+          "index": 5,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\running\\05.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 2,
+          "bbox": [
+            95,
+            103,
+            96,
+            105
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 2
+        }
+      ]
+    },
+    {
+      "state": "review",
+      "expected_frames": 6,
+      "actual_frames": 6,
+      "extraction_method": "slots",
+      "ok": false,
+      "errors": [
+        "review used extraction method slots; regenerate the row or inspect slot slicing"
+      ],
+      "warnings": [],
+      "frames": [
+        {
+          "index": 0,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\review\\00.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 8270,
+          "bbox": [
+            68,
+            5,
+            123,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 134
+        },
+        {
+          "index": 1,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\review\\01.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 8257,
+          "bbox": [
+            70,
+            5,
+            122,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 94
+        },
+        {
+          "index": 2,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\review\\02.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 6848,
+          "bbox": [
+            76,
+            5,
+            115,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 72
+        },
+        {
+          "index": 3,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\review\\03.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 6658,
+          "bbox": [
+            76,
+            5,
+            115,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 63
+        },
+        {
+          "index": 4,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\review\\04.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 8518,
+          "bbox": [
+            70,
+            5,
+            122,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 104
+        },
+        {
+          "index": 5,
+          "file": "C:\\Users\\90823\\Desktop\\\u6240\u6709\u6587\u4ef6\\AI\u9879\u76ee\\\u8bb0\u5fc6\u5730\u56fe\\pet-runs\\sanji\\qa\\standard-frames\\review\\05.png",
+          "width": 192,
+          "height": 208,
+          "nontransparent_pixels": 8087,
+          "bbox": [
+            71,
+            5,
+            121,
+            203
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 76
+        }
+      ]
+    }
+  ]
+}

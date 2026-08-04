@@ -1,0 +1,74 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+
+const html = fs.readFileSync('index.html', 'utf8');
+const css = fs.readFileSync('styles.css', 'utf8');
+const js = fs.readFileSync('script.js', 'utf8');
+const server = fs.readFileSync('serve-portfolio.cjs', 'utf8');
+const prototypePath = '.superpowers/brainstorm/headline-font-options-20260717/content/portrait-right-no-frame-v3.html';
+const prototype = fs.existsSync(prototypePath) ? fs.readFileSync(prototypePath, 'utf8') : '';
+
+assert.match(html, /id="portrait-intro"/);
+assert.match(html, /assets\/hero-portrait-silhouette\.png/);
+assert.match(html, /class="portrait-intro__particles"/);
+assert.match(html, /class="portrait-intro__stage"/);
+assert.match(html, /class="portrait-intro__light-field"/);
+assert.match(html, /aria-hidden="true"/);
+assert.match(html, /AI项目作品集/);
+assert.match(html, /周呈祥/);
+assert.match(css, /\.portrait-intro\s*\{/);
+assert.match(css, /\.portrait-intro__particles\s*\{/);
+assert.match(css, /--handoff-progress\s*:/);
+assert.match(css, /--portrait-light-progress\s*:/);
+assert.match(css, /calc\(0\.34 \* \(1 - var\(--handoff-progress\)\)\)/, 'cover shading should fade during the handoff');
+assert.match(css, /\.portrait-intro__stage::after[\s\S]*?opacity:\s*calc\(1 - var\(--handoff-progress\)\)/, 'cover footer shade should fade before page two takes over');
+assert.match(css, /\.main-content::before[\s\S]*?height:\s*190vh/, 'handoff feather should continue beyond the sticky cover boundary');
+assert.match(css, /ellipse 72% 36% at 22% 18%/, 'page two ambient light should stay in the upper-left absorption zone');
+assert.doesNotMatch(css, /rgba\(62, 38, 118, 0\.14\) 46%/, 'the lower-left handoff column should not retain a purple glow');
+assert.match(css, /rgba\(36, 22, 70, 0\) 78%/, 'the upper-left ambient field should fade out before reaching the lower-left area');
+assert.match(css, /\.bio-card,[\s\S]*?\.contact-brief-card[\s\S]*?rgba\(14, 11, 23, 0\.34\) 0%/, 'left-aligned profile cards should fade into the page background');
+assert.match(css, /-34px 0 74px rgba\(117, 72, 204, 0\.13\)/, 'profile cards should use a soft outward ambient glow');
+assert.match(css, /\.portrait-intro__stage\s*\{/);
+assert.match(css, /\.portrait-intro__light-field\s*\{/);
+assert.doesNotMatch(css, /rgba\(255, 249, 255, 0\.92\)/, 'the ambient field should not contain a white circular hotspot');
+assert.match(css, /\.portrait-intro__stage[\s\S]*?overflow:\s*visible/, 'sticky cover should allow the shared light field to continue into page two');
+assert.match(css, /inset:\s*-12% 38% -82% -18%/, 'the portrait light field should extend below the sticky stage');
+assert.match(css, /margin-top:\s*-78svh/);
+assert.match(css, /\.main-content::before\s*\{/);
+assert.match(css, /\.navbar\s*\{[\s\S]*?position:\s*fixed/);
+assert.match(css, /prefers-reduced-motion/);
+assert.match(js, /function initPortraitTransition\(\)/);
+assert.match(js, /function initPortraitParticles\(\)/);
+assert.match(js, /portraitprogress/);
+assert.match(js, /MAX_DESKTOP_PARTICLES\s*=\s*14000/);
+assert.match(js, /MAX_MOBILE_PARTICLES\s*=\s*5000/);
+assert.match(js, /const step = isMobile \? 7 : 5/);
+assert.match(js, /requestAnimationFrame/);
+assert.match(js, /function smoothstep\(/);
+assert.match(js, /--handoff-progress/);
+assert.match(js, /const lightProgress = smoothstep\(/);
+assert.match(js, /intro\.offsetHeight\s*-\s*window\.innerHeight/);
+assert.match(js, /targetX:/);
+assert.match(js, /targetY:/);
+assert.match(js, /controlX:/);
+assert.match(js, /controlY:/);
+assert.doesNotMatch(js, /drawAbsorbedGlow/, 'particle dissolution should not leave an absorbed glow behind');
+assert.doesNotMatch(js, /createRadialGradient/, 'the particle canvas should not draw a post-dissolution halo');
+assert.match(js, /const targetY = height \* \(0\.1 \+ hash\(x, y, 11\) \* 0\.26\)/, 'particles should travel upward into the marked absorption zone');
+assert.match(js, /const terminalFadeProgress = clamp\(\(local - 0\.78\) \/ 0\.16\)/, 'particles should fade before their rectangular target distribution becomes visible');
+
+if (prototype) {
+    assert.match(prototype, /TOP_EDGE_PX\s*=\s*8/);
+    assert.match(prototype, /RETURN_INTENT_THRESHOLD\s*=\s*24/);
+    assert.match(prototype, /upwardIntent/);
+    assert.match(prototype, /touchmove/);
+    assert.match(prototype, /exitIntro\(\)/);
+    assert.match(prototype, /class="particles"/);
+    assert.match(prototype, /crossorigin="anonymous"/);
+    assert.match(prototype, /--ease-p/);
+    assert.match(prototype, /smoothstep/);
+    assert.match(prototype, /mask-image/);
+}
+assert.match(server, /Access-Control-Allow-Origin/);
+
+console.log('portrait transition contracts passed');

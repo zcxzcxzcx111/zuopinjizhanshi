@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高顿教育 Gaodun Education | 智能公众号营销与漏斗转化工作台 v2.0</title>
+    <meta name="description" content="基于新东方与高顿四步工作流构建的微信公众号营销与转化赋能平台，涵盖AI选题、爆款标题测试、排版重构及交互转化钩子生成">
+    <link rel="stylesheet" href="styles.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Top App Navigation Header -->
+    <header class="app-header">
+        <div class="brand-area">
+            <div class="logo-badge">G</div>
+            <div class="brand-title">
+                <h1>高顿教育 Gaodun AI Content Studio</h1>
+                <p>微信公众号“爆款排版 + 智能选题 + 漏斗转化钩子”共创工作台</p>
+            </div>
+        </div>
+
+        <div class="nav-tabs">
+            <div class="nav-tab active" style="cursor: default;">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                AI内容共创与排版引擎
+                <span class="badge-count">SOP 4步法</span>
+            </div>
+        </div>
+
+        <div class="header-status">
+            <div class="status-indicator">
+                <span class="pulse-dot"></span>
+                高顿营销 Brain 2.0 在线
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+
+        <!-- ================= AI Content Studio ================= -->
+        <section id="tab-studio" class="tab-content active">
+            <div class="studio-grid">
+                
+                <!-- Left Panel: Step 1 Material & Matrix Selection -->
+                <aside class="panel">
+                    <div class="panel-title">
+                        <span><i class="fa-solid fa-filter" style="color: var(--primary);"></i> 1. 材料诊断与矩阵归类</span>
+                        <span style="font-size: 11px; color: var(--text-muted);">Step 1 of 4</span>
+                    </div>
+
+                    <span class="step-label">选择四大内容漏斗归属</span>
+                    <div class="matrix-grid">
+                        <div class="matrix-btn active matrix-tool" id="btn-matrix-tool" onclick="selectMatrix('tool', this)">
+                            <span class="matrix-icon">🛠️</span>
+                            <div class="matrix-name">实用工具/痛点类</div>
+                            <div class="matrix-desc">报考自测/免考查询/查分引流</div>
+                        </div>
+                        <div class="matrix-btn matrix-whitepaper" id="btn-matrix-wp" onclick="selectMatrix('wp', this)">
+                            <span class="matrix-icon">📘</span>
+                            <div class="matrix-name">专业白皮书/报告类</div>
+                            <div class="matrix-desc">薪资数据/考研地图获取 Leads</div>
+                        </div>
+                        <div class="matrix-btn matrix-hot" id="btn-matrix-hot" onclick="selectMatrix('hot', this)">
+                            <span class="matrix-icon">🔥</span>
+                            <div class="matrix-name">行业热点/政策类</div>
+                            <div class="matrix-desc">大厂AI裁员/考纲变动借势</div>
+                        </div>
+                        <div class="matrix-btn" id="btn-matrix-ip" onclick="selectMatrix('ip', this)">
+                            <span class="matrix-icon">🌟</span>
+                            <div class="matrix-name">学员故事/品牌IP类</div>
+                            <div class="matrix-desc">二本逆袭/名师访谈全线带单</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span>输入原始材料 / 会议纪要 / 政策通知</span>
+                            <span style="color: var(--primary); font-size: 11px; cursor: pointer;" onclick="loadSampleText()">✨ 填入典型材料示例</span>
+                        </label>
+                        <textarea id="raw-material-input" class="form-textarea" rows="6" placeholder="请粘贴最新的教育部考纲通知、ACCA政策变化、或一段高顿学员的真实备考经历..."></textarea>
+                        <div class="sample-pills">
+                            <span class="sample-pill" onclick="loadPreset('acca')">📌 ACCA 2026免考新规</span>
+                            <span class="sample-pill" onclick="loadPreset('cpa')">📌 CPA 报名与薪资红利</span>
+                            <span class="sample-pill" onclick="loadPreset('kaoyan')">📌 专硕考研报录比风向</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><span>推文末尾目标转化闭环 (CTA钩子)</span></label>
+                        <select id="cta-type-select" class="form-select">
+                            <option value="acca_tool">👉 嵌入【ACCA免考9门智能查询仪表盘】卡片</option>
+                            <option value="cpa_tool">👉 嵌入【CPA报考资格一键自测/薪资评估】卡片</option>
+                            <option value="whitepaper">🎁 嵌入【2026财经名企薪水与求学白皮书】限时领取</option>
+                            <option value="community">💬 嵌入【名师备考押题冲刺微信群】进群二维码</option>
+                        </select>
+                    </div>
+
+                    <button class="btn-primary" onclick="runAISteps()">
+                        <i class="fa-solid fa-bolt"></i>
+                        启动智能诊断与排版 (生成5组标题+长文)
+                    </button>
+                </aside>
+
+                <!-- Center Panel: Step 2 & 3 Title Workshop & Editor -->
+                <section class="panel">
+                    <div class="panel-title">
+                        <span><i class="fa-solid fa-pen-nib" style="color: var(--accent-gold);"></i> 2 & 3. 爆款标题工坊与排版重构</span>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn-secondary" onclick="insertQuote()"><i class="fa-solid fa-quote-left"></i> 插入金句框</button>
+                            <button class="btn-secondary" onclick="copyArticle()"><i class="fa-regular fa-copy"></i> 复制推文文本</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: 5 A/B Titles Carousel -->
+                    <div class="titles-carousel">
+                        <div class="titles-header">
+                            <h4><i class="fa-solid fa-flask"></i> AI A/B 测试标题建议 (点击任意标题直接替换推文标题)</h4>
+                            <span style="font-size: 11px; color: var(--text-muted);">基于5大心理诱因</span>
+                        </div>
+                        <div class="title-options" id="title-list-container">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Article Editor Toolbar -->
+                    <div class="editor-toolbar">
+                        <button class="toolbar-btn" onclick="formatText('bold')"><i class="fa-solid fa-bold"></i> 粗体提炼</button>
+                        <button class="toolbar-btn" onclick="formatText('prefix')"><i class="fa-solid fa-flag"></i> 黄金300字前缀</button>
+                        <button class="toolbar-btn" onclick="formatText('table')"><i class="fa-solid fa-table"></i> 对比表格</button>
+                        <button class="toolbar-btn cta-btn" onclick="injectSelectedCTA()"><i class="fa-solid fa-magnet"></i> 插入转化卡片 (Step 4)</button>
+                    </div>
+
+                    <textarea id="wechat-editor" class="editor-area" oninput="updateWeChatPreview()"></textarea>
+                </section>
+
+                <!-- Right Panel: Step 4 Live Interactive iPhone WeChat Simulator -->
+                <aside class="panel phone-panel">
+                    <div class="panel-title">
+                        <span><i class="fa-solid fa-mobile-screen" style="color: var(--accent-emerald);"></i> 4. 微信阅读真机模拟</span>
+                        <span style="font-size: 11px; background: rgba(16,185,129,0.2); color: var(--accent-emerald); padding: 2px 8px; border-radius: 12px;">实时编译</span>
+                    </div>
+
+                    <div class="phone-mockup-wrapper">
+                        <div class="iphone-frame">
+                            <div class="iphone-screen">
+                                <!-- iOS 状态栏与灵动岛 (居中于屏幕顶部内部) -->
+                                <div class="ios-status-bar">
+                                    <span class="ios-time">9:41</span>
+                                    <div class="dynamic-island">
+                                        <div class="island-camera"></div>
+                                    </div>
+                                    <div class="ios-icons">
+                                        <i class="fa-solid fa-signal" style="font-size: 11px;"></i>
+                                        <i class="fa-solid fa-wifi" style="font-size: 12px; margin: 0 4px;"></i>
+                                        <i class="fa-solid fa-battery-full" style="font-size: 14px;"></i>
+                                    </div>
+                                </div>
+
+                                <div class="wechat-bar">
+                                    <span style="font-size: 16px; cursor: pointer;"><i class="fa-solid fa-angle-left"></i></span>
+                                    <span style="font-weight: 700;">新中式财经 | 高顿教育</span>
+                                    <span style="cursor: pointer;"><i class="fa-solid fa-ellipsis"></i></span>
+                                </div>
+
+                                <div class="wechat-article-content">
+                                    <h2 id="wechat-preview-title" class="wechat-title">别白考了！2026年ACCA免考条件大盘点，这些专业最多免考9门！</h2>
+                                    <div class="wechat-meta">
+                                        <span class="account-name">高顿财会进阶圈</span>
+                                        <span>2026-07-14</span>
+                                    </div>
+                                    <div id="wechat-preview-body" class="wechat-body">
+                                        <!-- Rendered Content -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Title Scoring Analysis Modal -->
+    <div id="score-analysis-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.85); backdrop-filter:blur(6px); z-index:9999; justify-content:center; align-items:center;">
+        <div class="modal-card" style="background:#1e293b; border:1px solid #334155; border-radius:12px; width:90%; max-width:600px; padding:24px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.5); color:#f8fafc; animation: slideIn 0.3s ease-out forwards;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+                <div>
+                    <h3 style="margin:0; font-size:18px; color:#38bdf8; display:flex; align-items:center; gap:8px;">
+                        <i class="fa-solid fa-chart-radar"></i> 标题预测多维特征解析矩阵
+                    </h3>
+                    <p style="margin:6px 0 0; font-size:12px; color:#94a3b8;">基于 20万+ 篇微信财会公考爆款推文语料库进行 NLP 对比评测</p>
+                </div>
+                <button onclick="document.getElementById('score-analysis-modal').style.display='none'" style="background:transparent; border:none; color:#94a3b8; font-size:20px; cursor:pointer;">&times;</button>
+            </div>
+            
+            <div style="background:#0f172a; padding:16px; border-radius:8px; border:1px solid #334155; margin-bottom:20px;">
+                <div style="font-size:12px; color:#64748b; margin-bottom:6px;">目标评测标题：</div>
+                <div id="analysis-modal-title" style="font-size:15px; font-weight:600; line-height:1.5;"></div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:20px; border-bottom:1px dashed #334155; padding-bottom:16px;">
+                <div style="font-size:13px; color:#cbd5e1;">综合预测打开率 (Open Rate P90)</div>
+                <div id="analysis-modal-score" style="font-size:32px; font-weight:800; color:#10b981; line-height:1;"></div>
+            </div>
+
+            <!-- Radar / Sub-scores -->
+            <div id="analysis-modal-bars" style="display:flex; flex-direction:column; gap:14px;">
+                <!-- Generated by JS -->
+            </div>
+            
+            <div style="margin-top:24px; font-size:12px; color:#64748b; text-align:center; display:flex; align-items:center; justify-content:center; gap:6px;">
+                <i class="fa-solid fa-robot"></i> 预测模型：Gaodun Text-Bi-Encoder v3.2
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- JavaScript Logic -->
+    <script src="script.js"></script>
+</body>
+</html>

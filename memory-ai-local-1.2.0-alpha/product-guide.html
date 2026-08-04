@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Memory AI Local 产品介绍与使用说明书：了解本地开发记忆、Agent 交接、MCP 连接、数据边界和故障排查。">
+  <title>Memory AI · 产品说明书</title>
+  <link rel="stylesheet" href="product-guide.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+
+  <header class="mobile-header" aria-label="移动端页头">
+    <a class="mobile-brand" href="/" aria-label="返回 Memory AI 应用">
+      <img src="assets/memory-logo.png" alt="">
+      <span><strong>Memory AI</strong><small>产品说明书</small></span>
+    </a>
+    <button class="menu-button" id="menu-button" type="button" aria-controls="guide-sidebar" aria-expanded="false">
+      <span aria-hidden="true">☰</span><span class="sr-only">打开目录</span>
+    </button>
+  </header>
+
+  <div class="guide-shell">
+    <aside class="guide-sidebar" id="guide-sidebar" aria-label="说明书目录">
+      <a class="brand" href="/" aria-label="返回 Memory AI 应用">
+        <img src="assets/memory-logo.png" alt="">
+        <span><strong>Memory AI</strong><small>LOCAL HANDBOOK</small></span>
+      </a>
+
+      <div class="edition-card">
+        <span class="status-dot" aria-hidden="true"></span>
+        <div><strong>本地版 1.2.0</strong><small>说明书 · 2026.07</small></div>
+      </div>
+
+      <nav class="guide-nav" aria-label="本页目录">
+        <p>认识产品</p>
+        <a href="#overview" aria-current="true"><span>01</span>产品定位</a>
+        <a href="#audience"><span>02</span>适用客户</a>
+        <a href="#workflow"><span>03</span>核心闭环</a>
+        <p>开始使用</p>
+        <a href="#quick-start"><span>04</span>快速开始</a>
+        <a href="#project-memory"><span>05</span>项目记忆</a>
+        <a href="#sources"><span>06</span>数据源</a>
+        <a href="#mcp"><span>07</span>MCP 连接</a>
+        <a href="#permissions"><span>08</span>权限与审批</a>
+        <a href="#backup"><span>09</span>备份与恢复</a>
+        <p>边界与帮助</p>
+        <a href="#life-memory"><span>10</span>Life Memory</a>
+        <a href="#troubleshooting"><span>11</span>故障排查</a>
+        <a href="#faq"><span>12</span>常见问题</a>
+        <a href="#data-location"><span>13</span>数据位置</a>
+        <a href="#release-notes"><span>14</span>版本说明</a>
+      </nav>
+
+      <div class="sidebar-foot">
+        <p>离线可读</p>
+        <span>本页不加载网络资源，也不会发送任何数据。</span>
+        <a href="/">返回 Memory AI <span aria-hidden="true">→</span></a>
+      </div>
+    </aside>
+
+    <button class="nav-scrim" id="nav-scrim" type="button" aria-label="关闭目录" hidden></button>
+
+    <main id="main-content" tabindex="-1">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="kicker"><span>PRODUCT GUIDE</span><i></i><span>LOCAL-FIRST</span></div>
+          <h1 id="hero-title">让每一个 Coding Agent，<br>接着上一个继续工作。</h1>
+          <p>Memory AI 把项目目标、架构决策、开发偏好、任务和失败经验保存在你的电脑上。换 Agent 时，先生成一份经过筛选的上下文，而不是再次粘贴整段聊天。</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#quick-start">5 分钟开始</a>
+            <a class="button secondary" href="/">打开本地应用</a>
+          </div>
+          <p class="hero-note"><strong>当前产品形态：</strong>本机 Node 服务 + 浏览器界面 + SQLite 数据库 + 本地 MCP Server。</p>
+        </div>
+        <div class="hero-diagram" aria-label="开发痕迹进入本地记忆，再按需提供给不同 Agent">
+          <div class="diagram-column">
+            <small>01 · INPUT</small>
+            <span><b>手</b>手动记忆</span>
+            <span><b>夹</b>项目文件</span>
+            <span><b>G</b>Git 历史</span>
+          </div>
+          <div class="diagram-arrow" aria-hidden="true">→</div>
+          <div class="memory-node"><i></i><b>M</b><strong>本地记忆</strong><small>SQLite</small></div>
+          <div class="diagram-arrow" aria-hidden="true">→</div>
+          <div class="diagram-column agents">
+            <small>02 · MCP</small>
+            <span><b>X</b>Codex</span>
+            <span><b>C</b>Claude Code</span>
+            <span><b>A</b>Antigravity</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="truth-bar" aria-label="版本能力摘要">
+        <div><span class="badge available">本次版本</span><strong>项目、记忆、任务、搜索与交接包</strong></div>
+        <div><span class="badge available">本次版本</span><strong>8 个带本地凭证的 MCP 工具</strong></div>
+        <div><span class="badge available">本次版本</span><strong>敏感过滤、候选写入与网页审批</strong></div>
+      </div>
+
+      <article class="guide-content">
+        <section class="guide-section" id="overview" aria-labelledby="overview-title">
+          <div class="section-number">01</div>
+          <div class="section-body">
+            <span class="eyebrow">POSITIONING</span>
+            <h2 id="overview-title">它是项目上下文账本，不是另一个聊天机器人。</h2>
+            <p class="lead">Git 记录代码发生了什么；Memory AI 记录项目为什么这样做，以及下一位 Agent 需要知道什么。</p>
+            <div class="principles-grid">
+              <article><span>本地优先</span><h3>默认留在电脑上</h3><p>网页服务只监听 <code>127.0.0.1</code>，项目数据保存在本地 SQLite。当前版本不会自动上传到云端。</p></article>
+              <article><span>跨 Agent</span><h3>上下文不绑定模型</h3><p>通过 MCP 向支持的 Coding Agent 提供项目摘要、记忆搜索、任务和交接能力。</p></article>
+              <article><span>按需读取</span><h3>先摘要，再查证据</h3><p>只在开始项目或遇到具体问题时读取，避免每轮重复发送全部历史。</p></article>
+              <article><span>边界清楚</span><h3>生活数据不进入开发 Agent</h3><p>Life Memory 使用独立数据表，现有 MCP 不提供生活照片、人物和故事工具。</p></article>
+            </div>
+            <aside class="callout neutral"><strong>Memory AI 不做什么</strong><p>它不会替代 Git，不会自动读取所有 Agent 私有聊天，也不等于云端向量数据库。当前搜索仍是 SQLite 关键词匹配。</p></aside>
+          </div>
+        </section>
+
+        <section class="guide-section" id="audience" aria-labelledby="audience-title">
+          <div class="section-number">02</div>
+          <div class="section-body">
+            <span class="eyebrow">WHO IT IS FOR</span>
+            <h2 id="audience-title">最适合经常切换工具、长期维护项目的人。</h2>
+            <div class="audience-list">
+              <article><span>01</span><div><h3>独立开发者与 AI 创业者</h3><p>同时使用 Codex、Claude Code 或其他 Coding Agent，希望换工具时不用重新解释技术栈和历史决策。</p></div><em>核心用户</em></article>
+              <article><span>02</span><div><h3>自由职业者与小型工作室</h3><p>并行维护多个客户项目，需要把约束、待办和踩坑记录按项目隔离。</p></div><em>适合</em></article>
+              <article><span>03</span><div><h3>AI-native 小团队</h3><p>希望将 Agent 产生的候选结论交给人审查，并逐步建立可追溯的团队决策账本。</p></div><em>后续方向</em></article>
+            </div>
+            <p class="fine-print">如果只偶尔使用一个 Agent，或主要需求是家庭照片管理，Developer Memory 目前带来的价值会较小。</p>
+          </div>
+        </section>
+
+        <section class="guide-section" id="workflow" aria-labelledby="workflow-title">
+          <div class="section-number">03</div>
+          <div class="section-body">
+            <span class="eyebrow">CORE LOOP</span>
+            <h2 id="workflow-title">一条可信记忆，必须知道来源、用途和去向。</h2>
+            <ol class="workflow-list">
+              <li><span>1</span><div><strong>收集</strong><p>用户可以手动添加记忆与任务，也可以主动扫描项目文档、Git 最近历史和 Agent 协作规则。</p></div><small class="badge available">可用</small></li>
+              <li><span>2</span><div><strong>整理</strong><p>把临时聊天变成能长期复用的短记忆，并按项目和类型保存。</p></div><small class="badge available">可用</small></li>
+              <li><span>3</span><div><strong>审查</strong><p>Agent 写记忆或改任务时只生成候选提案，由用户在网页接受或拒绝。</p></div><small class="badge available">可用</small></li>
+              <li><span>4</span><div><strong>检索</strong><p>Agent 按 Token 预算获取项目摘要或搜索相关记忆。</p></div><small class="badge available">可用</small></li>
+              <li><span>5</span><div><strong>交接</strong><p>生成只包含目标、关键决策、任务和下一步的交接包。</p></div><small class="badge available">可用</small></li>
+              <li><span>6</span><div><strong>回写</strong><p>只有用户批准候选提案后，记忆或任务变更才真正写入项目。</p></div><small class="badge available">可用</small></li>
+            </ol>
+          </div>
+        </section>
+
+        <section class="guide-section" id="quick-start" aria-labelledby="quick-start-title">
+          <div class="section-number">04</div>
+          <div class="section-body">
+            <span class="eyebrow">QUICK START</span>
+            <h2 id="quick-start-title">第一次使用，按这五步完成。</h2>
+            <ol class="steps">
+              <li><span>01</span><div><h3>启动本地服务</h3><p>双击项目文件夹中的 <code>Start Memory AI.cmd</code>。请保持打开的命令窗口运行；关闭窗口就会停止服务。</p></div></li>
+              <li><span>02</span><div><h3>打开本地网页</h3><p>浏览器通常会自动打开 <code>http://127.0.0.1:3765</code>。本说明书页面可离线直接阅读，但主应用需要本地服务才能读写数据库。</p></div></li>
+              <li><span>03</span><div><h3>建立项目空间</h3><p>进入“项目记忆”，新建项目并填写目标、工作目录和当前 Agent。目录不会在后台自动监控，只有你点击数据源中的扫描按钮时才会读取。</p></div></li>
+              <li><span>04</span><div><h3>添加第一条记忆与任务</h3><p>建议先记录一条架构决策、一条失败经验和一个下一步任务。内容应短、具体、可长期复用。</p></div></li>
+              <li><span>05</span><div><h3>生成交接包或连接 Agent</h3><p>可先在“Agent 交接”中预览和复制交接包；需要自动调用时，再按照“Agent 连接”页面配置本地 MCP。</p></div></li>
+            </ol>
+            <aside class="callout success"><strong>推荐的第一条记忆</strong><p>“前端保持原生 HTML/CSS/JS，不引入框架；原因是当前目标是本地可打开的轻量原型。”这比“继续完善前端”更容易被未来的 Agent 正确复用。</p></aside>
+          </div>
+        </section>
+
+        <section class="guide-section" id="project-memory" aria-labelledby="project-memory-title">
+          <div class="section-number">05</div>
+          <div class="section-body">
+            <span class="eyebrow">PROJECT MEMORY</span>
+            <h2 id="project-memory-title">每个项目保存一套独立的开发认知。</h2>
+            <div class="memory-types">
+              <article><span>DECISION</span><h3>决策</h3><p>采用了什么方案，为什么采用，替代方案为什么没有选。</p><small>例：SQLite 优先于云数据库，因为首版需要完全本地。</small></article>
+              <article><span>PREFERENCE</span><h3>偏好</h3><p>稳定的协作方式、语言、代码风格和产品原则。</p><small>例：先给结论，再解释细节。</small></article>
+              <article><span>LESSON</span><h3>经验</h3><p>已经验证失败的做法、环境陷阱和避免重复踩坑的结论。</p><small>例：关闭命令窗口会使本地页面断开。</small></article>
+              <article><span>CONTEXT</span><h3>背景</h3><p>不会频繁变化，但理解项目时必须知道的事实与限制。</p><small>例：Developer 与 Life 数据当前只做逻辑分表隔离。</small></article>
+            </div>
+            <div class="two-column">
+              <div><h3>写得好的记忆</h3><ul class="check-list"><li>一条只表达一个结论</li><li>包含原因或适用条件</li><li>能在数周后独立读懂</li><li>不复制整段原始聊天</li></ul></div>
+              <div><h3>应避免的内容</h3><ul class="cross-list"><li>密钥、密码和私人身份信息</li><li>没有确认的模型猜测</li><li>很快过期的临时进度</li><li>与当前项目无关的生活数据</li></ul></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="guide-section" id="sources" aria-labelledby="sources-title">
+          <div class="section-number">06</div>
+          <div class="section-body">
+            <span class="eyebrow">DATA SOURCES</span>
+            <h2 id="sources-title">连接本地项目，但只在你点击时扫描。</h2>
+            <div class="capability-table" role="region" aria-label="数据源能力表" tabindex="0">
+              <table>
+                <thead><tr><th>数据源</th><th>状态</th><th>当前行为</th><th>边界</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>手动记忆与任务</strong></td><td><span class="badge available">本次版本</span></td><td>网页直接创建；MCP 生成候选提案</td><td>Agent 提案需在网页批准后写入</td></tr>
+                  <tr><td><strong>本地项目文件夹</strong></td><td><span class="badge available">本次版本</span></td><td>手动扫描白名单文本并保存本地索引</td><td>不自动监控；摘要先进入审批箱</td></tr>
+                  <tr><td><strong>Git 历史</strong></td><td><span class="badge available">本次版本</span></td><td>只读分支、已跟踪文件状态与最近 30 次提交</td><td>不读取 diff、不执行 Hook</td></tr>
+                  <tr><td><strong>AGENTS.md / Skills</strong></td><td><span class="badge available">本次版本</span></td><td>手动扫描 AGENTS.md、CLAUDE.md、GEMINI.md 与 SKILL.md</td><td>保留相对路径；批准前不进长期记忆</td></tr>
+                  <tr><td><strong>Agent 私有会话</strong></td><td><span class="badge planned">规划中</span></td><td>不会自动读取 Codex、Claude 或 Antigravity 历史</td><td>现有 Agent 只能主动调用 MCP</td></tr>
+                  <tr><td><strong>ChatGPT / Claude 导出</strong></td><td><span class="badge planned">规划中</span></td><td>尚无 ZIP 导入器</td><td>不是实时 API 连接</td></tr>
+                  <tr><td><strong>微信聊天记录</strong></td><td><span class="badge unavailable">未支持</span></td><td>没有抓取或解密功能</td><td>应只处理用户合法取得的数据</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="source-limits">
+              <div><span class="badge available">安全扫描范围</span><h3>只读取明确白名单</h3><p>文件夹扫描支持 README、Markdown、文本和常见包配置；最多深入 4 层、读取 80 个文件，单文件上限 32 KB、单次总量上限 512 KB。</p></div>
+              <div><span class="badge caution">始终跳过</span><h3>秘密、产物与二进制</h3><p><code>.env</code>、凭证、密钥、二进制、符号链接，以及 <code>node_modules</code>、<code>dist</code>、<code>build</code>、<code>data</code> 等目录不会进入索引。</p></div>
+              <div><span class="badge available">审批闭环</span><h3>索引不是长期记忆</h3><p>原文保存在本地 <code>source_items</code> 索引中，扫描只生成摘要 proposal；你在审批箱批准后，摘要才成为长期项目记忆。</p></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="guide-section" id="mcp" aria-labelledby="mcp-title">
+          <div class="section-number">07</div>
+          <div class="section-body">
+            <span class="eyebrow">MCP CONNECTION</span>
+            <h2 id="mcp-title">MCP 是本地传输层，不会自动复制全部聊天。</h2>
+            <p class="lead">支持 MCP 的 Agent 会在需要时启动 Memory AI 的本地进程，通过标准输入输出调用工具。Codex、Claude Code 和 Antigravity 各有独立的本地凭证，可以在网页立即禁用；断开不会删除数据库中的数据。</p>
+            <div class="tool-list">
+              <article><b>list_projects</b><p>列出项目与统计</p></article>
+              <article><b>get_project_brief</b><p>获取预算内的项目摘要</p></article>
+              <article><b>search_memories</b><p>按关键词搜索记忆摘要</p></article>
+              <article><b>get_memory</b><p>按 ID 读取一条完整记忆</p></article>
+              <article><b>get_changes</b><p>读取指定修订版本后的变化</p></article>
+              <article><b>propose_memory</b><p>提交一条待审批的记忆</p></article>
+              <article><b>propose_task_update</b><p>提交待审批的任务变更</p></article>
+              <article><b>create_handoff</b><p>生成跨 Agent 交接包</p></article>
+            </div>
+            <div class="instruction-grid">
+              <div><h3>连接</h3><ol><li>先启动 Memory AI，确认网页可打开。</li><li>在侧栏进入“Agent 连接”。</li><li>选择 Codex、Claude Code 或 Antigravity，获取该客户端独立的本地凭证与配置。</li><li>把配置放入对应客户端，然后重启客户端。</li><li>确认能看到 8 个 <code>memory-ai-local</code> 工具，并在网页运行真实 STDIO 自检。</li></ol></div>
+              <div><h3>断开</h3><ol><li>在 Memory AI 的 Agent 详情中立即禁用该客户端凭证。</li><li>也可在 Agent 的 MCP 设置中禁用或删除 <code>memory-ai-local</code>。</li><li>重启对应 Agent 客户端，使配置界面同步。</li><li>数据库不会因为断开而删除；其他 Agent 的凭证也不会受到影响。</li></ol></div>
+            </div>
+            <aside class="callout success"><strong>写保护已启用</strong><p>网页自检会启动真实 MCP STDIO 子进程，完成初始化、工具发现、读取测试和写保护验证。<code>propose_memory</code> 与 <code>propose_task_update</code> 只创建候选提案，不会绕过网页审批直接修改项目。</p></aside>
+            <h3 class="subheading">省 Token 的调用习惯</h3>
+            <ul class="token-rules">
+              <li><span>01</span><p><strong>项目开始时读一次摘要</strong>默认先用约 600 Token 的 brief。</p></li>
+              <li><span>02</span><p><strong>遇到具体问题再搜索</strong>不要每轮重复读取全部记忆。</p></li>
+              <li><span>03</span><p><strong>保存长期有效的结论</strong>不要把临时闲聊和整段原始对话写入。</p></li>
+              <li><span>04</span><p><strong>切换 Agent 前生成交接</strong>先预览，再复制或提供给下一个 Agent。</p></li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="guide-section" id="permissions" aria-labelledby="permissions-title">
+          <div class="section-number">08</div>
+          <div class="section-body">
+            <span class="eyebrow">PERMISSIONS &amp; APPROVAL</span>
+            <h2 id="permissions-title">每个 Agent 独立授权，每次写入先经过人。</h2>
+            <div class="reality-card">
+              <div><span class="badge available">本次版本</span><h3>独立凭证与项目级权限。</h3><p>Codex、Claude Code 和 Antigravity 使用不同的本地 client ID 与凭证。后端会按项目强制检查读取、搜索、提案、交接和最大上下文预算；网页禁用某一客户端后，该凭证立即失效。</p></div>
+              <div><span class="badge available">本次版本</span><h3>敏感过滤与候选写入。</h3><p>标记为敏感的记忆默认在 SQL 查询层对 Agent 隐藏，只有单独授予敏感读取权限才会返回。Agent 写记忆和改任务只生成 proposal，用户批准后才应用。</p></div>
+            </div>
+            <h3 class="subheading">安全使用建议</h3>
+            <ul class="security-list">
+              <li><b>1</b><p><strong>不要保存秘密</strong>API Key、密码、身份证件和私人聊天不要写进 Developer Memory。</p></li>
+              <li><b>2</b><p><strong>逐条审查提案</strong>确认来源、项目和内容再批准；不确定的提案直接拒绝。</p></li>
+              <li><b>3</b><p><strong>及时禁用不用的连接</strong>凭证只保存在本地，但仍应按最小权限原则管理。</p></li>
+              <li><b>4</b><p><strong>只在本机使用</strong>不要把 HTTP 地址改成 <code>0.0.0.0</code>，也不要暴露到公网。</p></li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="guide-section" id="backup" aria-labelledby="backup-title">
+          <div class="section-number">09</div>
+          <div class="section-body">
+            <span class="eyebrow">BACKUP &amp; RECOVERY</span>
+            <h2 id="backup-title">完整备份包含索引、关系和 Life 媒体。</h2>
+            <div class="backup-grid">
+              <article><span class="badge available">本次版本</span><h3>创建完整备份</h3><p>在“本地设置”中点击“创建完整备份”，应用会在 <code>data\backups\backup-...</code> 建立新的本地备份目录。</p><small>不会上传云端，也不会覆盖旧备份。</small></article>
+              <article><span class="badge available">本次版本</span><h3>清单与完整性校验</h3><p>每份备份包含 <code>developer.json</code>、<code>life.json</code>、<code>media</code> 和带 SHA-256 的 <code>manifest.json</code>。</p><small>媒体大小和散列不一致时会拒绝恢复。</small></article>
+              <article><span class="badge available">本次版本</span><h3>经过保护的恢复</h3><p>网页需要在 4.2 秒内再次点击确认；系统先完整校验，再自动创建恢复前安全备份，随后事务恢复数据库并交换媒体目录。</p><small>恢复失败时会尽力回滚数据库和媒体目录。</small></article>
+            </div>
+            <div class="manual-backup">
+              <div><span>正确操作</span><h3>创建与恢复</h3></div>
+              <ol><li>创建前确认磁盘有足够空间；Life 媒体会被完整复制。</li><li>等待“完整备份已创建”提示，不要在复制过程中关闭命令窗口。</li><li>恢复时先核对备份时间和媒体数量，再连续点击两次“验证并恢复”。</li><li>恢复完成后保留系统自动创建的安全备份，直到你确认项目与媒体都正常。</li></ol>
+            </div>
+            <aside class="callout warning"><strong>JSON 导出不是完整备份</strong><p>单独导出的 Developer 或 Life JSON 只适合查看索引；Life JSON 不包含照片与视频二进制。需要迁移或恢复时，请使用“创建完整备份”。MCP 本地凭证和 token hash 不会进入完整备份。</p></aside>
+          </div>
+        </section>
+
+        <section class="guide-section" id="life-memory" aria-labelledby="life-memory-title">
+          <div class="section-number">10</div>
+          <div class="section-body">
+            <span class="eyebrow">LIFE MEMORY</span>
+            <h2 id="life-memory-title">生活记忆是独立实验，不向 Coding Agent 开放。</h2>
+            <div class="life-boundary">
+              <div><span class="badge available">已实现</span><h3>现在可以做</h3><ul><li>建立人物空间</li><li>导入照片与视频副本</li><li>读取 JPEG 的部分 EXIF</li><li>保留 HEIC / HEIF 原文件</li><li>将同名照片与 MOV 尝试组成 Live Photo</li><li>编辑媒体信息与本地故事草稿</li></ul></div>
+              <div><span class="badge caution">限制</span><h3>需要知道</h3><ul><li>HEIC 在部分 Windows 浏览器不能预览</li><li>单个导入文件当前上限为 30 MB</li><li>Live Photo 目前按文件名配对，可能发生同名误配</li><li>故事草稿是本地规则整理，不是云端 AI 生成</li><li>Life 与 Developer 只是数据库分表，不是物理独立保险库</li></ul></div>
+              <div><span class="badge planned">规划中</span><h3>尚未提供</h3><ul><li>iPhone 照片库自动监控</li><li>完整 HEIC 元数据与缩略图流水线</li><li>人脸识别与人物自动归类</li><li>声音或形象克隆</li><li>生活数据的 MCP 工具</li></ul></div>
+            </div>
+            <aside class="callout dark"><strong>严格边界</strong><p>现有 MCP 工具完全不提供人物、照片、视频和生活故事。不要把 Life Memory 描述成已经实现的“数字永生”或人物克隆产品。</p></aside>
+          </div>
+        </section>
+
+        <section class="guide-section" id="troubleshooting" aria-labelledby="troubleshooting-title">
+          <div class="section-number">11</div>
+          <div class="section-body">
+            <span class="eyebrow">TROUBLESHOOTING</span>
+            <h2 id="troubleshooting-title">先看现象，再做最小处理。</h2>
+            <div class="troubleshooting-list">
+              <details open><summary><span>网页显示“拒绝连接”或 <code>ERR_CONNECTION_REFUSED</code></span><i aria-hidden="true">＋</i></summary><div><p>通常是本地 Node 服务没有运行。重新双击 <code>Start Memory AI.cmd</code>，并保持命令窗口开启，然后刷新网页。</p></div></details>
+              <details><summary><span>启动窗口出现 <code>EADDRINUSE</code></span><i aria-hidden="true">＋</i></summary><div><p>端口 3765 已被另一个进程占用。先关闭重复启动的 Memory AI 窗口；如果仍存在，请保存错误信息后再排查，不要反复启动多个实例。</p></div></details>
+              <details><summary><span>Agent 中看不到 MCP 工具</span><i aria-hidden="true">＋</i></summary><div><p>确认配置中的本地路径和独立凭证正确，Node.js 版本满足项目要求，并在保存 MCP 配置后重启 Agent。最终应出现 8 个工具。</p></div></details>
+              <details><summary><span>网页自检通过，但 Agent 仍然无法连接</span><i aria-hidden="true">＋</i></summary><div><p>网页自检已经验证 Memory AI 的真实 STDIO 子进程；目标 Agent 仍可能存在配置路径、凭证或客户端重启问题。请检查 Agent 自身的 MCP 日志和配置。</p></div></details>
+              <details><summary><span>HEIC / HEIF 照片没有预览</span><i aria-hidden="true">＋</i></summary><div><p>部分 Windows 浏览器不支持直接显示 HEIC。原文件仍会保留，可从媒体详情中打开；这不代表导入失败。</p></div></details>
+              <details><summary><span>照片或视频无法导入</span><i aria-hidden="true">＋</i></summary><div><p>检查文件是否超过当前 30 MB 单文件限制。大视频和部分 4K Live Photo 可能超出限制，应先保留原文件并等待后续流式导入能力。</p></div></details>
+              <details><summary><span>换电脑后只有 JSON，没有照片</span><i aria-hidden="true">＋</i></summary><div><p>Life JSON 只包含索引，不包含媒体二进制。请改用“创建完整备份”生成同时包含 <code>developer.json</code>、<code>life.json</code>、媒体和校验清单的目录。</p></div></details>
+              <details><summary><span>备份恢复被拒绝</span><i aria-hidden="true">＋</i></summary><div><p>应用会先检查格式、版本、记录关系、文件大小和 SHA-256。任何 JSON 或媒体被修改、缺失或来自不支持的高版本时都会停止恢复，以保护当前数据。</p></div></details>
+            </div>
+          </div>
+        </section>
+
+        <section class="guide-section" id="faq" aria-labelledby="faq-title">
+          <div class="section-number">12</div>
+          <div class="section-body">
+            <span class="eyebrow">FAQ</span>
+            <h2 id="faq-title">常见问题。</h2>
+            <div class="faq-grid">
+              <article><h3>使用时一定要联网吗？</h3><p>目前的核心网页、SQLite 和 MCP 都在本机运行，不依赖云端。只有未来主动接入云端模型或同步服务时才需要网络。</p></article>
+              <article><h3>为什么还要 MCP？</h3><p>MCP 让 Agent 按需读写结构化项目数据。手动复制交接包也能工作，但 MCP 能减少重复操作。</p></article>
+              <article><h3>它会不会很费 Token？</h3><p>取决于调用方式。建议每次会话先读一次精简 brief，具体问题再搜索，不要每轮读取完整历史。</p></article>
+              <article><h3>现在已经是向量数据库吗？</h3><p>不是。当前检索使用 SQLite 关键词匹配。语义检索、冲突处理和记忆生命周期属于后续能力。</p></article>
+              <article><h3>能直接连接 ChatGPT 和 Claude 所有对话吗？</h3><p>不能。当前没有实时连接或 ZIP 导入器，也不会自动读取它们的私有会话历史。</p></article>
+              <article><h3>可以自动抓取微信聊天吗？</h3><p>不可以。当前没有微信抓取、联系人选择或数据库解密功能；未来也应只处理用户合法取得并明确选择的数据。</p></article>
+              <article><h3>断开 MCP 会删除记忆吗？</h3><p>不会。禁用某个客户端凭证只会阻止它继续调用 MCP，本地 SQLite 数据和其他 Agent 的凭证仍然保留。</p></article>
+              <article><h3>可以把服务开放给局域网吗？</h3><p>当前不建议。第一版本没有 HTTP 登录系统，请保持只监听 <code>127.0.0.1</code>。</p></article>
+            </div>
+          </div>
+        </section>
+
+        <section class="guide-section" id="data-location" aria-labelledby="data-location-title">
+          <div class="section-number">13</div>
+          <div class="section-body">
+            <span class="eyebrow">LOCAL DATA</span>
+            <h2 id="data-location-title">所有核心数据都在项目的 data 目录。</h2>
+            <div class="path-card">
+              <div><span>数据库</span><code>data\memory-ai.db</code><p>项目、开发记忆、任务、人物、媒体索引和生活故事。</p></div>
+              <div><span>Life 媒体副本</span><code>data\life-media\</code><p>导入后保存的照片与视频副本；原始来源文件不会被修改。</p></div>
+              <div><span>完整备份</span><code>data\backups\backup-...\</code><p>Developer、Life、媒体副本和 SHA-256 校验清单；每次创建生成独立目录。</p></div>
+              <div><span>MCP 本地凭证</span><code>data\mcp-credentials.json</code><p>各 Agent 的独立明文凭证，只在本机使用，不会写入完整备份。</p></div>
+              <div><span>MCP 配置示例</span><code>mcp-config.example.json</code><p>用于参考本地 MCP 启动命令，不包含你的项目数据。</p></div>
+            </div>
+            <aside class="callout warning"><strong>当前没有静态加密</strong><p>拥有该电脑文件读取权限的人可能直接访问数据库和媒体。请使用 Windows 账户、磁盘加密和可信备份保护整个文件夹。</p></aside>
+          </div>
+        </section>
+
+        <section class="guide-section" id="release-notes" aria-labelledby="release-notes-title">
+          <div class="section-number">14</div>
+          <div class="section-body">
+            <span class="eyebrow">VERSION NOTES</span>
+            <h2 id="release-notes-title">版本说明与验收边界。</h2>
+            <div class="release-card">
+              <div class="release-head"><div><span>当前应用版本</span><strong>Memory AI Local 1.2.0</strong></div><small>Developer Memory + Life Memory</small></div>
+              <div class="release-columns">
+                <div><h3>已实现</h3><ul><li>SQLite 持久化</li><li>项目、记忆与任务管理</li><li>关键词搜索与 Token 预算</li><li>项目文档、Git 与 Agent 规则手动扫描</li><li>Agent 交接包</li><li>8 个带独立凭证的 MCP 工具</li><li>项目级权限、真实 STDIO 自检、敏感过滤和写入审批</li><li>含媒体与校验清单的完整备份恢复</li><li>桌面与手机响应式布局</li><li>Life 人物、媒体、时间线与本地故事草稿</li></ul></div>
+                <div><h3>仍需完善</h3><ul><li>数据库静态加密</li><li>更细的项目级权限策略</li><li>自动 Agent 会话连接器</li><li>语义检索、冲突处理和记忆生命周期</li><li>缩略图、HEIC 元数据和大文件流式导入</li><li>桌面安装包、后台常驻与自动恢复</li></ul></div>
+              </div>
+            </div>
+            <p class="fine-print">说明书版本 1.0 · 更新日期 2026-07-22。本页描述的是可验证的本地版本能力；带“规划中”标签的内容不应被视为已经交付。</p>
+          </div>
+        </section>
+      </article>
+
+      <footer class="guide-footer">
+        <img src="assets/memory-logo.png" alt="">
+        <div><strong>Memory AI</strong><p>你的本地项目上下文账本。</p></div>
+        <div class="footer-actions"><a href="#overview">重读说明书</a><a href="/">返回应用</a></div>
+      </footer>
+    </main>
+  </div>
+
+  <button class="back-to-top" id="back-to-top" type="button" aria-label="回到页面顶部" hidden><span aria-hidden="true">↑</span></button>
+  <script src="product-guide.js" defer></script>
+</body>
+</html>

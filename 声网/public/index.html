@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agora KOL Radar — Global Developer Intelligence</title>
+  <meta name="description" content="AI-powered global developer KOL discovery and outreach platform by Agora." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── BACKGROUND GRID + GLOW ─────────────────────────────────── -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <!-- ── NAVBAR ─────────────────────────────────────────────────── -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">
+        <div class="brand-text">
+          <span class="brand-name">KOL Radar</span>
+          <span class="brand-sub">由 Agora DevRel 提供</span>
+        </div>
+      </a>
+
+      <div class="nav-center">
+        <div class="nav-status-pill">
+          <span class="pulse-dot"></span>
+          <span>雷达已激活 — SD-RTN™ 智能层</span>
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <div class="nav-stat" id="nav-stat-kols">
+          <span class="stat-num">—</span>
+          <span class="stat-label">发现的 KOL</span>
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-stat">
+          <span class="stat-num" id="nav-stat-contacted">0</span>
+          <span class="stat-label">已联系</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── MAIN ───────────────────────────────────────────────────── -->
+  <main>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot"></span>
+        <span class="eyebrow-text">Agora 全球开发者情报平台</span>
+      </div>
+      <h1 class="hero-title">寻找塑造 AI<br /><span class="gradient-text">未来的建设者</span></h1>
+      <p class="hero-desc">
+        跨越 X、Reddit、GitHub 和 YouTube 的 AI KOL 发现工具。扫描前沿技术对话。给开发者影响力打分。生成极度个性化的推广文案 —— 仅需数秒。
+      </p>
+
+    <!-- SEARCH MODULE (Module 1: Smart Scraper) -->
+    <div class="search-panel" id="search-panel">
+        <div class="search-header">
+          <span class="mono-tag">模块 01</span>
+          <span class="search-label">AI 智能爬虫 —— 趋势雷达</span>
+        </div>
+        <div class="search-row">
+          <div class="search-input-wrap">
+            <svg class="search-icon" viewBox="0 0 20 20" fill="none">
+              <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M13 13L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <input
+              type="text"
+              id="search-input"
+              class="search-input"
+              placeholder="输入技术趋势或标签（例如：#VibeCoding, 语音AI, AI Agent）"
+              value="Vibe Coding"
+              autocomplete="off"
+            />
+          </div>
+          <button class="btn-primary" id="scan-btn">
+            <svg viewBox="0 0 20 20" fill="none" width="16" height="16">
+              <path d="M10 2L12 8H18L13 12L15 18L10 14L5 18L7 12L2 8H8L10 2Z" fill="currentColor"/>
+            </svg>
+            立即扫描
+          </button>
+        </div>
+
+        <!-- Suggestions row -->
+        <div class="suggestions-row" style="display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap;">
+          <span style="font-size:0.75rem; color:var(--text-3);">热门搜索：</span>
+          <div class="search-suggestions" id="search-suggestions" style="margin-top:0;">
+            <button class="suggestion-chip" data-q="Vibe Coding">#VibeCoding</button>
+            <button class="suggestion-chip" data-q="Voice AI">语音人工智能</button>
+            <button class="suggestion-chip" data-q="AI Agent">人工智能代理</button>
+            <button class="suggestion-chip" data-q="OpenAI API">OpenAI API</button>
+            <button class="suggestion-chip" data-q="WebRTC">WebRTC</button>
+          </div>
+        </div>
+
+        <!-- Platform toggle -->
+        <div class="platform-row">
+          <span class="platform-label">扫描平台：</span>
+          <label class="platform-toggle active" data-platform="x">
+            <input type="checkbox" checked /> 
+            <span class="platform-icon x-icon">𝕏</span> X
+          </label>
+          <label class="platform-toggle active" data-platform="reddit">
+            <input type="checkbox" checked />
+            <span class="platform-icon">🟠</span> Reddit
+          </label>
+          <label class="platform-toggle active" data-platform="github">
+            <input type="checkbox" checked />
+            <span class="platform-icon">🐙</span> GitHub
+          </label>
+          <label class="platform-toggle active" data-platform="youtube">
+            <input type="checkbox" checked />
+            <span class="platform-icon">▶</span> YouTube
+          </label>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TERMINAL LOG (scan progress display) -->
+    <section class="terminal-section" id="terminal-section" style="display:none;">
+      <div class="terminal">
+        <div class="terminal-titlebar">
+          <div class="terminal-dots">
+            <span style="background:#FF5F57;"></span>
+            <span style="background:#FFBC2E;"></span>
+            <span style="background:#28C840;"></span>
+          </div>
+          <span class="terminal-title">agora_kol_radar — AI 情报日志</span>
+          <span class="terminal-badge" id="terminal-badge">扫描中</span>
+        </div>
+        <div class="terminal-body" id="terminal-body">
+          <!-- Logs go here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- DASHBOARD (results) -->
+    <section class="dashboard-section" id="dashboard-section" style="display:none;">
+      
+      <div class="section-header">
+        <div class="section-header-left">
+          <span class="mono-tag">模块 02</span>
+          <h2 class="section-title">KOL 情报仪表盘</h2>
+          <div class="meta-pills" id="meta-pills"></div>
+        </div>
+        <div class="section-header-right">
+          <button class="btn-ghost" id="export-btn">
+            <svg viewBox="0 0 16 16" fill="none" width="14" height="14">
+              <path d="M8 2V10M8 10L5 7M8 10L11 7M2 13H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            导出 CSV
+          </button>
+          <div class="view-toggle">
+            <button class="view-btn active" id="view-table-btn" title="Table view">≡</button>
+            <button class="view-btn" id="view-kanban-btn" title="Kanban view">⊞</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLE VIEW -->
+      <div id="table-view">
+        <div class="table-wrap">
+          <table class="kol-table">
+            <thead>
+              <tr>
+                <th style="width:22%">KOL</th>
+                <th style="width:13%">平台</th>
+                <th style="width:22%">近期活动</th>
+                <th style="width:8%">AI 评分 <span id="score-info-icon" style="cursor:pointer;opacity:0.6;font-size:1.1em;">ⓘ</span></th>
+                <th style="width:11%">状态</th>
+                <th style="width:10%">联系方式</th>
+                <th style="width:14%">操作</th>
+              </tr>
+            </thead>
+            <tbody id="kol-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- KANBAN VIEW -->
+      <div id="kanban-view" style="display:none;">
+        <div class="kanban-board">
+          <div class="kanban-col" data-status="To Contact">
+            <div class="kanban-col-header">
+              <span class="kanban-dot" style="background:#F59E0B;"></span>
+              <span class="kanban-col-title">待联系</span>
+              <span class="kanban-count" id="count-to-contact">0</span>
+            </div>
+            <div class="kanban-cards" id="kanban-to-contact"></div>
+          </div>
+          <div class="kanban-col" data-status="Contacted">
+            <div class="kanban-col-header">
+              <span class="kanban-dot" style="background:#3B82F6;"></span>
+              <span class="kanban-col-title">已联系</span>
+              <span class="kanban-count" id="count-contacted">0</span>
+            </div>
+            <div class="kanban-cards" id="kanban-contacted"></div>
+          </div>
+          <div class="kanban-col" data-status="Negotiating">
+            <div class="kanban-col-header">
+              <span class="kanban-dot" style="background:#8B5CF6;"></span>
+              <span class="kanban-col-title">沟通中</span>
+              <span class="kanban-count" id="count-negotiating">0</span>
+            </div>
+            <div class="kanban-cards" id="kanban-negotiating"></div>
+          </div>
+          <div class="kanban-col" data-status="Published">
+            <div class="kanban-col-header">
+              <span class="kanban-dot" style="background:#10B981;"></span>
+              <span class="kanban-col-title">已发布</span>
+              <span class="kanban-count" id="count-published">0</span>
+            </div>
+            <div class="kanban-cards" id="kanban-published"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── OUTREACH DRAWER (Module 3) ─────────────────────────────── -->
+  <div class="drawer-overlay" id="outreach-overlay"></div>
+  <aside class="outreach-drawer" id="outreach-drawer">
+    <div class="drawer-header">
+      <div>
+        <span class="mono-tag">模块 03</span>
+        <h3 class="drawer-title">超个性化外联沟通</h3>
+        <p class="drawer-subtitle" id="drawer-subtitle">正在由 AI 为 <strong id="drawer-kol-name">—</strong> 生成</p>
+      </div>
+      <button class="drawer-close" id="drawer-close">
+        <svg viewBox="0 0 16 16" fill="none" width="16" height="16">
+          <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="drawer-body">
+      <!-- KOL Snapshot -->
+      <div class="drawer-kol-card" id="drawer-kol-card"></div>
+
+      <!-- Generating state -->
+      <div class="drawer-generating" id="drawer-generating" style="display:none;">
+        <div class="spinner"></div>
+        <span>DeepSeek AI 正在阅读他们的最新动态并撰写专属邮件...</span>
+      </div>
+
+      <!-- Outreach message -->
+      <div class="outreach-message-wrap" id="outreach-message-wrap" style="display:none;">
+        <div class="outreach-msg-header">
+          <span class="outreach-type-badge" id="outreach-type-badge">冷启动邮件 (Cold Email)</span>
+          <div class="outreach-actions">
+            <button class="btn-ghost sm" id="regenerate-btn">↻ 重新生成</button>
+            <button class="btn-primary sm" id="copy-outreach-btn">复制</button>
+          </div>
+        </div>
+        <textarea class="outreach-textarea" id="outreach-textarea" rows="10" spellcheck="false"></textarea>
+        <div class="outreach-tip">
+          💡 提示：在邮件中提及他们正在做的具体项目，回复率可提升 3 倍。
+        </div>
+      </div>
+
+      <!-- Follow-up section (Module 4 CRM) -->
+      <div class="followup-section" id="followup-section" style="display:none;">
+        <div class="followup-header">
+          <span class="mono-tag small">模块 04</span>
+          <span class="followup-title">3天后跟进邮件生成器</span>
+        </div>
+        <button class="btn-outline" id="generate-followup-btn">
+          <span style="color:#FFBC2E;">⚡</span> 生成风趣的跟进邮件
+        </button>
+        <div class="followup-result" id="followup-result" style="display:none;">
+          <textarea class="outreach-textarea sm" id="followup-textarea" rows="5" spellcheck="false"></textarea>
+          <button class="btn-ghost sm" id="copy-followup-btn" style="margin-top:8px;">Copy Follow-up</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── SCORING CRITERIA MODAL ───────────────────────────────────── -->
+  <div class="drawer-overlay" id="score-modal-overlay"></div>
+  <div class="score-modal" id="score-modal">
+    <div class="score-modal-header">
+      <h3 style="margin:0; font-size:1.1rem; color:var(--text-1);">AI 评分标准解析</h3>
+      <button class="drawer-close" id="score-modal-close" style="position:static;">
+        <svg viewBox="0 0 16 16" fill="none" width="16" height="16">
+          <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="score-modal-body">
+      <p style="color:var(--text-2); font-size:0.9rem; margin-top:0; margin-bottom:20px;">
+        DeepSeek AI 会根据五项核心维度对每位 KOL 进行 0-100 的综合打分：
+      </p>
+      
+      <div style="margin-bottom: 16px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+          <strong style="color:var(--accent-cyan);">🎯 内容匹配度 (Content Match)</strong>
+          <span style="color:var(--text-3); font-family:var(--font-mono);">30% 权重</span>
+        </div>
+        <p style="color:var(--text-2); font-size:0.85rem; margin:0; line-height:1.5;">评估其发布内容是否与目标产品或前沿技术（如 AI、RTC）高度相关，筛选出真正具备专业属性的内容创作者。</p>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+          <strong style="color:var(--agora-blue);">👤 用户画像匹配度 (Persona Match)</strong>
+          <span style="color:var(--text-3); font-family:var(--font-mono);">30% 权重</span>
+        </div>
+        <p style="color:var(--text-2); font-size:0.85rem; margin:0; line-height:1.5;">评估该 KOL 的受众群体是否与我们试图触达的目标用户（如硬核开发者、技术决策者）高度重合。</p>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+          <strong style="color:var(--accent-purple);">🖼️ 封面点击率潜质 (Visual & Hook CTR)</strong>
+          <span style="color:var(--text-3); font-family:var(--font-mono);">20% 权重</span>
+        </div>
+        <p style="color:var(--text-2); font-size:0.85rem; margin:0; line-height:1.5;">分析其推文钩子 (Hook)、视频标题或排版风格是否具备产生“爆款”的潜力，以及视觉呈现上的专业度。</p>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+          <strong style="color:#FF5F57;">📉 商业化程度 (Commercialization)</strong>
+          <span style="color:var(--text-3); font-family:var(--font-mono);">10% (负向扣分)</span>
+        </div>
+        <p style="color:var(--text-2); font-size:0.85rem; margin:0; line-height:1.5;">商业化程度过高（频繁“恰饭”）会导致粉丝信任度下降。AI 会自动识别并惩罚带有过多营销痕迹的账号。</p>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+          <strong style="color:var(--accent-green);">📈 粉丝数 (Follower Base)</strong>
+          <span style="color:var(--text-3); font-family:var(--font-mono);">10% 权重</span>
+        </div>
+        <p style="color:var(--text-2); font-size:0.85rem; margin:0; line-height:1.5;">作为传播范围的基础保证，结合互动率综合考量粉丝池的真实规模。</p>
+      </div>
+      
+      <div style="margin-top:24px; padding:12px; background:rgba(255,188,46,0.1); border:1px solid rgba(255,188,46,0.3); border-radius:8px; display:flex; gap:10px; align-items:flex-start;">
+        <span style="font-size:1.2rem;">💡</span>
+        <div style="font-size:0.85rem; color:var(--text-2); line-height:1.5;">
+          <strong>小提示：</strong> 只有得分在 <strong>60 分以上</strong> 的优质 KOL 才会被收录。纯营销号会因为“商业化程度”过高而被自动剔除。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TOAST ──────────────────────────────────────────────────── -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

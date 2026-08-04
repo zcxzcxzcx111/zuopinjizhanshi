@@ -1,0 +1,105 @@
+
+/* ================= BENTO SHOWCASE GRID ================= */
+.bento-showcase-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    margin-top: 4rem;
+    padding-bottom: 4rem;
+    width: 100%;
+}
+
+.bento-feature-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 32px;
+    padding: 4rem 3rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    gap: 4rem;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.4s var(--ease-smooth), border-color 0.4s ease;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.bento-feature-card:hover {
+    border-color: rgba(0, 240, 255, 0.25);
+    transform: translateY(-4px);
+}
+
+.bento-feature-card:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.bento-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 2;
+}
+
+.bento-tag {
+    font-family: var(--font-mono);
+    color: var(--accent-cyan);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    margin-bottom: 1.25rem;
+    text-transform: uppercase;
+}
+
+.bento-title {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.bento-desc {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    max-width: 480px;
+}
+
+.bento-images {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    flex: 1.2;
+    position: relative;
+}
+
+/* Offset the second image slightly for dynamic feel */
+.bento-images > div:nth-child(2) {
+    transform: translateY(3rem);
+}
+
+@media (max-width: 1024px) {
+    .bento-feature-card, .bento-feature-card:nth-child(even) {
+        flex-direction: column;
+        padding: 3rem 2rem;
+        gap: 3rem;
+    }
+    
+    .bento-content {
+        text-align: center;
+        align-items: center;
+    }
+    
+    .bento-desc {
+        text-align: center;
+    }
+    
+    .bento-images > div:nth-child(2) {
+        transform: translateY(2rem); /* Keep slight offset on mobile */
+    }
+}

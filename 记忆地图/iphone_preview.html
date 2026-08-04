@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemoryMap - iPhone Prototype Preview</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .phone-frame {
+            position: relative;
+            width: 390px;
+            height: 844px;
+            background-color: #000;
+            border-radius: 50px;
+            box-shadow: 
+                0 0 0 14px #222,
+                0 0 0 15px #333,
+                0 30px 40px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        /* Dynamic Island */
+        .dynamic-island {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 35px;
+            background-color: #000;
+            border-radius: 20px;
+            z-index: 999;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: #fff;
+        }
+
+        .title {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-150px);
+            color: #888;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">MemoryMap Mobile Prototype</div>
+    <div class="phone-frame">
+        <div class="dynamic-island"></div>
+        <iframe src="http://localhost:8080" class="screen" title="MemoryMap Prototype"></iframe>
+    </div>
+</body>
+</html>

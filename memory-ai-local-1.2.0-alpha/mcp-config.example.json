@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "memory-ai-local": {
+      "command": "node",
+      "args": [
+        "--no-warnings=ExperimentalWarning",
+        "C:\\path\\to\\Memory AI Local Frontend\\backend\\mcp-server.js"
+      ],
+      "env": {
+        "MEMORY_AI_DATA_DIR": "C:\\path\\to\\Memory AI Local Frontend\\data",
+        "MEMORY_AI_CLIENT_ID": "codex",
+        "MEMORY_AI_CLIENT_TOKEN": "请从网页的 Agent 连接页面复制专属凭证，不要使用本占位值"
+      }
+    }
+  }
+}

@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Memory AI：在本地保存开发上下文与生活记忆，默认不上传云端。">
+  <title>Memory AI · Local Memory</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="life.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <button class="brand" data-view-target="home" aria-label="返回总览">
+        <img src="assets/memory-logo.png" alt="Memory AI">
+        <span><strong>Memory AI</strong><small>DEVELOPER MEMORY</small></span>
+      </button>
+
+      <nav class="side-nav" aria-label="主要导航">
+        <span class="nav-caption">WORKSPACE</span>
+        <button class="nav-item active" data-view-target="home"><span>⌂</span>总览</button>
+        <button class="nav-item" data-view-target="projects"><span>▦</span>项目记忆</button>
+        <button class="nav-item" data-view-target="handoff"><span>⇄</span>Agent 交接</button>
+        <button class="nav-item" data-view-target="sources"><span>＋</span>数据源</button>
+        <button class="nav-item" data-view-target="agents"><span>◎</span>Agent 连接</button>
+        <button class="nav-item" data-view-target="permissions"><span>◇</span>权限与审计</button>
+        <a class="nav-item" href="product-guide.html"><span>?</span>产品说明书</a>
+        <span class="nav-caption lab-caption">PRIVATE SPACE</span>
+        <button class="nav-item" data-view-target="life"><span>♡</span>Life Memory <em>LOCAL</em></button>
+      </nav>
+
+      <div class="sidebar-spacer"></div>
+      <div class="local-note">
+        <i></i>
+        <div><strong>本地优先</strong><small id="local-status-text">正在连接本地 SQLite…</small></div>
+      </div>
+      <button class="profile-button" data-view-target="settings">
+        <span class="profile-avatar">本</span>
+        <span><strong>本地用户</strong><small>Local workspace</small></span>
+        <b>›</b>
+      </button>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div><small>MEMORY AI · LOCAL APP</small><h1 id="page-title">总览</h1></div>
+        <div class="topbar-actions">
+          <label class="search-box"><span>⌕</span><input id="global-search" type="search" placeholder="搜索项目、决策或开发习惯"></label>
+          <button class="icon-button" id="more-button" aria-label="更多设置">•••</button>
+        </div>
+      </header>
+
+      <aside class="search-popover" id="search-popover" hidden aria-live="polite">
+        <div class="search-popover-head"><strong>搜索结果</strong><span id="search-summary">输入关键词开始搜索</span><button id="close-search" aria-label="关闭搜索结果">×</button></div>
+        <div id="search-results"></div>
+      </aside>
+
+      <div class="content">
+        <section class="view active" data-view="home">
+          <section class="hero-card">
+            <div class="hero-copy">
+              <span class="eyebrow live"><i></i> LOCAL-FIRST · PRIVATE BY DEFAULT</span>
+              <h2>你的项目上下文，<br>不应该被锁在任何一个 Agent 里。</h2>
+              <p>让 Codex、Claude Code 和 Antigravity 共享你的技术栈、开发习惯、架构决策与任务进度。</p>
+              <div class="hero-actions">
+                <button class="primary-button" data-open-project>新建项目记忆</button>
+                <button class="text-button" data-view-target="handoff">体验 Agent 交接 <span>→</span></button>
+              </div>
+            </div>
+
+            <div class="context-flow" aria-label="跨 Agent 开发记忆流程">
+              <div class="flow-block input-block">
+                <small>01 · 开发痕迹</small>
+                <div><span class="agent-dot codex">X</span><p><strong>Codex 会话</strong><em>决策与修改</em></p></div>
+                <div><span class="agent-dot git">G</span><p><strong>Git 历史</strong><em>代码演进</em></p></div>
+                <div><span class="agent-dot folder">⌘</span><p><strong>项目文件</strong><em>结构与规则</em></p></div>
+              </div>
+              <span class="flow-line">→</span>
+              <div class="flow-memory">
+                <small>02 · 你的记忆层</small>
+                <div class="memory-core"><span>M</span><i></i><i></i></div>
+                <strong>Developer Memory</strong>
+                <p>偏好 · 决策 · 任务 · 踩坑</p>
+              </div>
+              <span class="flow-line">→</span>
+              <div class="flow-block output-block">
+                <small>03 · 任意 Agent</small>
+                <div><span class="agent-dot codex">X</span><p><strong>Codex</strong><em>继续开发</em></p></div>
+                <div><span class="agent-dot claude">C</span><p><strong>Claude Code</strong><em>理解项目</em></p></div>
+                <div><span class="agent-dot gravity">A</span><p><strong>Antigravity</strong><em>无缝接手</em></p></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="metrics-row" aria-label="本地数据概览">
+            <article><span>项目空间</span><strong id="metric-projects">—</strong><small>SQLite 持久化</small></article>
+            <article><span>架构决策</span><strong id="metric-decisions">—</strong><small>可检索与追溯</small></article>
+            <article><span>开发偏好</span><strong id="metric-preferences">—</strong><small>按项目隔离</small></article>
+            <article><span>当前任务</span><strong id="metric-tasks">—</strong><small>跨 Agent 连续</small></article>
+          </section>
+
+          <div class="dashboard-grid">
+            <section class="panel current-project">
+              <div class="panel-heading">
+                <div><span class="eyebrow">ACTIVE PROJECT</span><h3 id="active-project-name">正在载入…</h3></div>
+                <span class="status-pill working">开发中</span>
+              </div>
+              <p class="project-summary" id="active-project-summary">正在读取本地项目数据。</p>
+              <div class="project-meta">
+                <span><small>当前目标</small><strong id="active-project-goal">—</strong></span>
+                <span><small>最近 Agent</small><strong id="active-project-agent">—</strong></span>
+                <span><small>工作目录</small><strong id="active-project-path">—</strong></span>
+              </div>
+              <div class="progress-line"><i id="active-progress-bar" style="width:0"></i></div>
+              <div class="project-footer"><span id="active-progress-label">任务完成度 —</span><div><button class="secondary-button" id="edit-active-project">编辑项目</button><button class="primary-button small" data-view-target="handoff">生成交接包</button></div></div>
+            </section>
+
+            <aside class="panel handoff-preview">
+              <div class="panel-heading"><div><span class="eyebrow">LAST HANDOFF</span><h3 id="last-handoff-title">尚未生成</h3></div><span class="agent-pair"><b>X</b><i>→</i><b>A</b></span></div>
+              <ul id="last-handoff-list"><li><span>→</span><p><strong>准备就绪</strong>在交接中心生成第一份真实交接包</p></li></ul>
+              <button class="secondary-button full" data-view-target="handoff">打开交接中心</button>
+            </aside>
+          </div>
+
+          <div class="dashboard-grid lower-grid">
+            <section class="panel memory-stream">
+              <div class="panel-heading"><div><span class="eyebrow">MEMORY STREAM</span><h3>最近形成的开发记忆</h3></div><button class="text-button" data-view-target="projects">查看全部 →</button></div>
+              <div id="memory-stream-rows"><div class="memory-row"><div><strong>正在读取本地记忆…</strong></div></div></div>
+            </section>
+
+            <aside class="panel developer-profile">
+              <div class="panel-heading"><div><span class="eyebrow">DEVELOPER PROFILE</span><h3>你的工作方式</h3></div><span class="confidence">已确认偏好</span></div>
+              <div class="profile-facts">
+                <span><small>系统</small><strong>Windows · PowerShell</strong></span>
+                <span><small>沟通</small><strong>先说结果，少问细节</strong></span>
+                <span><small>产品</small><strong>本地优先、隐私优先</strong></span>
+                <span><small>界面</small><strong>Apple 式极简、大字号</strong></span>
+              </div>
+              <button class="secondary-button full" data-view-target="permissions">管理共享范围</button>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" data-view="projects">
+          <div class="page-intro">
+            <div><span class="eyebrow">PROJECT MEMORY</span><h2>每个项目，都有一份连续的记忆。</h2><p>把架构决策、开发习惯、当前任务和失败经验留在项目里，而不是留在某次对话里。</p></div>
+            <button class="primary-button" data-open-project>＋ 新建项目空间</button>
+          </div>
+          <div class="project-grid" id="project-grid">
+            <article class="project-card empty-project">
+              <span>＋</span><h3>添加另一个项目</h3><p>选择本地项目文件夹，建立独立记忆空间。</p><button class="text-button" data-open-project>创建项目 →</button>
+            </article>
+          </div>
+
+          <div class="project-detail-grid">
+            <section class="panel decision-list" id="decision-list">
+              <div class="panel-heading"><div><span class="eyebrow">DECISION LOG</span><h3>重要决策</h3></div><button class="secondary-button" id="add-memory">＋ 添加记忆</button></div>
+              <div id="decision-rows"></div>
+            </section>
+
+            <aside class="panel task-list" id="task-list">
+              <div class="panel-heading"><div><span class="eyebrow">OPEN LOOPS</span><h3>待继续的工作</h3></div><button class="secondary-button" id="add-task">＋ 新建任务</button></div>
+              <div id="task-rows"></div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" data-view="handoff">
+          <div class="page-intro">
+            <div><span class="eyebrow">AGENT HANDOFF</span><h2>换 Agent，不用重新解释项目。</h2><p>把当前目标、已完成内容、关键决策和下一步整理成一份可审查的交接包。</p></div>
+            <span class="prototype-label">LOCAL DATABASE</span>
+          </div>
+
+          <div class="handoff-builder">
+            <section class="panel handoff-controls">
+              <div class="agent-route">
+                <label><span>从</span><select id="handoff-from"><option>Codex</option><option>Claude Code</option><option>Antigravity</option></select></label>
+                <i>→</i>
+                <label><span>交接给</span><select id="handoff-to"><option>Antigravity</option><option>Claude Code</option><option>Codex</option></select></label>
+              </div>
+              <label class="field-label"><span>项目空间</span><select id="handoff-project"></select></label>
+              <label class="field-label"><span>Token 预算</span><select id="handoff-budget"><option value="600">精简 · 约 600</option><option value="1000" selected>标准 · 约 1000</option><option value="2400">详细 · 约 2400</option></select></label>
+              <div class="include-boxes"><span>包含内容</span><label><input type="checkbox" checked>当前目标</label><label><input type="checkbox" checked>修改文件</label><label><input type="checkbox" checked>技术决策</label><label><input type="checkbox" checked>失败经验</label><label><input type="checkbox" checked>下一步</label><label><input type="checkbox">完整原始对话</label></div>
+              <div class="privacy-callout"><b>⌾</b><p><strong>默认不包含完整对话和敏感信息</strong><span>交接包只提取持续有效的项目上下文。</span></p></div>
+              <button class="primary-button full" id="generate-handoff">重新生成交接包</button>
+            </section>
+
+            <section class="panel handoff-document" id="handoff-document">
+              <div class="document-head"><div><span class="eyebrow">HANDOFF PACKET · PREVIEW</span><h3><span id="packet-from">Codex</span> → <span id="packet-to">Antigravity</span></h3></div><span class="status-pill reviewed">已审查</span></div>
+              <div id="handoff-packet-body"><div class="packet-section"><span>01</span><div><small>READY</small><h4>选择项目后生成真实交接包</h4><p>内容来自本地 SQLite，并按 Token 预算裁剪。</p></div></div></div>
+              <div class="document-actions"><button class="secondary-button">复制交接包</button><button class="primary-button small" id="open-target-agent">配置 <span id="send-target">Antigravity</span></button></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" data-view="sources">
+          <div class="page-intro"><div><span class="eyebrow">DEVELOPER DATA SOURCES</span><h2>把开发痕迹，转化成可携带的项目记忆。</h2><p>读取当前项目配置的本地目录，先生成可审查候选；不会执行项目代码，也不会上传文件。</p></div><button class="secondary-button source-action" data-source="folder">扫描当前项目</button></div>
+          <div class="source-principle"><span>原则</span><strong>先安全扫描，后进入审批。</strong><p>原文留在本地索引，只把摘要候选交给你确认。</p></div>
+          <div class="source-grid">
+            <article class="source-card featured"><div class="source-head"><span class="source-icon dark">⌁</span><em>下一版本</em></div><h3>Agent 会话记录</h3><p>从 Codex、Claude Code、Antigravity 会话中提取决策、偏好与未完成任务。</p><ul><li>保留来源与时间</li><li>自动排除临时噪声</li><li>导入前可审查</li></ul><button class="secondary-button" disabled>尚未开放</button></article>
+            <article class="source-card"><div class="source-head"><span class="source-icon blue">夹</span><em class="waiting">可扫描</em></div><h3>本地项目文件夹</h3><p>读取 README、包配置与项目说明，建立项目基础上下文。</p><ul><li>只读项目设置中的目录</li><li>跳过密钥、构建产物与二进制</li><li>导入前进入审批箱</li></ul><button class="secondary-button source-action" data-source="folder">扫描文件夹</button></article>
+            <article class="source-card"><div class="source-head"><span class="source-icon orange">G</span><em class="waiting">可扫描</em></div><h3>Git 历史</h3><p>读取最近提交与工作区摘要，生成可追溯的代码演进候选。</p><ul><li>不执行仓库代码或 Hook</li><li>限制提交数量</li><li>不上传仓库内容</li></ul><button class="secondary-button source-action" data-source="git">扫描 Git</button></article>
+            <article class="source-card"><div class="source-head"><span class="source-icon violet">A</span><em class="waiting">可扫描</em></div><h3>AGENTS.md 与 Skills</h3><p>读取已经明确的协作规则、工具说明和项目工作流程。</p><ul><li>嵌套规则保留作用域</li><li>文本可直接审查</li><li>敏感文件始终跳过</li></ul><button class="secondary-button source-action" data-source="agents">扫描规则</button></article>
+            <article class="source-card"><div class="source-head"><span class="source-icon lime">＋</span><em class="waiting">立即可用</em></div><h3>手动添加记忆</h3><p>直接记录一条架构决策、个人偏好、踩坑经验或下一步计划。</p><ul><li>最小输入成本</li><li>立即可编辑</li><li>适合高价值结论</li></ul><button class="secondary-button" id="quick-memory">添加一条记忆</button></article>
+          </div>
+        </section>
+
+        <section class="view" data-view="agents">
+          <div class="page-intro"><div><span class="eyebrow">AGENT CONNECTIONS</span><h2>同一份开发记忆，服务你选择的每一个 Agent。</h2><p>本地 MCP 已可运行；Agent 可按权限读取，写入只会生成等待你批准的候选。</p></div><span class="prototype-label">LOCAL MCP</span></div>
+          <section class="mcp-readiness panel">
+            <div class="mcp-ready-copy"><span class="connection-light"></span><div><span class="eyebrow">MEMORY AI MCP</span><h3 id="mcp-status-title">等待真实自检</h3><p id="mcp-status-copy">8 个工具 · 独立客户端凭证 · 原始对话默认不共享</p></div></div>
+            <div class="mcp-ready-actions"><button class="secondary-button" id="test-mcp">运行自检</button><button class="primary-button" id="open-codex-config">连接第一个 Agent</button></div>
+          </section>
+          <div class="agent-grid">
+            <article class="agent-card"><div class="agent-title"><span class="agent-logo codex">X</span><em class="demo">推荐首选</em></div><h3>Codex</h3><p>与桌面应用、CLI 和 IDE 扩展共享同一份本地 MCP 配置。</p><dl><div><dt>配置格式</dt><dd>TOML</dd></div><div><dt>断开方式</dt><dd>设置中禁用</dd></div><div><dt>方式</dt><dd>STDIO</dd></div></dl><button class="primary-button agent-action" data-agent="Codex" data-client="codex">查看连接步骤</button></article>
+            <article class="agent-card"><div class="agent-title"><span class="agent-logo claude">C</span><em>可配置</em></div><h3>Claude Code</h3><p>通过本地 MCP 读取交接包，并把新结论提交到你的审批箱。</p><dl><div><dt>配置格式</dt><dd>JSON</dd></div><div><dt>断开方式</dt><dd>立即禁用</dd></div><div><dt>方式</dt><dd>STDIO</dd></div></dl><button class="secondary-button agent-action" data-agent="Claude Code" data-client="claude">查看连接步骤</button></article>
+            <article class="agent-card"><div class="agent-title"><span class="agent-logo gravity">A</span><em>可配置</em></div><h3>Antigravity</h3><p>适合验证从 Codex 到另一个 Coding Agent 的连续开发体验。</p><dl><div><dt>配置格式</dt><dd>JSON</dd></div><div><dt>断开方式</dt><dd>移除配置</dd></div><div><dt>方式</dt><dd>STDIO</dd></div></dl><button class="secondary-button agent-action" data-agent="Antigravity" data-client="antigravity">查看连接步骤</button></article>
+            <article class="agent-card muted-card"><div class="agent-title"><span class="agent-logo chatgpt">G</span><em>规划中</em></div><h3>ChatGPT 网页版</h3><p>网页版不能直接读取电脑上的本地 MCP，需要未来的远程连接器或插件。</p><dl><div><dt>当前状态</dt><dd>不可直连</dd></div><div><dt>数据边界</dt><dd>保持本地</dd></div><div><dt>优先级</dt><dd>稍后</dd></div></dl><button class="secondary-button" disabled>规划中</button></article>
+          </div>
+        </section>
+
+        <section class="view" data-view="permissions">
+          <div class="page-intro"><div><span class="eyebrow">PERMISSIONS & AUDIT</span><h2>共享工作方式，不共享全部人生。</h2><p>权限按项目、数据类型、时间和读写能力组合；家庭与私人空间默认对 Coding Agent 关闭。</p></div><div class="privacy-score"><strong>本地</strong><span>默认存储<br><small>SQLite 已启用</small></span></div></div>
+          <div class="permission-grid">
+            <section class="panel permission-matrix">
+              <div class="panel-heading"><div><span class="eyebrow">ACCESS MATRIX</span><h3>Agent × 记忆空间</h3></div><span class="prototype-label">CURRENT POLICY</span></div>
+              <div class="matrix-row matrix-head"><span>Agent</span><span>项目读取</span><span>敏感记忆</span><span>Life Memory</span><span>写回</span></div>
+              <div id="permission-matrix-body"><div class="matrix-row"><strong>正在读取真实权限…</strong><span></span><span></span><span class="scope-chip denied">禁止</span><span class="scope-chip confirm">需确认</span></div></div>
+            </section>
+            <aside class="panel security-rules">
+              <div class="panel-heading"><div><span class="eyebrow">DEFAULT RULES</span><h3>默认安全规则</h3></div></div>
+              <label><span><strong>敏感信息不主动共享</strong><small>API Key、密码与 Token 不应写入长期记忆</small></span><input type="checkbox" checked disabled></label>
+              <label><span><strong>完整对话不跨 Agent</strong><small>只共享经提取和确认的长期上下文</small></span><input type="checkbox" checked disabled></label>
+              <label><span><strong>Agent 写回必须由你批准</strong><small>候选先进入审批箱，批准前不会修改记忆或任务</small></span><input type="checkbox" checked disabled></label>
+              <label><span><strong>Life Memory 永久隔离</strong><small>当前 MCP 完全不提供生活记忆工具</small></span><input type="checkbox" checked disabled></label>
+            </aside>
+          </div>
+          <section class="panel approval-inbox">
+            <div class="panel-heading"><div><span class="eyebrow">APPROVAL INBOX</span><h3>等待你确认的 Agent 候选</h3></div><span class="prototype-label" id="approval-count">0 PENDING</span></div>
+            <div id="approval-rows"><div class="empty-state"><strong>正在读取审批箱</strong><p>Agent 提交的记忆和任务修改会先出现在这里。</p></div></div>
+          </section>
+          <section class="panel audit-log">
+            <div class="panel-heading"><div><span class="eyebrow">AUDIT PREVIEW</span><h3>访问记录将显示在这里</h3></div></div>
+            <div class="empty-audit" id="audit-log-rows"><span>⌁</span><div><strong>正在读取访问记录</strong><p>检索、读取和写回会保留来源、范围与时间。</p></div></div>
+          </section>
+        </section>
+
+        <section class="view" data-view="life" id="life-view">
+          <div class="page-intro life-page-intro">
+            <div><span class="eyebrow">LIFE MEMORY · LOCAL VAULT</span><h2>把生活留在本地，把选择权留给你。</h2><p>按人物整理照片、Live Photo 和故事。所有内容与 Developer Memory 分开，Coding Agent 默认无法读取。</p></div>
+            <div class="life-intro-actions"><button class="secondary-button" id="life-export">导出索引</button><button class="secondary-button" id="life-add-person">＋ 添加人物</button><button class="primary-button" id="life-import">＋ 导入照片</button></div>
+          </div>
+
+          <section class="life-vault-summary" aria-label="Life Memory 本地保险库状态">
+            <div class="life-vault-copy"><span class="eyebrow light"><i></i> SEPARATE LOCAL VAULT</span><h3>你的生活记忆，<br>只属于这个本地空间。</h3><p>原始文件复制到独立的 life-media 文件夹；JPEG 会读取可用 EXIF，HEIC 原文件完整保留，同名照片与 MOV 自动识别为 Live Photo。</p><div class="life-hero-actions"><button class="life-light-button" id="life-hero-import">开始导入</button><button class="life-ghost-button" id="life-open-folder-info">查看保存位置</button></div></div>
+            <div class="life-boundary-visual" aria-label="数据隔离说明"><div class="life-core">Life<small>LOCAL</small></div><div class="boundary-ring ring-one"></div><div class="boundary-ring ring-two"></div><span class="boundary-chip chip-photo">照片</span><span class="boundary-chip chip-people">人物</span><span class="boundary-chip chip-story">故事</span><strong>Agent 不可见</strong></div>
+          </section>
+
+          <section class="life-metrics" aria-label="Life Memory 数据概览">
+            <article><span>人物空间</span><strong id="life-count-people">0</strong><small>由你明确添加</small></article>
+            <article><span>本地媒体</span><strong id="life-count-media">0</strong><small>照片与视频</small></article>
+            <article><span>Live Photo</span><strong id="life-count-live">0</strong><small>静态图与视频配对</small></article>
+            <article><span>故事</span><strong id="life-count-stories">0</strong><small>可继续编辑</small></article>
+          </section>
+
+          <section class="life-onboarding panel" id="life-onboarding" hidden>
+            <div class="life-onboarding-icon">♡</div><div><span class="eyebrow">START HERE</span><h3>先添加一个重要的人</h3><p>建立人物空间后，再选择与这个人有关的照片。你随时可以修改关联或删除本地副本。</p></div><button class="primary-button" id="life-onboarding-person">添加第一个人物</button>
+          </section>
+
+          <div class="life-workspace">
+            <div class="life-main-column">
+              <section class="panel life-people-panel">
+                <div class="panel-heading"><div><span class="eyebrow">PEOPLE</span><h3>人物空间</h3></div><button class="secondary-button compact-action" id="life-add-person-inline">＋ 添加</button></div>
+                <div class="life-person-filters" id="life-person-filters" aria-label="按人物筛选"><button class="life-filter active" data-life-person="all">全部记忆</button></div>
+              </section>
+
+              <section class="panel life-timeline-panel">
+                <div class="panel-heading"><div><span class="eyebrow">TIMELINE</span><h3>生活时间线</h3><p id="life-timeline-summary">正在读取本地记忆…</p></div><button class="secondary-button compact-action" id="life-import-inline">＋ 导入</button></div>
+                <div class="life-media-grid" id="life-media-grid"><div class="life-loading"><span></span><p>正在打开本地保险库</p></div></div>
+              </section>
+            </div>
+
+            <aside class="life-side-column">
+              <section class="life-story-cta"><span class="eyebrow light">STORY WORKSHOP</span><h3>从影像开始，<br>写下真正发生的故事。</h3><p>选择时间线中的照片，先生成一份本地草稿，再由你补充和确认。</p><button class="life-light-button" id="life-new-story">新建故事</button></section>
+              <section class="panel life-stories-panel"><div class="panel-heading"><div><span class="eyebrow">STORIES</span><h3>故事簿</h3></div></div><div id="life-story-list"><div class="life-empty-small"><strong>还没有故事</strong><p>从一张照片开始即可。</p></div></div></section>
+              <section class="panel life-privacy-card"><span class="eyebrow">PRIVACY BOUNDARY</span><h3>与 Coding Agent 隔离</h3><ul><li><span>✓</span>Life 数据不进入 MCP 工具</li><li><span>✓</span>不上传云端或第三方模型</li><li><span>✓</span>删除只影响本地副本</li></ul><button class="text-button" id="life-privacy-details">查看数据边界 →</button></section>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" data-view="settings">
+          <div class="page-intro"><div><span class="eyebrow">LOCAL SETTINGS</span><h2>本地工作空间</h2><p>当前版本已使用本机 Node 服务与 SQLite 数据库，不依赖云端 API。</p></div></div>
+          <div class="settings-grid">
+            <section class="panel"><span class="eyebrow">STORAGE</span><h3>数据位置</h3><p>保存在当前应用目录的 data 文件夹中。</p><div class="setting-line"><span>数据库</span><strong id="database-status">正在连接</strong></div><div class="setting-line"><span>存储引擎</span><strong>SQLite · WAL</strong></div><div class="setting-line"><span>原始文件</span><strong>不会复制，除非用户选择</strong></div></section>
+            <section class="panel"><span class="eyebrow">CONTEXT ENGINE</span><h3>精简上下文</h3><p>先提供摘要和 ID，需要时再检索细节，减少 Agent Token 消耗。</p><label class="setting-control"><span>默认项目摘要预算</span><select id="brief-budget-setting"><option value="400">精简 · 400</option><option value="600">推荐 · 600</option><option value="1200">详细 · 1200</option></select></label><label class="setting-control"><span>搜索结果上限</span><select id="max-results-setting"><option value="3">3 条</option><option value="5">5 条</option><option value="10">10 条</option></select></label><button class="secondary-button" id="save-context-settings">保存上下文设置</button></section>
+            <section class="panel"><span class="eyebrow">BACKUP</span><h3>完整本地备份</h3><p>创建包含 Developer、Life 索引与媒体文件的本地备份目录；恢复前会先验证清单。</p><div class="setting-line"><span>上传云端</span><strong>不会</strong></div><div id="backup-list" class="compact-list"><small>正在读取备份…</small></div><div class="button-row"><button class="primary-button" id="create-backup">创建完整备份</button><button class="secondary-button" id="export-backup">导出 JSON 索引</button></div></section>
+            <section class="panel"><span class="eyebrow">VERSION</span><h3>Memory AI Local</h3><p>Developer Memory 与 Life Memory 本地双空间版本。</p><div class="setting-line"><span>版本</span><strong id="app-version">1.2.0</strong></div><div class="setting-line"><span>运行地址</span><strong>127.0.0.1:3765</strong></div><div class="setting-line"><span>外网访问</span><strong>关闭</strong></div><a class="secondary-button full" href="product-guide.html">打开产品介绍与说明书</a></section>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="project-modal" hidden>
+    <form class="project-modal" id="project-form">
+      <button type="button" class="modal-close" data-close-modal aria-label="关闭">×</button>
+      <span class="eyebrow">PROJECT SPACE</span><h2 id="project-modal-title">创建项目记忆</h2><p id="project-modal-description">项目会真实保存到本地 SQLite，不会上传到云端。</p>
+      <label><span>项目名称</span><input id="project-name" value="我的新项目" required></label>
+      <label><span>本地目录（可选）</span><input id="project-path" placeholder="例如 C:\Projects\My App"></label>
+      <label><span>当前目标</span><textarea id="project-goal" rows="3">建立一份可以被多个 Coding Agent 继续使用的项目记忆。</textarea></label>
+      <label><span>项目说明</span><textarea id="project-description" rows="2" placeholder="用一句话说明这个项目解决什么问题"></textarea></label>
+      <div class="modal-actions split-actions"><button type="button" class="danger-button" id="archive-project" hidden>归档项目</button><span></span><button type="button" class="secondary-button" data-close-modal>取消</button><button class="primary-button" id="project-submit" type="submit">创建本地项目</button></div>
+    </form>
+  </div>
+
+  <div class="modal-backdrop" id="memory-modal" hidden>
+    <form class="project-modal compact-modal" id="memory-form">
+      <button type="button" class="modal-close" data-close-memory aria-label="关闭">×</button>
+      <span class="eyebrow">PROJECT MEMORY</span><h2 id="memory-modal-title">添加一条开发记忆</h2>
+      <label><span>类型</span><select id="memory-type"><option value="decision">架构决策</option><option value="preference">开发偏好</option><option value="lesson">踩坑经验</option><option value="constraint">项目约束</option><option value="note">普通记录</option></select></label>
+      <label><span>标题</span><input id="memory-title" placeholder="例如：数据库采用本地 SQLite" required></label>
+      <label><span>内容</span><textarea id="memory-content" rows="4" placeholder="例如：这个项目统一使用本地 SQLite，不接入云数据库。" required></textarea></label>
+      <label><span>重要程度</span><select id="memory-importance"><option value="3">普通</option><option value="4">重要</option><option value="5">关键</option></select></label>
+      <label class="checkbox-line"><span><strong>标记为敏感记忆</strong><small>默认不会提供给任何 Coding Agent</small></span><input id="memory-sensitive" type="checkbox"></label>
+      <div class="modal-actions split-actions"><button type="button" class="danger-button" id="delete-memory" hidden>删除记忆</button><span></span><button type="button" class="secondary-button" data-close-memory>取消</button><button class="primary-button" id="memory-submit" type="submit">保存到本地</button></div>
+    </form>
+  </div>
+
+  <div class="modal-backdrop" id="task-modal" hidden>
+    <form class="project-modal compact-modal" id="task-form">
+      <button type="button" class="modal-close" data-close-task aria-label="关闭">×</button>
+      <span class="eyebrow">NEW TASK</span><h2>新建项目任务</h2><p>任务会进入当前项目，并可被交接包和 Coding Agent 读取。</p>
+      <label><span>任务内容</span><input id="task-title" placeholder="例如：验证 Codex MCP 连接" required></label>
+      <label><span>初始状态</span><select id="task-status"><option value="todo">待处理</option><option value="in_progress">进行中</option><option value="done">已完成</option></select></label>
+      <div class="modal-actions"><button type="button" class="secondary-button" data-close-task>取消</button><button class="primary-button" type="submit">创建任务</button></div>
+    </form>
+  </div>
+
+  <div class="modal-backdrop" id="agent-modal" hidden>
+    <section class="project-modal agent-modal-card" role="dialog" aria-modal="true" aria-labelledby="agent-modal-title">
+      <button type="button" class="modal-close" data-close-agent aria-label="关闭">×</button>
+      <span class="eyebrow">LOCAL MCP CONNECTION</span><h2 id="agent-modal-title">连接 Codex</h2><p id="agent-modal-intro">复制配置后，在 Agent 中保存并重启。</p>
+      <ol class="connection-steps"><li><span>1</span><p><strong>复制专属配置</strong><small>包含本机路径与这个 Agent 的独立凭证</small></p></li><li><span>2</span><p><strong>粘贴并重启 Agent</strong><small id="agent-settings-hint">打开 Settings → MCP servers</small></p></li><li><span>3</span><p><strong>确认 8 个工具出现</strong><small>读取受权限控制，写回先进入审批箱</small></p></li></ol>
+      <div class="config-block"><div><span id="config-format">TOML</span><button id="copy-config">复制配置</button></div><pre id="agent-config"></pre></div>
+      <details open><summary>如何断开？</summary><p id="disconnect-guide"></p></details>
+      <div class="modal-actions split-actions"><button class="danger-button" id="toggle-agent-connection">立即断开本地权限</button><span></span><button class="secondary-button" id="agent-self-test">测试本地 MCP</button><button class="primary-button" id="copy-and-mark">复制并完成</button></div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="life-person-modal" hidden>
+    <form class="project-modal compact-modal life-modal" id="life-person-form">
+      <button type="button" class="modal-close" data-close-life-person aria-label="关闭">×</button>
+      <span class="eyebrow">PERSON SPACE</span><h2 id="life-person-title">添加重要的人</h2><p>只有你主动选择的媒体才会与这个人物关联。</p>
+      <label><span>姓名或称呼</span><input id="life-person-name" placeholder="例如：妈妈" required maxlength="80"></label>
+      <label><span>与你的关系</span><input id="life-person-relationship" placeholder="例如：家人、朋友、伴侣" maxlength="80"></label>
+      <label><span>备注（可选）</span><textarea id="life-person-notes" rows="3" placeholder="记录你希望保留的背景信息"></textarea></label>
+      <label><span>人物颜色</span><select id="life-person-color"><option value="#DFF59A">青柠</option><option value="#CDEBFF">天空</option><option value="#E5D8FF">薰衣草</option><option value="#FFDDB8">暖橙</option><option value="#FFD2D2">珊瑚</option><option value="#D8F2E3">薄荷</option></select></label>
+      <div class="modal-actions split-actions"><button type="button" class="danger-button" id="life-delete-person" hidden>删除人物</button><span></span><button type="button" class="secondary-button" data-close-life-person>取消</button><button class="primary-button" id="life-person-submit" type="submit">保存人物</button></div>
+    </form>
+  </div>
+
+  <div class="modal-backdrop" id="life-import-modal" hidden>
+    <form class="project-modal life-import-modal-card" id="life-import-form">
+      <button type="button" class="modal-close" data-close-life-import aria-label="关闭">×</button>
+      <span class="eyebrow">LOCAL MEDIA IMPORT</span><h2>导入照片与 Live Photo</h2><p>支持 JPG、PNG、WebP、GIF、HEIC、HEIF、MOV、MP4 和 M4V；每个文件最大 30 MB。</p>
+      <label class="life-drop-zone" id="life-drop-zone"><input id="life-file-input" type="file" multiple accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif,video/quicktime,video/mp4,.heic,.heif,.mov,.m4v"><span>＋</span><strong>选择照片或拖到这里</strong><small>Live Photo 请同时选择同名 HEIC/JPG 与 MOV</small></label>
+      <div class="life-selected-files" id="life-selected-files"><p>尚未选择文件</p></div>
+      <fieldset class="life-check-field"><legend>关联人物（可多选）</legend><div class="life-checkbox-grid" id="life-import-people"></div></fieldset>
+      <label><span>统一备注（可选）</span><textarea id="life-import-caption" rows="2" placeholder="例如：2024 年春节在家里"></textarea></label>
+      <div class="life-import-progress" id="life-import-progress" hidden><div><span id="life-import-progress-bar"></span></div><p id="life-import-progress-text">准备导入</p></div>
+      <div class="life-local-disclosure"><span>✓</span><p><strong>仅复制到本机</strong><small>不会修改原文件，也不会上传云端。可在导入后逐项删除副本。</small></p></div>
+      <div class="modal-actions"><button type="button" class="secondary-button" data-close-life-import>取消</button><button class="primary-button" id="life-import-submit" type="submit">导入到本地</button></div>
+    </form>
+  </div>
+
+  <div class="modal-backdrop" id="life-media-modal" hidden>
+    <form class="project-modal life-media-modal-card" id="life-media-form">
+      <button type="button" class="modal-close" data-close-life-media aria-label="关闭">×</button>
+      <span class="eyebrow">MEMORY DETAIL</span><h2 id="life-media-title">媒体详情</h2>
+      <div class="life-media-detail-layout"><div class="life-media-preview" id="life-media-preview"></div><div class="life-media-fields">
+        <label><span>拍摄时间</span><input id="life-media-time" type="datetime-local"></label>
+        <label><span>地点</span><input id="life-media-location" placeholder="例如：上海家中"></label>
+        <label><span>备注</span><textarea id="life-media-caption" rows="3" placeholder="补充照片背后的信息"></textarea></label>
+        <fieldset class="life-check-field"><legend>关联人物</legend><div class="life-checkbox-grid" id="life-media-people"></div></fieldset>
+      </div></div>
+      <div class="life-exif-panel" id="life-exif-panel"></div>
+      <div class="modal-actions split-actions"><button type="button" class="danger-button" id="life-delete-media">删除本地副本</button><span></span><button type="button" class="secondary-button" data-close-life-media>取消</button><button class="primary-button" type="submit">保存修改</button></div>
+    </form>
+  </div>
+
+  <div class="modal-backdrop" id="life-story-modal" hidden>
+    <form class="project-modal life-story-modal-card" id="life-story-form">
+      <button type="button" class="modal-close" data-close-life-story aria-label="关闭">×</button>
+      <span class="eyebrow">LOCAL STORY WORKSHOP</span><h2 id="life-story-title">新建生活故事</h2><p>草稿只使用你选中的媒体信息，不会发送给任何模型。</p>
+      <div class="life-story-top-fields"><label><span>故事标题</span><input id="life-story-name" placeholder="可以先留空并生成草稿"></label><label><span>语气</span><select id="life-story-tone"><option>温暖</option><option>平静</option><option>轻松</option><option>怀念</option></select></label><label><span>发生时间</span><input id="life-story-time" type="datetime-local"></label></div>
+      <fieldset class="life-check-field life-story-media-field"><legend>选择相关照片或视频</legend><div class="life-story-media-picker" id="life-story-media-picker"></div></fieldset>
+      <div class="life-draft-action"><button type="button" class="secondary-button" id="life-generate-draft">根据所选影像生成本地草稿</button><small>不调用 AI；先根据时间、地点、人物和备注组织文字。</small></div>
+      <label><span>故事内容</span><textarea id="life-story-content" rows="8" placeholder="写下这段记忆真正重要的部分" required></textarea></label>
+      <label class="life-publish-toggle"><input id="life-story-published" type="checkbox"><span><strong>标记为已完成</strong><small>未勾选时保存为草稿</small></span></label>
+      <div class="modal-actions split-actions"><button type="button" class="danger-button" id="life-delete-story" hidden>删除故事</button><span></span><button type="button" class="secondary-button" data-close-life-story>取消</button><button class="primary-button" type="submit">保存故事</button></div>
+    </form>
+  </div>
+
+  <div class="modal-backdrop" id="life-privacy-modal" hidden>
+    <section class="project-modal compact-modal life-modal" role="dialog" aria-modal="true" aria-labelledby="life-privacy-title">
+      <button type="button" class="modal-close" data-close-life-privacy aria-label="关闭">×</button>
+      <span class="eyebrow">DATA BOUNDARY</span><h2 id="life-privacy-title">Life Memory 数据边界</h2>
+      <div class="life-boundary-list"><article><span>01</span><div><strong>独立数据表</strong><p>人物、媒体和故事与 Developer Memory 分开保存。</p></div></article><article><span>02</span><div><strong>MCP 默认不可见</strong><p>现有 Codex、Claude Code 与 Antigravity 工具没有 Life Memory 接口。</p></div></article><article><span>03</span><div><strong>文件只复制到本地</strong><p id="life-storage-path">正在读取保存位置…</p></div></article><article><span>04</span><div><strong>导出不包含媒体字节</strong><p>JSON 备份保存索引和校验值，原始副本仍位于 life-media 文件夹。</p></div></article></div>
+      <div class="modal-actions"><button type="button" class="primary-button" data-close-life-privacy>我知道了</button></div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" hidden><span>✓</span><p id="toast-text">已完成</p></div>
+  <script src="script.js"></script>
+  <script src="life.js"></script>
+</body>
+</html>

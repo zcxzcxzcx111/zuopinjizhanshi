@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "MemoryMap",
+    "slug": "memory-map",
+    "version": "1.0.0",
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "name": "MemoryMap - 你的回忆地图",
+      "shortName": "MemoryMap",
+      "description": "在地图上记录你的每一段旅程回忆",
+      "backgroundColor": "#ffffff",
+      "themeColor": "#4ECDC4",
+      "display": "standalone",
+      "orientation": "portrait",
+      "scope": "/",
+      "startUrl": "/"
+    }
+  }
+}

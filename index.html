@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>周呈祥 (Zhou Chengxiang) | AI运营专家 & Vibe Coding 增长架构师</title>
+    <meta name="description" content="周呈祥的AI运营与Vibe Coding个人作品集。精通从0到1精细化运营、增长研究与Agent工作流开发，1:1实景全幅展示智能公众号排版引擎、多源BD线索获客引擎与多模态短视频切片工具。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@500;600&family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700&family=Noto+Sans+SC:wght@500;600;700&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260718-4">
+    <link rel="stylesheet" href="components/DotGrid.css">
+</head>
+<body>
+    <video class="global-video" autoplay loop muted playsinline aria-hidden="true">
+        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260210_031346_d87182fb-b0af-4273-84d1-c6fd17d6bf0f.mp4" type="video/mp4">
+    </video>
+    <!-- Background: @react-bits/DotGrid-JS-CSS Interactive Dot Grid -->
+    <section class="dot-grid">
+        <div class="dot-grid__wrap">
+            <canvas class="dot-grid__canvas"></canvas>
+        </div>
+    </section>
+
+    <!-- Full-screen portrait cover: native document flow keeps the transition reversible -->
+    <section id="portrait-intro" class="portrait-intro" aria-label="周呈祥 AI项目作品集封面">
+        <div class="portrait-intro__stage">
+            <div class="portrait-intro__light-field" aria-hidden="true"></div>
+            <div class="portrait-intro__rail" aria-hidden="true">ZCX · AI OPERATIONS PORTFOLIO · 2026</div>
+            <div class="portrait-intro__title-lockup">
+                <strong class="portrait-intro__work-title">AI项目作品集</strong>
+                <span class="portrait-intro__rule" aria-hidden="true"></span>
+                <span class="portrait-intro__identity">
+                    <small>01 / PORTFOLIO</small>
+                    <b>周呈祥</b>
+                </span>
+            </div>
+            <img class="portrait-intro__figure" src="assets/hero-portrait-silhouette.png" alt="周呈祥人物剪影">
+            <canvas class="portrait-intro__particles" aria-hidden="true"></canvas>
+            <a class="portrait-intro__scroll" href="#hero">
+                <span>SCROLL TO ENTER</span>
+                <i class="fa-solid fa-arrow-down-long" aria-hidden="true"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="brand-logo">
+                <span class="logo-symbol">&lt;ZC/&gt;</span>
+                <span class="logo-text">周呈祥 <span class="logo-sub">AI Ops & Vibe Coder</span></span>
+            </a>
+            <nav class="nav-links">
+                <a href="#about" class="nav-item">关于我</a>
+                <a href="#showcase" class="nav-item">1:1核心作品集</a>
+                <a href="#about" class="nav-item btn-contact-nav">联系/简历</a>
+            </nav>
+            <button class="mobile-menu-toggle" type="button" aria-label="打开导航菜单" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="nav-status">
+                <span class="status-indicator"></span>
+                <span>1:1 全幅实装运行中</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="mobile-menu" aria-hidden="true">
+        <button class="mobile-menu-close" type="button" aria-label="关闭导航菜单">×</button>
+        <a href="#about">关于我</a>
+        <a href="#showcase">1:1核心作品集</a>
+        <a href="#about">联系/简历</a>
+    </div>
+
+    <main class="main-content">
+        <!-- ================= HERO SECTION ================= -->
+        <section id="hero" class="hero-section">
+            <div class="hero-content">
+                <div class="hero-portfolio-label">周呈祥 <span>·</span> AI项目作品集</div>
+                <h1 class="hero-title hero-title-single-line">业务运营 + 设计审美 + 项目实战</h1>
+                <div class="hero-actions">
+                    <a href="#showcase" class="btn btn-primary">
+                        <span>体验 1:1 完整作品实景</span>
+                        <i class="fa-solid fa-arrow-right-long"></i>
+                    </a>
+                    <a href="#about" class="btn btn-secondary">
+                        <i class="fa-regular fa-user"></i>
+                        <span>查看教育与个人简介</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ABOUT & BENTO GRID SECTION ================= -->
+        <section id="about" class="about-section">
+            <div class="section-header">
+                <span class="section-tag">PERSONAL PROFILE</span>
+            </div>
+
+            <div class="bento-grid">
+                <!-- Bento Card 1: Core Bio -->
+                <div class="bento-card bio-card">
+                    <div class="card-glow-border"></div>
+                    <div class="card-header-row">
+                        <div class="card-icon"><i class="fa-solid fa-id-card-clip"></i></div>
+                        <h3>核心竞争力与操盘优势</h3>
+                    </div>
+                    <p class="bio-text">
+                        具备 从 0 到 1 的精细化运营、增长研究经验，具备利用前沿 AI 技术深度重塑传统运营链路的操盘能力。熟练运用 Claude Code、Codex、Antigravity、Midjourney等AI工具，能够快速自主搭建agent工作流，并实现 AI 智能线索挖掘系统、多维语义用户分层与自动化营销 SOP 培育矩阵。具备数据驱动思维与敏锐的业务痛点诊断能力。
+                    </p>
+                    <div class="tags-wrapper">
+                        <span class="tech-tag">数据驱动思维</span>
+                        <span class="tech-tag">业务痛点诊断</span>
+                        <span class="tech-tag">SOP矩阵培育</span>
+                        <span class="tech-tag">多维语义分层</span>
+                    </div>
+                </div>
+
+                <!-- Bento Card 2: Education -->
+                <div class="bento-card edu-card">
+                    <div class="card-header-row">
+                        <div class="card-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <h3>教育与专业背景</h3>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">2023.09 ~ 2026.06</div>
+                            <div class="timeline-school">上海理工大学 (硕士)</div>
+                            <div class="timeline-major">艺术设计 · 具备高阶 UI/UX 审美与交互架构</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2019.09 ~ 2023.06</div>
+                            <div class="timeline-school">山东理工大学 (本科)</div>
+                            <div class="timeline-major">工业设计 · 具备极强产品工程逻辑与结构思维</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bento Card 3: Quick Contact Box -->
+                <div class="bento-card contact-brief-card">
+                    <div class="card-header-row">
+                        <div class="card-icon"><i class="fa-solid fa-address-book"></i></div>
+                        <h3>联系信息</h3>
+                    </div>
+                    <div class="contact-rows">
+                        <div class="contact-row" onclick="copyText('cxzhou235@gmail.com')">
+                            <i class="fa-regular fa-envelope"></i>
+                            <span class="contact-val">cxzhou235@gmail.com</span>
+                            <span class="copy-hint">复制</span>
+                        </div>
+                        <div class="contact-row" onclick="copyText('19811715197')">
+                            <i class="fa-solid fa-phone"></i>
+                            <span class="contact-val">19811715197</span>
+                            <span class="copy-hint">复制</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 1:1 FULL PROJECT SHOWCASE SECTION ================= -->
+        <section id="showcase" class="showcase-section">
+            <div class="section-header">
+                <span class="section-tag">CORE AGENT WORKFLOWS & PORTFOLIO</span>
+                <h2 class="section-title">独立全栈研发与 AI 业务系统实操展厅</h2>
+                <p class="section-desc">以下是我针对不同业务场景独立设计并落地研发的三套核心自动化工作流系统。每个系统均具备完整的前端交互窗口与真实后台处理逻辑，您可在下方实机视窗中直接交互操作与深度体验，亦可点击右上角在独立窗口中全屏运行。</p>
+            </div>
+
+            <!-- ================= Case 1: WeChat Content Studio (1:1 UI) ================= -->
+            <div class="case-card-full" id="case-wechat-full">
+                <div class="case-full-header">
+                    <div class="case-info-top">
+                        <div class="case-badge-row">
+                            <span class="badge badge-wechat"><i class="fa-brands fa-weixin"></i> 图文新媒体运营 SOP</span>
+                        </div>
+                        <h3 class="case-full-title">高顿 AI Content Studio · 微信公众号智能排版与漏斗转化工作台 v2.0</h3>
+                        <p class="case-full-desc">涵盖四大矩阵诊断、爆款标题 A/B 测试预测、排版重构及交互转化钩子一键埋入。1:1 解决传统教育行业高频排版耗时、选题凭感觉、引流链路脱节的核心痛点。</p>
+                    </div>
+                    <div class="case-actions-top">
+                        <a href="/公众号编写/index.html" target="_blank" class="btn-launch-external">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            <span>新标签页全屏独立运行</span>
+                        </a>
+                        <button class="btn-refresh-frame" onclick="refreshFrame('iframe-wechat')" title="重新加载 1:1 容器">
+                            <i class="fa-solid fa-rotate-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mac OS Workstation Window Container (Wide 1:1 Reproduction) -->
+                <div class="mac-window-frame">
+                    <div class="mac-window-topbar">
+                        <div class="mac-buttons">
+                            <span class="mac-dot red"></span>
+                            <span class="mac-dot yellow"></span>
+                            <span class="mac-dot green"></span>
+                        </div>
+                        <div class="mac-address-bar">
+                            <i class="fa-solid fa-lock" style="color: #07c160; font-size: 0.85rem;"></i>
+                            <span>C:/Users/90823/Desktop/所有文件/AI项目/公众号编写/index.html</span>
+                        </div>
+                    </div>
+
+                    <div class="mac-window-body">
+                        <div class="iframe-loading" aria-live="polite"><span>正在加载项目…</span><button type="button" onclick="refreshFrame('iframe-wechat')">重新尝试</button></div>
+                        <iframe id="iframe-wechat" class="live-project-iframe" src="/公众号编写/index.html" title="公众号编写项目"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= Case 2: HaoXue BD Lead Engine (1:1 UI) ================= -->
+            <div class="case-card-full" id="case-bd-full">
+                <div class="case-full-header">
+                    <div class="case-info-top">
+                        <div class="case-badge-row">
+                            <span class="badge badge-bd"><i class="fa-solid fa-map-location-dot"></i> 渠道增长与 BD 线索引擎</span>
+                        </div>
+                        <h3 class="case-full-title">好学智搜 BD 领航版 · 多源图谱交叉线索验证引擎 V3.6 Pro</h3>
+                        <p class="case-full-desc">专为一线销售与 BD 团队量身打造。1:1 整合多地图 POI、美团商户动态、小红书贴文与招聘快照，输出高置信度电话，且具备 5 大学段自主切入教材分类配置中心。</p>
+                    </div>
+                    <div class="case-actions-top">
+                        <a href="/好学图书线索访达/index.html" target="_blank" class="btn-launch-external">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            <span>新标签页全屏独立运行</span>
+                        </a>
+                        <button class="btn-refresh-frame" onclick="refreshFrame('iframe-bd')" title="重新加载 1:1 容器">
+                            <i class="fa-solid fa-rotate-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mac OS Workstation Window Container (Wide 1:1 Reproduction) -->
+                <div class="mac-window-frame">
+                    <div class="mac-window-topbar">
+                        <div class="mac-buttons">
+                            <span class="mac-dot red"></span>
+                            <span class="mac-dot yellow"></span>
+                            <span class="mac-dot green"></span>
+                        </div>
+                        <div class="mac-address-bar">
+                            <i class="fa-solid fa-lock" style="color: var(--accent-blue); font-size: 0.85rem;"></i>
+                            <span>/好学图书线索访达/index.html (Static Mock)</span>
+                        </div>
+                    </div>
+
+                    <div class="mac-window-body">
+                        <div class="iframe-loading" aria-live="polite"><span>正在加载项目…</span><button type="button" onclick="refreshFrame('iframe-bd')">重新尝试</button></div>
+                        <iframe id="iframe-bd" class="live-project-iframe" src="/好学图书线索访达/index.html" title="好学图书线索访达项目"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= Case 3: AI Dancing Video Single-Target Lock & Vertical Crop (1:1 UI) ================= -->
+            <div class="case-card-full" id="case-video-full">
+                <div class="case-full-header">
+                    <div class="case-info-top">
+                        <div class="case-badge-row">
+                            <span class="badge badge-video"><i class="fa-solid fa-film"></i> 多模态音视频量产切片</span>
+                        </div>
+                        <h3 class="case-full-title">AI Vision Studio · 多模态目标追踪与智能运镜重构系统 Pro</h3>
+                        <p class="case-full-desc">基于 SAM2 与多模态视觉大模型构建。支持从复杂多目标动态画面中精准捕捉并锁定核心人物，全自动计算符合视觉美学法则的平滑运镜轨迹与 9:16 构图重构。将传统数十分钟的人工逐帧剪辑极速缩减至秒级，赋能高转化短视频矩阵量产。</p>
+                    </div>
+                    <div class="case-actions-top">
+                        <a href="/跳舞裁剪/dist/index.html" target="_blank" class="btn-launch-external">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            <span>新标签页全屏独立运行</span>
+                        </a>
+                        <button class="btn-refresh-frame" onclick="refreshFrame('iframe-video')" title="重新加载 1:1 容器">
+                            <i class="fa-solid fa-rotate-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mac OS Workstation Window Container (Wide 1:1 Reproduction) -->
+                <div class="mac-window-frame">
+                    <div class="mac-window-topbar">
+                        <div class="mac-buttons">
+                            <span class="mac-dot red"></span>
+                            <span class="mac-dot yellow"></span>
+                            <span class="mac-dot green"></span>
+                        </div>
+                        <div class="mac-address-bar">
+                            <i class="fa-solid fa-lock" style="color: #c77dff; font-size: 0.85rem;"></i>
+                            <span>C:/Users/90823/Desktop/所有文件/AI项目/跳舞裁剪/dist/index.html</span>
+                        </div>
+                    </div>
+
+                    <div class="mac-window-body">
+                        <div class="iframe-loading" aria-live="polite"><span>正在加载项目…</span><button type="button" onclick="refreshFrame('iframe-video')">重新尝试</button></div>
+                        <iframe id="iframe-video" class="live-project-iframe" scrolling="no" src="/跳舞裁剪/dist/index.html" title="跳舞裁剪项目"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= Case 4: Memory Map (1:1 UI) ================= -->
+            <div class="case-card-full" id="case-memory-full">
+                <div class="case-full-header">
+                    <div class="case-info-top">
+                        <div class="case-badge-row">
+                            <span class="badge badge-memory"><i class="fa-solid fa-map-location-dot"></i> LBS 位置信息服务</span>
+                        </div>
+                        <h3 class="case-full-title">记忆地图 · 基于 LBS 与 AI 相册归档的探索回忆引擎</h3>
+                        <p class="case-full-desc">融合地理位置数据与本地相册解析，自动提取 EXIF 信息并支持 AI 智能分类。让用户在交互式地图上沉浸式回顾足迹，打造时空交织的个人数字记忆档案馆。</p>
+                    </div>
+                    <div class="case-actions-top">
+                        <a href="/记忆地图/dist/index.html" target="_blank" class="btn-launch-external">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            <span>新标签页全屏独立运行</span>
+                        </a>
+                        <button class="btn-refresh-frame" onclick="refreshFrame('iframe-memory')" title="重新加载 1:1 容器">
+                            <i class="fa-solid fa-rotate-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- iPhone Air App Mockup Container -->
+                <div class="iphone-frame-wrapper">
+                    <div class="iphone-frame">
+                        <div class="iphone-screen">
+                            <div class="ios-status-bar">
+                                <span class="ios-time">9:41</span>
+                                <div class="dynamic-island">
+                                    <div class="island-camera"></div>
+                                </div>
+                                <div class="ios-icons">
+                                    <i class="fa-solid fa-signal" style="font-size: 11px;"></i>
+                                    <i class="fa-solid fa-wifi" style="font-size: 12px; margin: 0 4px;"></i>
+                                    <i class="fa-solid fa-battery-full" style="font-size: 14px;"></i>
+                                </div>
+                            </div>
+                            <div class="iframe-loading" aria-live="polite" style="position: absolute; top: 48px; bottom: 0; left: 0; right: 0; z-index: 5; background: #fff;"><span>正在加载项目…</span><button type="button" onclick="refreshFrame('iframe-memory')">重新尝试</button></div>
+                            <iframe id="iframe-memory" class="live-project-iframe" scrolling="no" src="/记忆地图/dist/index.html" title="记忆地图项目" style="width: 100%; height: calc(100% - 48px); border: none; flex: 1; background: #fff;"></iframe>
+                        </div>
+                    </div>
+                </div>
+                
+                                <!-- Static Showcase Gallery - Bento Grid -->
+                <div class="bento-showcase-container">
+                    
+                    <!-- Bento Box 1: Global Exploration -->
+                    <div class="bento-feature-card">
+                        <div class="bento-content">
+                            <div class="bento-tag">01 / GLOBAL EXPLORATION</div>
+                            <h3 class="bento-title">全局探索</h3>
+                            <p class="bento-desc">打破传统列表式回忆，在真实的地理坐标系中鸟瞰你的足迹。地图缩放之间，每一个地标、每一次旅行，都是一段独特的故事。沉浸式的大图视野，让回忆变得立体而鲜活。</p>
+                        </div>
+                        <div class="bento-images">
+                    <div style="width: 255px; height: 536px; flex-shrink: 0;">
+                        <div class="iphone-frame" style="height: 715px; transform: scale(0.75); transform-origin: top left;">
+                            <div class="iphone-screen" style="background: #fff;">
+                                <div class="ios-status-bar" style="background: #fff;">
+                                    <span class="ios-time">9:41</span>
+                                    <div class="dynamic-island"><div class="island-camera"></div></div>
+                                    <div class="ios-icons">
+                                        <i class="fa-solid fa-signal" style="font-size: 11px;"></i>
+                                        <i class="fa-solid fa-wifi" style="font-size: 12px; margin: 0 4px;"></i>
+                                        <i class="fa-solid fa-battery-full" style="font-size: 14px;"></i>
+                                    </div>
+                                </div>
+                                <div style="width: 100%; height: calc(100% - 48px); overflow: hidden; position: relative;">
+                                    <img src="assets/memory-map-demo-new.jpg" style="width: 100%; position: absolute; top: -48px; left: 0;" alt="展示图5">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 255px; height: 536px; flex-shrink: 0;">
+                        <div class="iphone-frame" style="height: 715px; transform: scale(0.75); transform-origin: top left;">
+                            <div class="iphone-screen" style="background: #fff;">
+                                <div class="ios-status-bar" style="background: #fff;">
+                                    <span class="ios-time">9:41</span>
+                                    <div class="dynamic-island"><div class="island-camera"></div></div>
+                                    <div class="ios-icons">
+                                        <i class="fa-solid fa-signal" style="font-size: 11px;"></i>
+                                        <i class="fa-solid fa-wifi" style="font-size: 12px; margin: 0 4px;"></i>
+                                        <i class="fa-solid fa-battery-full" style="font-size: 14px;"></i>
+                                    </div>
+                                </div>
+                                <div style="width: 100%; height: calc(100% - 48px); overflow: hidden; position: relative;">
+                                    <img src="assets/memory-map-demo-new3.jpg" style="width: 100%; position: absolute; top: -48px; left: 0;" alt="展示图1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+
+                    <!-- Bento Box 2: Sticker Generation -->
+                    <div class="bento-feature-card">
+                        <div class="bento-content">
+                            <div class="bento-tag">02 / SMART STICKERS</div>
+                            <h3 class="bento-title">智能打卡互动</h3>
+                            <p class="bento-desc">自动将你的照片生成精美的手绘感头像与贴纸。无论是风景打卡还是人物合影，只需一键即可转化为地图上独一无二的专属标记，让足迹变得萌趣横生。</p>
+                        </div>
+                        <div class="bento-images">
+                    <div style="width: 255px; height: 536px; flex-shrink: 0;">
+                        <div class="iphone-frame" style="height: 715px; transform: scale(0.75); transform-origin: top left;">
+                            <div class="iphone-screen" style="background: #fff;">
+                                <div class="ios-status-bar" style="background: #fff;">
+                                    <span class="ios-time">9:41</span>
+                                    <div class="dynamic-island"><div class="island-camera"></div></div>
+                                    <div class="ios-icons">
+                                        <i class="fa-solid fa-signal" style="font-size: 11px;"></i>
+                                        <i class="fa-solid fa-wifi" style="font-size: 12px; margin: 0 4px;"></i>
+                                        <i class="fa-solid fa-battery-full" style="font-size: 14px;"></i>
+                                    </div>
+                                </div>
+                                <div style="width: 100%; height: calc(100% - 48px); overflow: hidden; position: relative;">
+                                    <img src="assets/memory-map-demo-2.jpg" style="width: 100%; position: absolute; top: -48px; left: 0;" alt="展示图2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 255px; height: 536px; flex-shrink: 0;">
+                        <div class="iphone-frame" style="height: 715px; transform: scale(0.75); transform-origin: top left;">
+                            <div class="iphone-screen" style="background: #fff;">
+                                <div class="ios-status-bar" style="background: #fff;">
+                                    <span class="ios-time">9:41</span>
+                                    <div class="dynamic-island"><div class="island-camera"></div></div>
+                                    <div class="ios-icons">
+                                        <i class="fa-solid fa-signal" style="font-size: 11px;"></i>
+                                        <i class="fa-solid fa-wifi" style="font-size: 12px; margin: 0 4px;"></i>
+                                        <i class="fa-solid fa-battery-full" style="font-size: 14px;"></i>
+                                    </div>
+                                </div>
+                                <div style="width: 100%; height: calc(100% - 48px); overflow: hidden; position: relative;">
+                                    <img src="assets/memory-map-demo-new2.jpg" style="width: 100%; position: absolute; top: -48px; left: 0;" alt="展示图4">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+
+                    <!-- Bento Box 3: Time Memories -->
+                    <div class="bento-feature-card">
+                        <div class="bento-content">
+                            <div class="bento-tag">03 / TIME JOURNEY</div>
+                            <h3 class="bento-title">时光回忆轴</h3>
+                            <p class="bento-desc">通过日历面板与时光瀑布流，轻松回顾你在这世间留下的所有印记。按人物筛选、按时间追溯，每一张照片、每一个足迹，都安静地安放在岁月的长河中。</p>
+                        </div>
+                        <div class="bento-images">
+                    <div style="width: 255px; height: 536px; flex-shrink: 0;">
+                        <div class="iphone-frame" style="height: 715px; transform: scale(0.75); transform-origin: top left;">
+                            <div class="iphone-screen" style="background: #fff;">
+                                <div class="ios-status-bar" style="background: #fff;">
+                                    <span class="ios-time">9:41</span>
+                                    <div class="dynamic-island"><div class="island-camera"></div></div>
+                                    <div class="ios-icons">
+                                        <i class="fa-solid fa-signal" style="font-size: 11px;"></i>
+                                        <i class="fa-solid fa-wifi" style="font-size: 12px; margin: 0 4px;"></i>
+                                        <i class="fa-solid fa-battery-full" style="font-size: 14px;"></i>
+                                    </div>
+                                </div>
+                                <div style="width: 100%; height: calc(100% - 48px); overflow: hidden; position: relative;">
+                                    <img src="assets/memory-map-demo-6.jpg" style="width: 100%; position: absolute; top: -48px; left: 0;" alt="展示图6">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 255px; height: 536px; flex-shrink: 0;">
+                        <div class="iphone-frame" style="height: 715px; transform: scale(0.75); transform-origin: top left;">
+                            <div class="iphone-screen" style="background: #fff;">
+                                <div class="ios-status-bar" style="background: #fff;">
+                                    <span class="ios-time">9:41</span>
+                                    <div class="dynamic-island"><div class="island-camera"></div></div>
+                                    <div class="ios-icons">
+                                        <i class="fa-solid fa-signal" style="font-size: 11px;"></i>
+                                        <i class="fa-solid fa-wifi" style="font-size: 12px; margin: 0 4px;"></i>
+                                        <i class="fa-solid fa-battery-full" style="font-size: 14px;"></i>
+                                    </div>
+                                </div>
+                                <div style="width: 100%; height: calc(100% - 48px); overflow: hidden; position: relative;">
+                                    <img src="assets/memory-map-demo-3.jpg" style="width: 100%; position: absolute; top: -48px; left: 0;" alt="展示图3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+
+                </div>
+                </div>
+            </div>
+
+            <!-- ================= Case 5: KOL Radar (1:1 UI) ================= -->
+            <div class="case-card-full" id="case-kol-radar-full">
+                <div class="case-full-header">
+                    <div class="case-info-top">
+                        <div class="case-badge-row">
+                            <span class="badge badge-kol"><i class="fa-solid fa-satellite-dish"></i> KOL 数据洞察与管理</span>
+                        </div>
+                        <h3 class="case-full-title">KOL Radar · 社交媒体红人雷达与数据分析引擎</h3>
+                        <p class="case-full-desc">实时监控与分析社交媒体意见领袖的数据表现。通过数据大屏全景呈现关键指标，帮助运营团队高效识别、追踪高价值红人，助力精准营销与增长决策。</p>
+                    </div>
+                    <div class="case-actions-top">
+                        <a href="/声网/public/index.html" target="_blank" class="btn-launch-external">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            <span>新标签页全屏独立运行</span>
+                        </a>
+                        <button class="btn-refresh-frame" onclick="refreshFrame('iframe-kol-radar')" title="重新加载 1:1 容器">
+                            <i class="fa-solid fa-rotate-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mac OS Workstation Window Container (Wide 1:1 Reproduction) -->
+                <div class="mac-window-frame">
+                    <div class="mac-window-topbar">
+                        <div class="mac-buttons">
+                            <span class="mac-dot red"></span>
+                            <span class="mac-dot yellow"></span>
+                            <span class="mac-dot green"></span>
+                        </div>
+                        <div class="mac-address-bar">
+                            <i class="fa-solid fa-lock" style="color: #ff9f1c; font-size: 0.85rem;"></i>
+                            <span>C:/Users/90823/Desktop/所有文件/AI项目/声网/public/index.html</span>
+                        </div>
+                    </div>
+
+                    <div class="mac-window-body">
+                        <div class="iframe-loading" aria-live="polite"><span>正在加载项目…</span><button type="button" onclick="refreshFrame('iframe-kol-radar')">重新尝试</button></div>
+                        <iframe id="iframe-kol-radar" class="live-project-iframe" src="/声网/public/index.html" title="KOL Radar项目"></iframe>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="app-footer">
+        <div class="footer-content">
+            <span>&copy; 2026 周呈祥 (Zhou Chengxiang). All rights reserved.</span>
+            <span class="footer-tech">Built with Vibe Coding · Powered by Agent Engineering & High-End Design Taste</span>
+        </div>
+    </footer>
+
+    <div id="toast" class="toast">复制成功！</div>
+
+    <script src="script.js"></script>
+    <script src="components/DotGrid.js"></script>
+</body>
+</html>

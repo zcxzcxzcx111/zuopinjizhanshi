@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>好学智搜 · BD 领航版 — 特定县域教培线索精准引擎</title>
+  <meta name="description" content="极简现代风格的 BD 线索挖掘系统，精准提取特定区域教培机构联系方式与经营数据，双阶段五层确权引擎，电光蓝设计语言。">
+  <!-- Favicon: 蓝底白色学位帽+书本 Logo -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="shortcut icon" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ================================
+       导航栏 Navbar
+       ================================ -->
+  <nav class="navbar">
+    <a href="#" class="nav-brand">
+      <!-- 品牌图标：蓝底白色学位帽+书本 Logo，与 favicon 完全一致 -->
+      <div class="brand-logo">
+        <svg viewBox="0 0 200 200" width="28" height="28" xmlns="http://www.w3.org/2000/svg" aria-label="好学图书 Logo">
+          <!-- 左侧外封面竖块 -->
+          <rect x="7" y="112" width="22" height="68" rx="6" fill="white"/>
+          <!-- 右侧外封面竖块 -->
+          <rect x="171" y="112" width="22" height="68" rx="6" fill="white"/>
+          <!-- 左页面展开 -->
+          <path d="M7 120 C7 120 30 112 100 104 L100 170 C30 178 7 180 7 180 Z" fill="white"/>
+          <!-- 右页面展开 -->
+          <path d="M193 120 C193 120 170 112 100 104 L100 170 C170 178 193 180 193 180 Z" fill="white"/>
+          <!-- 左页深度纹路线 1 -->
+          <path d="M20 133 Q60 125 100 122" stroke="#3B8AE8" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+          <!-- 左页深度纹路线 2 -->
+          <path d="M20 152 Q60 144 100 141" stroke="#3B8AE8" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+          <!-- 右页深度纹路线 1 -->
+          <path d="M180 133 Q140 125 100 122" stroke="#3B8AE8" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+          <!-- 右页深度纹路线 2 -->
+          <path d="M180 152 Q140 144 100 141" stroke="#3B8AE8" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+          <!-- 书脊中缝 -->
+          <path d="M100 104 C97 136 100 170" stroke="#3B8AE8" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <!-- 右侧书签小竖条 -->
+          <rect x="149" y="102" width="13" height="52" rx="3.5" fill="white"/>
+          <!-- 帽冠主体 -->
+          <path d="M58 72 L58 108 Q100 96 142 108 L142 72 Q100 60 58 72 Z" fill="white"/>
+          <!-- 毕业帽顶板（大菱形） -->
+          <polygon points="100,16 190,58 100,100 10,58" fill="white"/>
+          <!-- 帽顶小圆钮 -->
+          <circle cx="100" cy="16" r="7" fill="#3B8AE8"/>
+          <!-- 流苏细绳 -->
+          <path d="M28 58 Q24 80 22 102" stroke="white" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <!-- 流苏末端水滴 -->
+          <ellipse cx="22" cy="112" rx="7" ry="10" fill="white"/>
+        </svg>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="brand-title">好学智搜 · BD 领航版</span>
+        <span class="brand-badge">V3.6 PRO</span>
+      </div>
+    </a>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      多源地理及全网图谱交叉核验中
+    </div>
+  </nav>
+
+  <!-- ================================
+       主内容区 Main Content
+       ================================ -->
+  <main>
+
+    <!-- 首屏标题区 Hero -->
+    <header class="hero">
+      <!-- 章节徽章标签 — JetBrains Mono + 脉冲圆点 -->
+      <div class="section-badge">
+        <span class="section-badge-dot"></span>
+        <span class="section-badge-text">HaoXue BD Lead &amp; Provenance Engine</span>
+      </div>
+
+      <!-- Calistoga 衬线大标题 + 电光蓝渐变高亮 -->
+      <h1 class="hero-title">
+        特定县域教培线索，<span class="gradient-text">有据可依。</span>
+      </h1>
+
+      <p class="hero-desc">
+        专为一线销售与 BD 打造。输入任意目标区域，AI 即刻融合校验地图坐标、美团商户、小红书贴文与招工快照，把高置信度电话和经营规模呈现于一个优雅的工作空间内。
+      </p>
+    </header>
+
+    <!-- ================================
+         BD 搜索工作区 Workspace Box
+         ================================ -->
+    <section class="workspace-box">
+      <!-- 搜索栏与按钮 -->
+      <div class="search-row">
+        <div class="search-input-group">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" class="search-input"
+            placeholder="输入目标省市区县（如：河北省 廊坊市 固安县 或 山东省 沂水县）"
+            value="河北省 廊坊市 固安县">
+        </div>
+        <button id="ai-search-btn" class="btn btn-primary">⚡ 启动 AI 多源检索</button>
+        <button id="manual-add-btn" class="btn btn-secondary">➕ 扫街新店补录</button>
+      </div>
+
+      <!-- ================================
+           智能教辅切入教材配置中心
+           Textbook Pitch Strategy Center
+           ================================ -->
+      <div class="textbook-config-section">
+        <div class="config-header" id="toggle-config-btn" title="点击展开/收起教辅切入配置中心">
+          <div class="config-header-left">
+            <div class="config-icon">
+              <svg viewBox="0 0 200 200" width="26" height="26" xmlns="http://www.w3.org/2000/svg" aria-label="配置中心图标">
+                <rect x="7" y="112" width="22" height="68" rx="6" fill="white"/>
+                <rect x="171" y="112" width="22" height="68" rx="6" fill="white"/>
+                <path d="M7 120 C7 120 30 112 100 104 L100 170 C30 178 7 180 7 180 Z" fill="white"/>
+                <path d="M193 120 C193 120 170 112 100 104 L100 170 C170 178 193 180 193 180 Z" fill="white"/>
+                <path d="M20 133 Q60 125 100 122" stroke="#3B8AE8" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+                <path d="M20 152 Q60 144 100 141" stroke="#3B8AE8" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+                <path d="M180 133 Q140 125 100 122" stroke="#3B8AE8" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+                <path d="M180 152 Q140 144 100 141" stroke="#3B8AE8" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+                <path d="M100 104 C97 136 100 170" stroke="#3B8AE8" stroke-width="6" fill="none" stroke-linecap="round"/>
+                <rect x="149" y="102" width="13" height="52" rx="3.5" fill="white"/>
+                <path d="M58 72 L58 108 Q100 96 142 108 L142 72 Q100 60 58 72 Z" fill="white"/>
+                <polygon points="100,16 190,58 100,100 10,58" fill="white"/>
+                <circle cx="100" cy="16" r="7" fill="#3B8AE8"/>
+                <path d="M28 58 Q24 80 22 102" stroke="white" stroke-width="6" stroke-linecap="round" fill="none"/>
+                <ellipse cx="22" cy="112" rx="7" ry="10" fill="white"/>
+              </svg>
+            </div>
+            <div>
+              <strong style="font-size: 0.93rem; color: var(--foreground); font-weight: 600;">
+                好学图书 · 智能教辅切入教材自定义配置中心
+              </strong>
+              <div style="font-size: 0.77rem; color: var(--muted-foreground); margin-top: 3px;">
+                支持按
+                <span style="color:var(--accent);font-weight:600;">小学、小升初、初中、初升高(初生高)、高中</span>
+                5大生源学段自主填入专属切入教材，Agent 根据生源自动智能匹配
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn-toggle-config">
+            <span id="config-toggle-text">⚙ 展开切入教材配置</span>
+            <span id="config-arrow">▼</span>
+          </button>
+        </div>
+
+        <div id="textbook-config-body" class="config-body" style="display: none;">
+
+          <!-- 顶部三栏：小学 / 小升初 / 初中 -->
+          <div class="config-grid-top">
+            <!-- 小学阶段 Box -->
+            <div class="config-stage-box" data-stage="primary">
+              <div class="stage-box-header">
+                <label class="config-label">
+                  <span class="badge-stage badge-primary">🎒 小学阶段</span>
+                  适用于晚辅/托管/少儿全科
+                </label>
+                <button type="button" class="btn-add-book" data-stage="primary">+ 添加一本教材</button>
+              </div>
+              <div id="books-list-primary" class="books-list-container"></div>
+            </div>
+
+            <!-- 小升初阶段 Box -->
+            <div class="config-stage-box" data-stage="preMiddle">
+              <div class="stage-box-header">
+                <label class="config-label">
+                  <span class="badge-stage badge-premiddle">🌟 小升初阶段</span>
+                  适用于六年级/择校冲刺
+                </label>
+                <button type="button" class="btn-add-book" data-stage="preMiddle">+ 添加一本教材</button>
+              </div>
+              <div id="books-list-preMiddle" class="books-list-container"></div>
+            </div>
+
+            <!-- 初中阶段 Box -->
+            <div class="config-stage-box" data-stage="middle">
+              <div class="stage-box-header">
+                <label class="config-label">
+                  <span class="badge-stage badge-middle">📘 初中阶段</span>
+                  适用于初一至初三同步提分/中考
+                </label>
+                <button type="button" class="btn-add-book" data-stage="middle">+ 添加一本教材</button>
+              </div>
+              <div id="books-list-middle" class="books-list-container"></div>
+            </div>
+          </div>
+
+          <!-- 底部双栏：初生高衔接 / 高中（并排） -->
+          <div class="config-grid-bottom">
+            <!-- 初生高衔接 Box -->
+            <div class="config-stage-box" data-stage="preHigh">
+              <div class="stage-box-header">
+                <label class="config-label">
+                  <span class="badge-stage badge-prehigh">🚀 初生高衔接 (初升高)</span>
+                  适用于初三考后/新高一预习
+                </label>
+                <button type="button" class="btn-add-book" data-stage="preHigh">+ 添加一本教材</button>
+              </div>
+              <div id="books-list-preHigh" class="books-list-container"></div>
+            </div>
+
+            <!-- 高中阶段 Box（放置在初升高的右边）-->
+            <div class="config-stage-box" data-stage="high">
+              <div class="stage-box-header">
+                <label class="config-label">
+                  <span class="badge-stage badge-high">🎓 高中阶段</span>
+                  适用于高一至高三高考冲刺/重难点
+                </label>
+                <button type="button" class="btn-add-book" data-stage="high">+ 添加一本教材</button>
+              </div>
+              <div id="books-list-high" class="books-list-container"></div>
+            </div>
+          </div>
+
+          <!-- 操作按钮行 -->
+          <div class="config-actions">
+            <button type="button" id="save-config-btn" class="btn btn-primary"
+              style="height:40px;padding:0 1.2rem;font-size:0.86rem;border-radius:100px;">
+              💾 保存配置并立刻精准匹配当前所有线索
+            </button>
+            <button type="button" id="reset-config-btn" class="btn btn-secondary"
+              style="height:40px;padding:0 1rem;font-size:0.86rem;border-radius:100px;">
+              🔄 恢复默认好学推荐方案
+            </button>
+            <span id="config-save-status"
+              style="font-size:0.82rem;color:var(--success);font-weight:600;margin-left:6px;opacity:0;transition:opacity 0.3s ease;">
+              ✨ 配置已保存！系统正在按照最新生源分类精准匹配切入建议...
+            </span>
+          </div>
+        </div><!-- /textbook-config-body -->
+      </div><!-- /textbook-config-section -->
+    </section>
+
+    <!-- ================================
+         AI 终端核验日志
+         深色反转切片 Reverse Contrast Slice
+         ================================ -->
+    <div id="ai-terminal" class="ai-terminal">
+      <div class="terminal-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="terminal-controls">
+            <span class="tdot" style="background:#FF5F56;"></span>
+            <span class="tdot" style="background:#FFBD2E;"></span>
+            <span class="tdot" style="background:#27C93F;"></span>
+          </div>
+          <strong style="color:rgba(255,255,255,0.55);margin-left:4px;font-size:0.78rem;">
+            AI_Data_Verification_Log.sh
+          </strong>
+        </div>
+        <span>并发核实进程: 活跃</span>
+      </div>
+      <div id="terminal-logs" class="terminal-logs">
+        <!-- 日志动态注入 -->
+      </div>
+    </div>
+
+    <!-- ================================
+         BD 结果区 Results Section
+         ================================ -->
+    <div class="results-header">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <!-- Calistoga 衬线标题 -->
+        <h2 class="results-title">区域线索与数据支撑矩阵</h2>
+        <button id="open-score-modal-btn" class="btn btn-secondary"
+          style="height:34px;padding:0 0.85rem;font-size:0.8rem;border-radius:100px;">
+          ⚖️ AI评分标准详解
+        </button>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <button id="export-csv-btn-2" class="btn btn-secondary"
+          style="height:36px;padding:0 1rem;font-size:0.84rem;">
+          📥 导出 Excel / CSV
+        </button>
+        <div class="results-counter">
+          本次检索高优质信度机构：<strong id="total-leads-count">5</strong> 家
+        </div>
+      </div>
+    </div>
+
+    <!-- 数据表格 BD Table -->
+    <div class="table-card">
+      <table class="bd-table">
+        <thead>
+          <tr>
+            <th style="width:21%;min-width:180px;">机构名字 &amp; 地理定位</th>
+            <th style="width:11%;min-width:100px;">所属县区</th>
+            <th style="width:23%;min-width:220px;">
+              <div style="display:flex;flex-direction:column;gap:3px;">
+                <span>有效联系号码</span>
+                <span style="font-size:0.68rem;color:var(--accent);text-transform:none;font-family:'Inter',sans-serif;font-weight:500;">
+                  💡 点击一键复制
+                </span>
+              </div>
+            </th>
+            <th style="width:20%;min-width:170px;">全渠道数据支撑凭据</th>
+            <th style="width:17%;min-width:160px;">
+              <div style="display:flex;flex-direction:column;gap:3px;">
+                <span>AI 评估 &amp; 推荐切入</span>
+                <span id="open-score-modal-th"
+                  style="color:var(--accent);cursor:pointer;text-transform:none;font-family:'Inter',sans-serif;font-size:0.68rem;font-weight:600;"
+                  title="点击查看 AI 潜能评分模型">
+                  [❓ 详解评分标准]
+                </span>
+              </div>
+            </th>
+            <th style="width:8%;min-width:80px;text-align:center;">操作</th>
+          </tr>
+        </thead>
+        <tbody id="leads-table-body">
+          <!-- 动态注入 by app.js -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- ================================
+       凭证弹窗 Proof Modal
+       ================================ -->
+  <div id="proof-modal-overlay" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h3 id="proof-modal-title" class="modal-title">多源数据支撑快照</h3>
+          <p id="proof-modal-subtitle"
+            style="font-size:0.78rem;color:var(--muted-foreground);margin-top:3px;">
+            机构完整核实验证链
+          </p>
+        </div>
+        <button id="proof-modal-close" class="modal-close">&times;</button>
+      </div>
+      <div id="proof-modal-body" class="modal-body">
+        <!-- 动态注入 proof items -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================
+       手动录入弹窗 Manual Entry Modal
+       ================================ -->
+  <div id="manual-modal-overlay" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">扫街新店补录 <span style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--muted-foreground);font-weight:400;">(自动去重)</span></h3>
+        <button id="manual-modal-close" class="modal-close">&times;</button>
+      </div>
+      <form id="manual-form" style="padding:1.5rem 1.75rem;">
+        <div class="form-group">
+          <label class="form-label">教培机构 / 晚辅班名称 *</label>
+          <input type="text" id="manual-name" class="form-input"
+            placeholder="例：固安学而进优等生中心" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">所属区县 *</label>
+          <input type="text" id="manual-county" class="form-input"
+            placeholder="例：河北省 廊坊市 固安县" value="河北省 廊坊市 固安县" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">有效电话 / 校长手机 *</label>
+          <input type="text" id="manual-phone" class="form-input"
+            placeholder="例：139-XXXX-XXXX" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">负责人姓名或职务</label>
+          <input type="text" id="manual-contact" class="form-input"
+            placeholder="例：陈校长 (主管教学与采买)">
+        </div>
+        <div class="form-group">
+          <label class="form-label">实地地理位置</label>
+          <input type="text" id="manual-address" class="form-input"
+            placeholder="例：新昌街交叉口北行100米路东">
+        </div>
+        <div class="form-group">
+          <label class="form-label">实地核查证据备注</label>
+          <input type="text" id="manual-source-note" class="form-input"
+            placeholder="例：销售线下扫街拍摄门头照片及前台名片核实一致">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px;">
+          保存并由 AI 进行相似去重校验
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================================
+       AI 评分模型弹窗 Score Info Modal
+       ================================ -->
+  <div id="score-info-modal-overlay" class="modal-overlay">
+    <div class="modal-card" style="max-width:760px;">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">好学图书 · AI 潜能评分<span class="gradient-text"> 硬核三维模型</span></h3>
+          <p style="font-size:0.78rem;color:var(--muted-foreground);margin-top:3px;">
+            剔除虚高理论指标，专为 BD 销售量化预估：生源体量(刚需)、校长直连(转化)与经营现金流(付单)
+          </p>
+        </div>
+        <button id="score-info-modal-close" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body" style="gap:1.1rem;padding:1.5rem 1.75rem;">
+        <!-- 说明卡 — 电光蓝背景 -->
+        <div style="background:var(--accent-light);border:1px solid var(--accent-light-border);border-radius:var(--radius-md);padding:0.95rem 1.2rem;font-size:0.84rem;color:#1D4ED8;line-height:1.65;">
+          💡 <strong>精简实战逻辑：</strong>
+          摒弃无法准确抓取与对 BD 无用的虚假理论指标。AI 评分 (0-100分) 仅聚焦
+          <strong>【生源规模】、【联络通达度】、【生存活跃期】</strong>
+          三大核心硬指标，分值越高代表<strong>该机构采购试卷刚需量大、校长能直连加微信且手头现金流好付单爽快</strong>。
+        </div>
+
+        <!-- 三维评分模型 -->
+        <div class="score-dim-list">
+          <div class="score-dim-card">
+            <div class="dim-header">
+              <span class="dim-title">生源承载规模与教研依赖度（决定订货上限与刚需）</span>
+              <span class="dim-weight">核心权重 45%</span>
+            </div>
+            <div class="dim-bar"><div class="dim-fill" style="width:100%;"></div></div>
+            <p class="dim-desc">
+              基于点评团购销量、门店面积及开班性质判定（全科晚辅/中高考冲刺）。晚辅机构几乎无自研试卷能力，生源在读超过 100+ 人时，每周对带详解练习册的消耗为刚性巨量需求（极高 GMV 贡献）。
+            </p>
+          </div>
+
+          <div class="score-dim-card">
+            <div class="dim-header">
+              <span class="dim-title">决策人直连联络可达度（决定电销破冰与加微信转化率）</span>
+              <span class="dim-weight">核心权重 35%</span>
+            </div>
+            <div class="dim-bar"><div class="dim-fill" style="width:78%;"></div></div>
+            <p class="dim-desc">
+              智能识别热线是前台座机还是<strong>校长、教研组长或采购主管的手机与微信号（如 138/159 号段）</strong>。能直连关键决策人可彻底绕开前台阻挡，电联添加微信寄送样书的成功率呈倍数暴增。
+            </p>
+          </div>
+
+          <div class="score-dim-card">
+            <div class="dim-header">
+              <span class="dim-title">多源置信与生存扩张活跃度（决定付单爽快度与防空跑）</span>
+              <span class="dim-weight">核心权重 20%</span>
+            </div>
+            <div class="dim-bar"><div class="dim-fill" style="width:62%;"></div></div>
+            <p class="dim-desc">
+              交叉验证地图定位与近期点评，若机构近期在各大同城招聘网持续发布《急招小升初/初中主讲教师》，说明<strong>机构正处于扩招红利期、手头现金流充裕，对采购优质教辅对账付单极度爽快，绝非空跑死店</strong>。
+            </p>
+          </div>
+        </div>
+
+        <div style="text-align:right;margin-top:0.25rem;">
+          <button id="score-info-confirm-btn" class="btn btn-primary"
+            style="height:40px;padding:0 1.4rem;font-size:0.86rem;">
+            知道了，返回 BD 工作台 →
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================
+       Tavily AI 原始快照与提取溯源解析弹窗
+       ================================ -->
+  <div id="snapshot-modal-overlay" class="modal-overlay">
+    <div class="modal-card" style="max-width:850px; background: #0f172a; border: 1px solid #334155; color: #f8fafc; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;">
+      <div class="modal-header" style="border-bottom: 1px solid #1e293b;">
+        <div>
+          <h3 class="modal-title" style="color: #38bdf8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+            <i class="fa-solid fa-microchip"></i> Tavily AI 网页解析溯源 (Raw Snapshot)
+          </h3>
+          <p id="snapshot-modal-subtitle" style="font-size:0.75rem; color:#94a3b8; margin-top:5px; font-family: ui-monospace, monospace;">
+            Establishing connection to Tavily extraction pipeline...
+          </p>
+        </div>
+        <button id="snapshot-modal-close" class="modal-close" style="color: #94a3b8;">&times;</button>
+      </div>
+      <div class="modal-body" style="padding:1.5rem; gap:1.2rem; display:flex; flex-direction:column; max-height: 65vh; overflow-y:auto;">
+        
+        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+          <!-- Left: Raw DOM Snippet -->
+          <div style="flex:1; min-width:300px; background: #1e293b; padding:1rem; border-radius: 6px; border: 1px solid #334155;">
+            <div style="font-size:0.75rem; color:#64748b; font-weight:700; margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.5px;">原始快照 (Raw Source Snippet)</div>
+            <pre id="snapshot-raw-code" style="margin:0; font-size:0.75rem; color:#a5b4fc; white-space:pre-wrap; word-break:break-all; line-height:1.5;"></pre>
+          </div>
+          
+          <!-- Right: LLM Extraction -->
+          <div style="flex:1; min-width:300px; background: #020617; padding:1rem; border-radius: 6px; border: 1px solid #334155;">
+            <div style="font-size:0.75rem; color:#64748b; font-weight:700; margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.5px;">大模型结构化提取 (LLM JSON)</div>
+            <pre id="snapshot-llm-json" style="margin:0; font-size:0.75rem; color:#34d399; white-space:pre-wrap; word-break:break-all; line-height:1.5;"></pre>
+          </div>
+        </div>
+
+        <!-- Terminal Status Log -->
+        <div style="background: #000; padding: 0.75rem; border-radius: 4px; border-left: 3px solid #38bdf8;">
+          <div id="snapshot-terminal-log" style="font-size: 0.75rem; color: #facc15; line-height: 1.4;">
+            > Parsing DOM nodes... Done.<br>
+            > Running NLP entity extraction... Found entities: [Name, Phone, Address].<br>
+            > Confidence Score: 98.4%
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 页脚 Footer -->
+  <footer>
+    <p>好学图书 · BD 领航版区域线索系统 &copy; 2026 HaoXue Books Inc. All rights reserved.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

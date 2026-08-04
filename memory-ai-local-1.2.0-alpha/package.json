@@ -1,0 +1,11 @@
+{
+  "name": "memory-ai-local",
+  "version": "1.2.0",
+  "private": true,
+  "description": "Local-first Developer Memory for coding agents",
+  "scripts": {
+    "start": "node --no-warnings=ExperimentalWarning backend/server.js",
+    "test": "node --no-warnings=ExperimentalWarning --test tests/*.test.js"
+  },
+  "engines": { "node": ">=22.5.0" }
+}

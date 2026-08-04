@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soft Geometry — Q 版角色重设计方案</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #F5F2ED;
+    font-family: -apple-system, 'Segoe UI', 'Noto Sans SC', sans-serif;
+    color: #2C2C2C;
+    min-height: 100vh;
+    padding: 60px 40px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .header h1 {
+    font-size: 13px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 12px;
+  }
+  .header h2 {
+    font-size: 36px;
+    font-weight: 600;
+    color: #2C2C2C;
+    margin-bottom: 8px;
+  }
+  .header p {
+    font-size: 14px;
+    color: #888;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: transparent;
+    border-radius: 20px;
+    padding: 24px 16px 18px;
+    text-align: center;
+    transition: transform 0.3s;
+    position: relative;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+  }
+
+  .card .label {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #BBB;
+    margin-bottom: 6px;
+  }
+  .card .name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 4px;
+  }
+  .card .scene {
+    font-size: 12px;
+    color: #AAA;
+    margin-bottom: 16px;
+  }
+
+  .card .char-container {
+    width: 100%;
+    height: 160px;
+    margin: 0 auto 12px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card .char-container svg {
+    width: 140px;
+    height: 160px;
+  }
+
+  .palette {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  .palette .swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+
+  /* Character animations */
+  @keyframes gentle-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  @keyframes soft-blink {
+    0%, 42%, 58%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.05); }
+  }
+  @keyframes scarf-drift {
+    0%, 100% { transform: skewX(0deg); }
+    50% { transform: skewX(4deg); }
+  }
+  @keyframes arm-sway {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(12deg); }
+  }
+  @keyframes bag-pendulum {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(10deg); }
+  }
+  @keyframes steam-rise {
+    0% { transform: translateY(0); opacity: 0.5; }
+    100% { transform: translateY(-10px); opacity: 0; }
+  }
+  @keyframes wave-hand {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(15deg); }
+    75% { transform: rotate(-8deg); }
+  }
+  @keyframes chopstick-move {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  @keyframes walk-cycle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+  @keyframes foot-kick {
+    0%, 100% { transform: rotate(0deg); }
+    30% { transform: rotate(12deg); }
+  }
+  @keyframes keyboard-tap {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(2px); }
+  }
+
+  .char-float { animation: gentle-float 3.5s ease-in-out infinite; }
+  .char-float-d1 { animation: gentle-float 3.5s ease-in-out infinite; animation-delay: 0.3s; }
+  .char-float-d2 { animation: gentle-float 3.5s ease-in-out infinite; animation-delay: 0.6s; }
+  .char-float-d3 { animation: gentle-float 3.5s ease-in-out infinite; animation-delay: 0.9s; }
+
+  .footer {
+    text-align: center;
+    margin-top: 60px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #CCC;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<!-- Sticker filter definition -->
+<svg style="position:absolute;width:0;height:0;">
+  <defs>
+    <filter id="sticker" x="-20%" y="-20%" width="140%" height="140%">
+      <feMorphology operator="dilate" radius="4" in="SourceAlpha" result="expanded"/>
+      <feFlood flood-color="white" result="white"/>
+      <feComposite in="white" in2="expanded" operator="in" result="whiteOutline"/>
+      <feMerge>
+        <feMergeNode in="whiteOutline"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="sticker-shadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feMorphology operator="dilate" radius="5" in="SourceAlpha" result="expanded"/>
+      <feFlood flood-color="white" result="white"/>
+      <feComposite in="white" in2="expanded" operator="in" result="whiteOutline"/>
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="shadow"/>
+      <feOffset dx="1" dy="2" result="offsetShadow"/>
+      <feFlood flood-color="rgba(0,0,0,0.12)" result="shadowColor"/>
+      <feComposite in="shadowColor" in2="offsetShadow" operator="in" result="coloredShadow"/>
+      <feMerge>
+        <feMergeNode in="coloredShadow"/>
+        <feMergeNode in="whiteOutline"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+</svg>
+
+<div class="header">
+  <h1>Soft Geometry</h1>
+  <h2>Q 版角色重设计方案</h2>
+  <p>扁平简约风 · 圆润比例 · 柔和配色<br>点击卡片查看动态效果</p>
+</div>
+
+<div class="grid">
+
+  <!-- 1. Selfie / 拍照 -->
+  <div class="card">
+    <div class="label">01</div>
+    <div class="name">拍照</div>
+    <div class="scene">Selfie</div>
+    <div class="char-container">
+      <svg viewBox="0 0 120 140" class="char-float" filter="url(#sticker-shadow)">
+        <!-- Body -->
+        <rect x="38" y="72" width="44" height="40" rx="14" fill="#C8A2C8"/>
+        <!-- Legs -->
+        <line x1="50" y1="112" x2="46" y2="132" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <line x1="70" y1="112" x2="74" y2="132" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <!-- Head -->
+        <circle cx="60" cy="48" r="30" fill="#FFD93D"/>
+        <!-- Hair -->
+        <path d="M32 42 Q38 18 60 20 Q82 18 88 42" fill="#8B6C5C" stroke="none"/>
+        <ellipse cx="42" cy="24" rx="4" ry="8" fill="#8B6C5C"/>
+        <ellipse cx="78" cy="24" rx="4" ry="8" fill="#8B6C5C"/>
+        <!-- Eyes -->
+        <g style="animation: soft-blink 4s infinite;">
+          <circle cx="48" cy="48" r="3.5" fill="#2C2C2C"/>
+          <circle cx="72" cy="48" r="3.5" fill="#2C2C2C"/>
+          <circle cx="49.5" cy="46.5" r="1.2" fill="white"/>
+          <circle cx="73.5" cy="46.5" r="1.2" fill="white"/>
+        </g>
+        <!-- Blush -->
+        <ellipse cx="40" cy="56" rx="6" ry="3.5" fill="#FFB6C1" opacity="0.4"/>
+        <ellipse cx="80" cy="56" rx="6" ry="3.5" fill="#FFB6C1" opacity="0.4"/>
+        <!-- Smile -->
+        <path d="M52 58 Q60 66 68 58" fill="none" stroke="#E88B7A" stroke-width="2" stroke-linecap="round"/>
+        <!-- Arm with phone -->
+        <g style="transform-origin: 38px 82px; animation: arm-sway 4s ease-in-out infinite;">
+          <line x1="38" y1="82" x2="22" y2="70" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+          <rect x="14" y="60" width="14" height="20" rx="3" fill="#3A3A3A"/>
+          <rect x="16" y="63" width="10" height="13" rx="1" fill="#7EC8E3"/>
+        </g>
+        <!-- Right arm -->
+        <line x1="82" y1="82" x2="90" y2="98" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#C8A2C8"></div>
+      <div class="swatch" style="background:#FFD93D"></div>
+      <div class="swatch" style="background:#8B6C5C"></div>
+      <div class="swatch" style="background:#FFB6C1"></div>
+    </div>
+  </div>
+
+  <!-- 2. Rowing / 划船 -->
+  <div class="card">
+    <div class="label">02</div>
+    <div class="name">划船</div>
+    <div class="scene">Rowing</div>
+    <div class="char-container">
+      <svg viewBox="0 0 120 140" class="char-float-d1" filter="url(#sticker-shadow)">
+        <!-- Boat -->
+        <path d="M20 118 Q60 128 100 118 L95 112 Q60 120 25 112 Z" fill="#D4A574" opacity="0.7"/>
+        <!-- Water -->
+        <path d="M10 122 Q30 118 50 122 Q70 126 90 122 Q110 118 120 122" fill="none" stroke="#8EC8D8" stroke-width="2.5" opacity="0.5"/>
+        <path d="M5 128 Q25 124 45 128 Q65 132 85 128 Q105 124 115 128" fill="none" stroke="#8EC8D8" stroke-width="2" opacity="0.3"/>
+        <!-- Body -->
+        <rect x="38" y="68" width="44" height="38" rx="12" fill="#E87B6B"/>
+        <!-- Life jacket stripe -->
+        <rect x="38" y="78" width="44" height="4" rx="2" fill="#FFD93D"/>
+        <!-- Legs (in boat) -->
+        <line x1="50" y1="106" x2="48" y2="116" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <line x1="70" y1="106" x2="72" y2="116" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <!-- Head -->
+        <circle cx="60" cy="44" r="28" fill="#FFD93D"/>
+        <!-- Hat -->
+        <ellipse cx="60" cy="24" rx="24" ry="6" fill="#D46B6B"/>
+        <rect x="42" y="14" width="36" height="12" rx="6" fill="#D46B6B"/>
+        <!-- Eyes -->
+        <g style="animation: soft-blink 3.5s infinite;">
+          <circle cx="50" cy="44" r="3" fill="#2C2C2C"/>
+          <circle cx="70" cy="44" r="3" fill="#2C2C2C"/>
+          <circle cx="51" cy="43" r="1" fill="white"/>
+          <circle cx="71" cy="43" r="1" fill="white"/>
+        </g>
+        <!-- Blush -->
+        <ellipse cx="43" cy="52" rx="5" ry="3" fill="#FFB6C1" opacity="0.35"/>
+        <ellipse cx="77" cy="52" rx="5" ry="3" fill="#FFB6C1" opacity="0.35"/>
+        <!-- Smile -->
+        <path d="M53 53 Q60 59 67 53" fill="none" stroke="#E88B7A" stroke-width="2" stroke-linecap="round"/>
+        <!-- Oar + Arms -->
+        <g style="transform-origin: 60px 80px; animation: arm-sway 2s ease-in-out infinite;">
+          <line x1="20" y1="95" x2="100" y2="70" stroke="#8B6C5C" stroke-width="4" stroke-linecap="round"/>
+          <ellipse cx="102" cy="68" rx="6" ry="10" fill="#A88B6C" transform="rotate(-25 102 68)"/>
+          <line x1="38" y1="80" x2="30" y2="88" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+          <line x1="82" y1="80" x2="88" y2="76" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#E87B6B"></div>
+      <div class="swatch" style="background:#8EC8D8"></div>
+      <div class="swatch" style="background:#D4A574"></div>
+      <div class="swatch" style="background:#D46B6B"></div>
+    </div>
+  </div>
+
+  <!-- 3. Dining / 美食 -->
+  <div class="card">
+    <div class="label">03</div>
+    <div class="name">美食</div>
+    <div class="scene">Dining</div>
+    <div class="char-container">
+      <svg viewBox="0 0 120 140" class="char-float-d2" filter="url(#sticker-shadow)">
+        <!-- Body -->
+        <rect x="38" y="72" width="44" height="38" rx="12" fill="#6BC5B8"/>
+        <!-- Apron -->
+        <path d="M42 80 L78 80 L76 110 L44 110 Z" fill="white" opacity="0.5"/>
+        <!-- Legs -->
+        <line x1="50" y1="110" x2="46" y2="130" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <line x1="70" y1="110" x2="74" y2="130" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <!-- Head -->
+        <circle cx="60" cy="48" r="28" fill="#FFD93D"/>
+        <!-- Chef hat -->
+        <ellipse cx="60" cy="26" rx="20" ry="6" fill="white"/>
+        <rect x="44" y="14" width="32" height="14" rx="8" fill="white"/>
+        <ellipse cx="60" cy="14" rx="14" ry="8" fill="white"/>
+        <!-- Eyes - happy squint -->
+        <g style="animation: soft-blink 5s infinite;">
+          <path d="M46 46 Q50 42 54 46" fill="none" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M66 46 Q70 42 74 46" fill="none" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+        <!-- Blush -->
+        <ellipse cx="42" cy="53" rx="5" ry="3" fill="#FFB6C1" opacity="0.4"/>
+        <ellipse cx="78" cy="53" rx="5" ry="3" fill="#FFB6C1" opacity="0.4"/>
+        <!-- Open mouth -->
+        <ellipse cx="60" cy="58" rx="5" ry="4" fill="#E88B7A"/>
+        <!-- Chopsticks arm -->
+        <g style="transform-origin: 82px 82px; animation: chopstick-move 2.5s ease-in-out infinite;">
+          <line x1="82" y1="82" x2="96" y2="60" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+          <line x1="92" y1="62" x2="100" y2="48" stroke="#8B6C5C" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="96" y1="64" x2="104" y2="50" stroke="#8B6C5C" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="100" cy="48" r="3" fill="#E87B6B"/>
+        </g>
+        <!-- Bowl -->
+        <ellipse cx="36" cy="96" rx="14" ry="8" fill="#E87B6B"/>
+        <ellipse cx="36" cy="93" rx="12" ry="5" fill="#FFF5E6"/>
+        <circle cx="33" cy="92" r="2" fill="#FFD93D"/>
+        <circle cx="38" cy="91" r="1.5" fill="#90C695"/>
+        <!-- Left arm -->
+        <line x1="38" y1="82" x2="28" y2="92" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#6BC5B8"></div>
+      <div class="swatch" style="background:#FFD93D"></div>
+      <div class="swatch" style="background:#E87B6B"></div>
+      <div class="swatch" style="background:#8B6C5C"></div>
+    </div>
+  </div>
+
+  <!-- 4. Hiking / 登山 -->
+  <div class="card">
+    <div class="label">04</div>
+    <div class="name">登山</div>
+    <div class="scene">Hiking</div>
+    <div class="char-container">
+      <svg viewBox="0 0 120 140" class="char-float-d3" filter="url(#sticker-shadow)">
+        <!-- Mountains bg -->
+        <polygon points="0,95 30,50 60,95" fill="#90C695" opacity="0.25"/>
+        <polygon points="40,95 75,40 110,95" fill="#7CB87C" opacity="0.2"/>
+        <!-- Body -->
+        <rect x="38" y="68" width="44" height="40" rx="12" fill="#5B9A6B"/>
+        <!-- Zipper -->
+        <line x1="60" y1="72" x2="60" y2="106" stroke="#4A8A5A" stroke-width="1.5"/>
+        <!-- Legs -->
+        <g style="animation: walk-cycle 1.2s ease-in-out infinite;">
+          <line x1="50" y1="108" x2="44" y2="130" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+          <rect x="40" y="128" width="10" height="5" rx="2.5" fill="#8B6C5C"/>
+        </g>
+        <g style="animation: walk-cycle 1.2s ease-in-out infinite; animation-delay: 0.6s;">
+          <line x1="70" y1="108" x2="76" y2="130" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+          <rect x="72" y="128" width="10" height="5" rx="2.5" fill="#8B6C5C"/>
+        </g>
+        <!-- Head -->
+        <circle cx="60" cy="44" r="28" fill="#FFD93D"/>
+        <!-- Hat -->
+        <path d="M38 38 Q60 20 82 38" fill="#5B9A6B"/>
+        <rect x="46" y="28" width="28" height="10" rx="5" fill="#5B9A6B"/>
+        <!-- Eyes with brows -->
+        <g style="animation: soft-blink 3.8s infinite;">
+          <circle cx="50" cy="44" r="3" fill="#2C2C2C"/>
+          <circle cx="70" cy="44" r="3" fill="#2C2C2C"/>
+          <circle cx="51" cy="43" r="1" fill="white"/>
+          <circle cx="71" cy="43" r="1" fill="white"/>
+        </g>
+        <line x1="45" y1="38" x2="54" y2="40" stroke="#8B6C5C" stroke-width="2" stroke-linecap="round"/>
+        <line x1="75" y1="38" x2="66" y2="40" stroke="#8B6C5C" stroke-width="2" stroke-linecap="round"/>
+        <!-- Neutral mouth -->
+        <line x1="55" y2="54" x2="65" y2="54" stroke="#D4A07A" stroke-width="2" stroke-linecap="round"/>
+        <!-- Backpack -->
+        <rect x="18" y="70" width="16" height="22" rx="6" fill="#E8A050"/>
+        <line x1="22" y1="72" x2="34" y2="72" stroke="#D49040" stroke-width="2" stroke-linecap="round"/>
+        <!-- Walking stick -->
+        <line x1="86" y1="80" x2="96" y2="130" stroke="#8B6C5C" stroke-width="3" stroke-linecap="round"/>
+        <!-- Left arm -->
+        <line x1="38" y1="80" x2="28" y2="94" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#5B9A6B"></div>
+      <div class="swatch" style="background:#E8A050"></div>
+      <div class="swatch" style="background:#90C695"></div>
+      <div class="swatch" style="background:#8B6C5C"></div>
+    </div>
+  </div>
+
+  <!-- 5. Shopping / 购物 -->
+  <div class="card">
+    <div class="label">05</div>
+    <div class="name">购物</div>
+    <div class="scene">Shopping</div>
+    <div class="char-container">
+      <svg viewBox="0 0 120 140" class="char-float">
+        <!-- Body / Dress -->
+        <polygon points="40,72 80,72 84,112 36,112" fill="#E8A0B0"/>
+        <rect x="40" y="70" width="40" height="8" rx="4" fill="#D48A9A"/>
+        <!-- Legs -->
+        <line x1="48" y1="112" x2="44" y2="130" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <line x1="72" y1="112" x2="76" y2="130" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <!-- Heels -->
+        <ellipse cx="42" cy="131" rx="5" ry="3" fill="#D48A9A"/>
+        <ellipse cx="78" cy="131" rx="5" ry="3" fill="#D48A9A"/>
+        <!-- Head -->
+        <circle cx="60" cy="46" r="28" fill="#FFD93D"/>
+        <!-- Hair + pigtails -->
+        <path d="M34 40 Q40 18 60 20 Q80 18 86 40" fill="#7A5C4C"/>
+        <circle cx="32" cy="38" r="8" fill="#7A5C4C"/>
+        <circle cx="88" cy="38" r="8" fill="#7A5C4C"/>
+        <!-- Eyes - sparkly -->
+        <g style="animation: soft-blink 3.2s infinite;">
+          <circle cx="50" cy="46" r="4" fill="#2C2C2C"/>
+          <circle cx="70" cy="46" r="4" fill="#2C2C2C"/>
+          <circle cx="51.5" cy="44.5" r="1.5" fill="white"/>
+          <circle cx="71.5" cy="44.5" r="1.5" fill="white"/>
+          <circle cx="48" cy="48" r="0.8" fill="white" opacity="0.6"/>
+          <circle cx="68" cy="48" r="0.8" fill="white" opacity="0.6"/>
+        </g>
+        <!-- Blush -->
+        <ellipse cx="42" cy="54" rx="5" ry="3" fill="#FFB6C1" opacity="0.5"/>
+        <ellipse cx="78" cy="54" rx="5" ry="3" fill="#FFB6C1" opacity="0.5"/>
+        <!-- Big smile -->
+        <path d="M50 56 Q60 66 70 56" fill="#E88B7A" stroke="none"/>
+        <path d="M52 56 Q60 62 68 56" fill="#FFD93D"/>
+        <!-- Shopping bag arm -->
+        <g style="transform-origin: 84px 82px; animation: bag-pendulum 3s ease-in-out infinite;">
+          <line x1="84" y1="82" x2="94" y2="96" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+          <rect x="86" y="96" width="18" height="20" rx="4" fill="#D48A9A"/>
+          <path d="M90 96 Q95 88 100 96" fill="none" stroke="#C47A8A" stroke-width="2"/>
+          <circle cx="95" cy="106" r="3" fill="white" opacity="0.5"/>
+        </g>
+        <!-- Left arm -->
+        <line x1="36" y1="82" x2="26" y2="96" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#E8A0B0"></div>
+      <div class="swatch" style="background:#FFD93D"></div>
+      <div class="swatch" style="background:#7A5C4C"></div>
+      <div class="swatch" style="background:#D48A9A"></div>
+    </div>
+  </div>
+
+  <!-- 6. Beach / 海边 -->
+  <div class="card">
+    <div class="label">06</div>
+    <div class="name">海边</div>
+    <div class="scene">Beach</div>
+    <div class="char-container">
+      <svg viewBox="0 0 120 140" class="char-float-d1" filter="url(#sticker-shadow)">
+        <!-- Sun -->
+        <circle cx="96" cy="20" r="12" fill="#FFD93D" opacity="0.5"/>
+        <line x1="96" y1="4" x2="96" y2="0" stroke="#FFD93D" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+        <line x1="108" y1="12" x2="112" y2="8" stroke="#FFD93D" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+        <line x1="112" y1="20" x2="116" y2="20" stroke="#FFD93D" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+        <!-- Waves -->
+        <path d="M0 120 Q15 116 30 120 Q45 124 60 120 Q75 116 90 120 Q105 124 120 120" fill="none" stroke="#7CC8C0" stroke-width="2.5" opacity="0.5">
+          <animate attributeName="d" values="M0 120 Q15 116 30 120 Q45 124 60 120 Q75 116 90 120 Q105 124 120 120;M0 120 Q15 124 30 120 Q45 116 60 120 Q75 124 90 120 Q105 116 120 120;M0 120 Q15 116 30 120 Q45 124 60 120 Q75 116 90 120 Q105 124 120 120" dur="3s" repeatCount="indefinite"/>
+        </path>
+        <path d="M0 128 Q20 124 40 128 Q60 132 80 128 Q100 124 120 128" fill="none" stroke="#7CC8C0" stroke-width="2" opacity="0.3">
+          <animate attributeName="d" values="M0 128 Q20 124 40 128 Q60 132 80 128 Q100 124 120 128;M0 128 Q20 132 40 128 Q60 124 80 128 Q100 132 120 128;M0 128 Q20 124 40 128 Q60 132 80 128 Q100 124 120 128" dur="3.5s" repeatCount="indefinite"/>
+        </path>
+        <!-- Sand -->
+        <path d="M0 132 Q60 128 120 132 L120 140 L0 140 Z" fill="#E8D4B0" opacity="0.5"/>
+        <!-- Body -->
+        <rect x="38" y="70" width="44" height="38" rx="12" fill="#E88B7A"/>
+        <!-- V-neck -->
+        <path d="M50 70 L60 82 L70 70" fill="none" stroke="#D47A6A" stroke-width="1.5"/>
+        <!-- Legs -->
+        <g style="animation: foot-kick 3s ease-in-out infinite;">
+          <line x1="50" y1="108" x2="46" y2="128" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        </g>
+        <line x1="70" y1="108" x2="74" y2="128" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <!-- Head -->
+        <circle cx="60" cy="46" r="28" fill="#FFD93D"/>
+        <!-- Sun hat -->
+        <ellipse cx="60" cy="30" rx="30" ry="6" fill="#F0D060"/>
+        <ellipse cx="60" cy="26" rx="16" ry="10" fill="#F5DC70"/>
+        <!-- Sunglasses -->
+        <rect x="40" y="42" width="14" height="10" rx="4" fill="#333"/>
+        <rect x="66" y="42" width="14" height="10" rx="4" fill="#333"/>
+        <line x1="54" y1="47" x2="66" y2="47" stroke="#333" stroke-width="2"/>
+        <rect x="42" y="44" width="5" height="3" rx="1" fill="white" opacity="0.3"/>
+        <rect x="68" y="44" width="5" height="3" rx="1" fill="white" opacity="0.3"/>
+        <!-- Smile -->
+        <path d="M52 58 Q60 64 68 58" fill="none" stroke="#E88B7A" stroke-width="2" stroke-linecap="round"/>
+        <!-- Arms up -->
+        <line x1="38" y1="80" x2="22" y2="64" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <line x1="82" y1="80" x2="98" y2="64" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#E88B7A"></div>
+      <div class="swatch" style="background:#7CC8C0"></div>
+      <div class="swatch" style="background:#F0D060"></div>
+      <div class="swatch" style="background:#E8D4B0"></div>
+    </div>
+  </div>
+
+  <!-- 7. Park / 公园 -->
+  <div class="card">
+    <div class="label">07</div>
+    <div class="name">公园</div>
+    <div class="scene">Park</div>
+    <div class="char-container">
+      <svg viewBox="0 0 120 140" class="char-float-d2" filter="url(#sticker-shadow)">
+        <!-- Trees -->
+        <circle cx="18" cy="60" r="16" fill="#90C695" opacity="0.35"/>
+        <rect x="16" y="74" width="4" height="20" rx="2" fill="#A88B6C" opacity="0.35"/>
+        <circle cx="102" cy="54" r="14" fill="#7CB87C" opacity="0.3"/>
+        <rect x="100" y="66" width="4" height="18" rx="2" fill="#A88B6C" opacity="0.3"/>
+        <!-- Grass -->
+        <path d="M0 130 Q20 126 40 130 Q60 134 80 130 Q100 126 120 130 L120 140 L0 140 Z" fill="#C8E6C0" opacity="0.4"/>
+        <!-- Flowers -->
+        <circle cx="30" cy="128" r="2.5" fill="#E8A0B0" opacity="0.6"/>
+        <circle cx="88" cy="132" r="2" fill="#FFD93D" opacity="0.6"/>
+        <circle cx="72" cy="126" r="2.5" fill="#E8A0B0" opacity="0.5"/>
+        <!-- Body -->
+        <rect x="38" y="70" width="44" height="38" rx="12" fill="#A8D8A0"/>
+        <rect x="38" y="82" width="44" height="3" rx="1.5" fill="#90C695"/>
+        <!-- Legs -->
+        <line x1="50" y1="108" x2="46" y2="128" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <line x1="70" y1="108" x2="74" y2="128" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <!-- Sneakers -->
+        <ellipse cx="44" cy="130" rx="6" ry="3" fill="white"/>
+        <ellipse cx="76" cy="130" rx="6" ry="3" fill="white"/>
+        <!-- Head -->
+        <g style="transform-origin: 60px 46px; animation: arm-sway 6s ease-in-out infinite;">
+          <circle cx="60" cy="46" r="28" fill="#FFD93D"/>
+          <!-- Hair -->
+          <path d="M34 40 Q38 20 60 18 Q82 20 86 40" fill="#6A5040"/>
+          <!-- Eyes -->
+          <g style="animation: soft-blink 4.5s infinite;">
+            <circle cx="50" cy="46" r="3" fill="#2C2C2C"/>
+            <circle cx="70" cy="46" r="3" fill="#2C2C2C"/>
+            <circle cx="51" cy="45" r="1" fill="white"/>
+            <circle cx="71" cy="45" r="1" fill="white"/>
+          </g>
+          <!-- Blush -->
+          <ellipse cx="42" cy="54" rx="5" ry="3" fill="#FFB6C1" opacity="0.35"/>
+          <ellipse cx="78" cy="54" rx="5" ry="3" fill="#FFB6C1" opacity="0.35"/>
+          <!-- Small smile -->
+          <path d="M54 56 Q60 61 66 56" fill="none" stroke="#E88B7A" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <!-- Arms relaxed -->
+        <line x1="38" y1="82" x2="28" y2="98" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <line x1="82" y1="82" x2="92" y2="98" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#A8D8A0"></div>
+      <div class="swatch" style="background:#FFD93D"></div>
+      <div class="swatch" style="background:#90C695"></div>
+      <div class="swatch" style="background:#6A5040"></div>
+    </div>
+  </div>
+
+  <!-- 8. City / 城市 -->
+  <div class="card">
+    <div class="label">08</div>
+    <div class="name">城市</div>
+    <div class="scene">City</div>
+    <div class="char-container">
+      <svg viewBox="0 0 120 140" class="char-float-d3" filter="url(#sticker-shadow)">
+        <!-- Buildings -->
+        <rect x="6" y="50" width="20" height="70" rx="2" fill="#A0AAB0" opacity="0.25"/>
+        <rect x="9" y="56" width="5" height="5" rx="1" fill="#FFD93D" opacity="0.3"/>
+        <rect x="17" y="56" width="5" height="5" rx="1" fill="#FFD93D" opacity="0.3"/>
+        <rect x="9" y="66" width="5" height="5" rx="1" fill="#FFD93D" opacity="0.3"/>
+        <rect x="94" y="40" width="22" height="80" rx="2" fill="#8A9AA0" opacity="0.2"/>
+        <rect x="97" y="46" width="5" height="5" rx="1" fill="#FFD93D" opacity="0.25"/>
+        <rect x="107" y="46" width="5" height="5" rx="1" fill="#FFD93D" opacity="0.25"/>
+        <rect x="97" y="56" width="5" height="5" rx="1" fill="#FFD93D" opacity="0.25"/>
+        <!-- Body / Overcoat -->
+        <rect x="36" y="68" width="48" height="42" rx="8" fill="#4A5A60"/>
+        <line x1="60" y1="72" x2="60" y2="108" stroke="#3A4A50" stroke-width="1.5"/>
+        <circle cx="54" cy="86" r="2" fill="#5A6A70"/>
+        <circle cx="54" cy="96" r="2" fill="#5A6A70"/>
+        <!-- Legs -->
+        <line x1="50" y1="110" x2="46" y2="130" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <line x1="70" y1="110" x2="74" y2="130" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <!-- Shoes -->
+        <rect x="40" y="128" width="12" height="5" rx="2.5" fill="#333"/>
+        <rect x="68" y="128" width="12" height="5" rx="2.5" fill="#333"/>
+        <!-- Head -->
+        <circle cx="60" cy="44" r="28" fill="#FFD93D"/>
+        <!-- Hair -->
+        <path d="M34 38 Q38 18 60 16 Q82 18 86 38" fill="#3A3A3A"/>
+        <!-- Eyes -->
+        <g style="animation: soft-blink 4s infinite;">
+          <circle cx="50" cy="44" r="2.5" fill="#2C2C2C"/>
+          <circle cx="70" cy="44" r="2.5" fill="#2C2C2C"/>
+          <circle cx="51" cy="43" r="0.8" fill="white"/>
+          <circle cx="71" cy="43" r="0.8" fill="white"/>
+        </g>
+        <!-- Subtle smile -->
+        <path d="M55 54 Q60 58 65 54" fill="none" stroke="#D4A07A" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- Scarf -->
+        <path d="M42 62 Q60 70 78 62" fill="#E87050" stroke="none"/>
+        <path d="M44 64 Q42 72 46 80" fill="none" stroke="#E87050" stroke-width="6" stroke-linecap="round" style="animation: scarf-drift 2s ease-in-out infinite;"/>
+        <!-- Arms -->
+        <line x1="36" y1="80" x2="26" y2="98" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <line x1="84" y1="80" x2="94" y2="98" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#4A5A60"></div>
+      <div class="swatch" style="background:#E87050"></div>
+      <div class="swatch" style="background:#FFD93D"></div>
+      <div class="swatch" style="background:#A0AAB0"></div>
+    </div>
+  </div>
+
+  <!-- 9. Travel / 旅行 -->
+  <div class="card">
+    <div class="label">09</div>
+    <div class="name">旅行</div>
+    <div class="scene">Travel</div>
+    <div class="char-container">
+      <svg viewBox="0 0 120 140" class="char-float">
+        <!-- Body -->
+        <rect x="38" y="68" width="44" height="40" rx="12" fill="#5A7AC0"/>
+        <!-- Legs -->
+        <line x1="50" y1="108" x2="46" y2="130" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <line x1="70" y1="108" x2="74" y2="130" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <!-- Sneakers -->
+        <ellipse cx="44" cy="132" rx="6" ry="3" fill="white"/>
+        <ellipse cx="76" cy="132" rx="6" ry="3" fill="white"/>
+        <!-- Head -->
+        <circle cx="60" cy="44" r="28" fill="#FFD93D"/>
+        <!-- Messy hair -->
+        <path d="M32 38 Q36 16 60 14 Q84 16 88 38" fill="#8B6C5C"/>
+        <path d="M34 30 Q30 22 36 24" fill="#8B6C5C"/>
+        <path d="M86 30 Q90 22 84 24" fill="#8B6C5C"/>
+        <!-- Eyes - excited -->
+        <g style="animation: soft-blink 3s infinite;">
+          <circle cx="48" cy="44" r="4.5" fill="#2C2C2C"/>
+          <circle cx="72" cy="44" r="4.5" fill="#2C2C2C"/>
+          <circle cx="49.5" cy="42" r="1.8" fill="white"/>
+          <circle cx="73.5" cy="42" r="1.8" fill="white"/>
+          <circle cx="46" cy="46" r="0.8" fill="white" opacity="0.5"/>
+          <circle cx="70" cy="46" r="0.8" fill="white" opacity="0.5"/>
+        </g>
+        <!-- Blush -->
+        <ellipse cx="40" cy="52" rx="5" ry="3" fill="#FFB6C1" opacity="0.5"/>
+        <ellipse cx="80" cy="52" rx="5" ry="3" fill="#FFB6C1" opacity="0.5"/>
+        <!-- Big smile -->
+        <path d="M48 55 Q60 66 72 55" fill="#E88B7A"/>
+        <path d="M50 55 Q60 62 70 55" fill="#FFD93D"/>
+        <!-- Backpack -->
+        <rect x="76" y="70" width="14" height="20" rx="5" fill="#E8A050"/>
+        <line x1="78" y1="72" x2="90" y2="72" stroke="#D49040" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- Waving arm -->
+        <g style="transform-origin: 38px 80px; animation: wave-hand 1.5s ease-in-out infinite;">
+          <line x1="38" y1="80" x2="18" y2="60" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        </g>
+        <!-- Map in right hand -->
+        <g style="transform-origin: 86px 86px; animation: arm-sway 3s ease-in-out infinite;">
+          <line x1="82" y1="82" x2="90" y2="92" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+          <rect x="86" y="86" width="16" height="12" rx="2" fill="white" stroke="#DDD" stroke-width="0.5"/>
+          <line x1="88" y1="90" x2="100" y2="90" stroke="#8EC8D8" stroke-width="1"/>
+          <line x1="88" y1="93" x2="96" y2="93" stroke="#90C695" stroke-width="1"/>
+          <circle cx="94" cy="91" r="1.5" fill="#E87B6B"/>
+        </g>
+      </svg>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#5A7AC0"></div>
+      <div class="swatch" style="background:#E8A050"></div>
+      <div class="swatch" style="background:#FFD93D"></div>
+      <div class="swatch" style="background:#8B6C5C"></div>
+    </div>
+  </div>
+
+  <!-- 10. Work / 工作 -->
+  <div class="card">
+    <div class="label">10</div>
+    <div class="name">工作</div>
+    <div class="scene">Work</div>
+    <div class="char-container">
+      <svg viewBox="0 0 120 140" class="char-float-d1" filter="url(#sticker-shadow)">
+        <!-- Body / Suit -->
+        <rect x="36" y="68" width="48" height="42" rx="8" fill="#2C3038"/>
+        <!-- Shirt collar -->
+        <path d="M50 68 L60 80 L70 68" fill="white" opacity="0.9"/>
+        <!-- Tie -->
+        <polygon points="58,80 62,80 63,92 57,92" fill="#D46060"/>
+        <polygon points="57,80 63,80 60,84" fill="#D46060"/>
+        <!-- Legs -->
+        <line x1="50" y1="110" x2="46" y2="130" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <line x1="70" y1="110" x2="74" y2="130" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <!-- Shoes -->
+        <rect x="40" y="128" width="12" height="5" rx="2.5" fill="#1C1C1C"/>
+        <rect x="68" y="128" width="12" height="5" rx="2.5" fill="#1C1C1C"/>
+        <!-- Head -->
+        <circle cx="60" cy="44" r="28" fill="#FFD93D"/>
+        <!-- Hair -->
+        <path d="M34 38 Q38 16 60 14 Q82 16 86 38" fill="#2C2C2C"/>
+        <path d="M76 26 Q82 24 80 30" fill="#2C2C2C"/>
+        <!-- Glasses -->
+        <rect x="40" y="40" width="14" height="10" rx="3" fill="none" stroke="#444" stroke-width="2"/>
+        <rect x="66" y="40" width="14" height="10" rx="3" fill="none" stroke="#444" stroke-width="2"/>
+        <line x1="54" y1="45" x2="66" y2="45" stroke="#444" stroke-width="1.5"/>
+        <!-- Eyes behind glasses -->
+        <g style="animation: soft-blink 5s infinite;">
+          <circle cx="47" cy="45" r="2" fill="#2C2C2C"/>
+          <circle cx="73" cy="45" r="2" fill="#2C2C2C"/>
+          <circle cx="47.8" cy="44.2" r="0.7" fill="white"/>
+          <circle cx="73.8" cy="44.2" r="0.7" fill="white"/>
+        </g>
+        <!-- Serious mouth -->
+        <line x1="55" y1="56" x2="65" y2="56" stroke="#D4A07A" stroke-width="2" stroke-linecap="round"/>
+        <!-- Laptop -->
+        <g style="animation: keyboard-tap 0.5s ease-in-out infinite;">
+          <rect x="12" y="88" width="24" height="16" rx="2" fill="#3A3A3A"/>
+          <rect x="14" y="90" width="20" height="11" rx="1" fill="#5A8AB0"/>
+          <line x1="16" y1="93" x2="30" y2="93" stroke="white" stroke-width="0.8" opacity="0.5"/>
+          <line x1="16" y1="96" x2="26" y2="96" stroke="white" stroke-width="0.8" opacity="0.5"/>
+          <line x1="16" y1="99" x2="28" y2="99" stroke="white" stroke-width="0.8" opacity="0.5"/>
+          <rect x="10" y="104" width="28" height="2" rx="1" fill="#4A4A4A"/>
+        </g>
+        <!-- Left arm to keyboard -->
+        <line x1="36" y1="80" x2="24" y2="92" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <!-- Right arm -->
+        <line x1="84" y1="80" x2="92" y2="96" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#2C3038"></div>
+      <div class="swatch" style="background:#D46060"></div>
+      <div class="swatch" style="background:#FFD93D"></div>
+      <div class="swatch" style="background:#5A8AB0"></div>
+    </div>
+  </div>
+
+  <!-- 11. Home / 居家 -->
+  <div class="card">
+    <div class="label">11</div>
+    <div class="name">居家</div>
+    <div class="scene">Home</div>
+    <div class="char-container">
+      <svg viewBox="0 0 120 140" class="char-float-d2" filter="url(#sticker-shadow)">
+        <!-- House bg -->
+        <polygon points="20,60 60,30 100,60" fill="#E88B7A" opacity="0.15"/>
+        <rect x="24" y="60" width="72" height="50" rx="2" fill="#F5E6D0" opacity="0.15"/>
+        <!-- Body / Pajamas -->
+        <rect x="38" y="70" width="44" height="38" rx="12" fill="#9AC8E0"/>
+        <!-- Polka dots -->
+        <circle cx="48" cy="82" r="2.5" fill="white" opacity="0.5"/>
+        <circle cx="64" cy="78" r="2.5" fill="white" opacity="0.5"/>
+        <circle cx="56" cy="92" r="2.5" fill="white" opacity="0.5"/>
+        <circle cx="72" cy="88" r="2.5" fill="white" opacity="0.5"/>
+        <!-- Legs -->
+        <line x1="50" y1="108" x2="46" y2="128" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <line x1="70" y1="108" x2="74" y2="128" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <!-- Slippers -->
+        <ellipse cx="44" cy="130" rx="7" ry="3.5" fill="#E8B0B0"/>
+        <ellipse cx="76" cy="130" rx="7" ry="3.5" fill="#E8B0B0"/>
+        <!-- Head -->
+        <circle cx="60" cy="46" r="28" fill="#FFD93D"/>
+        <!-- Messy bed hair -->
+        <path d="M34 40 Q38 18 60 16 Q82 18 86 40" fill="#8B6C5C"/>
+        <path d="M38 22 Q34 10 42 16" fill="#8B6C5C"/>
+        <path d="M56 16 Q54 6 62 12" fill="#8B6C5C"/>
+        <path d="M76 20 Q80 8 74 14" fill="#8B6C5C"/>
+        <!-- Sleepy eyes -->
+        <g style="animation: soft-blink 6s infinite;">
+          <line x1="44" y1="46" x2="52" y2="46" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="68" y1="46" x2="76" y2="46" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+        <!-- Blush -->
+        <ellipse cx="42" cy="52" rx="5" ry="3" fill="#FFB6C1" opacity="0.35"/>
+        <ellipse cx="78" cy="52" rx="5" ry="3" fill="#FFB6C1" opacity="0.35"/>
+        <!-- Yawning mouth -->
+        <ellipse cx="60" cy="58" rx="5" ry="4" fill="#E88B7A">
+          <animate attributeName="ry" values="3;5;3" dur="4s" repeatCount="indefinite"/>
+        </ellipse>
+        <!-- Coffee mug -->
+        <g>
+          <rect x="84" y="82" width="14" height="16" rx="4" fill="white" stroke="#DDD" stroke-width="1"/>
+          <path d="M98 86 Q104 86 104 92 Q104 98 98 98" fill="none" stroke="#DDD" stroke-width="1.5"/>
+          <rect x="86" y="84" width="10" height="12" rx="3" fill="#8B6C5C" opacity="0.4"/>
+          <!-- Steam -->
+          <path d="M89 80 Q87 74 91 72" fill="none" stroke="#CCC" stroke-width="1.5" stroke-linecap="round" opacity="0.4" style="animation: steam-rise 2s ease-out infinite;"/>
+          <path d="M95 78 Q93 72 97 70" fill="none" stroke="#CCC" stroke-width="1.5" stroke-linecap="round" opacity="0.3" style="animation: steam-rise 2s ease-out infinite; animation-delay: 1s;"/>
+        </g>
+        <!-- Right arm to mug -->
+        <line x1="82" y1="82" x2="86" y2="86" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <!-- Left arm -->
+        <line x1="38" y1="82" x2="28" y2="96" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#9AC8E0"></div>
+      <div class="swatch" style="background:#FFD93D"></div>
+      <div class="swatch" style="background:#E8B0B0"></div>
+      <div class="swatch" style="background:#8B6C5C"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Soft Geometry — 11 Characters — Flat Minimalist Redesign
+</div>
+
+</body>
+</html>

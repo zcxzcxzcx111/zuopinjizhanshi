@@ -1,0 +1,43 @@
+Memory AI MCP 使用说明（1.2）
+===============================
+
+作用
+让 Codex、Claude Code、Antigravity 等支持本地 MCP 的 Coding Agent 按权限读取项目上下文，并把新结论提交为“等待用户批准”的候选。
+它不会自动读取 Agent 的全部聊天，不会把 Life Memory 暴露给 Coding Agent，也不会让 Agent 绕过审批直接修改长期记忆或任务。
+
+连接
+1. 双击“Start Memory AI.cmd”，确认网页能打开。
+2. 在网页进入“Agent 连接”。
+3. 点击目标 Agent 的“查看连接步骤”。
+4. 复制网页为该 Agent 生成的专属配置；配置含独立 client id 和本地凭证。
+5. 粘贴到对应客户端并重启，确认出现 8 个 memory-ai-local 工具。
+6. 可先在网页点击“运行自检”；它会真实启动 STDIO 子进程并验证读取及写入保护。
+
+立即断开
+- 在 Memory AI 的 Agent 连接弹窗点击“立即断开本地权限”，旧凭证下一次调用就会失效。
+- 也可在 Agent 的 MCP 设置中禁用或删除 memory-ai-local，然后重启客户端。
+- 断开不会删除本地数据，也不会影响其他 Agent 的独立凭证。
+
+8 个工具
+- list_projects：只列出获准项目与可见统计，不返回绝对路径
+- get_project_brief：按权限与 Token 预算返回精简上下文
+- search_memories：关键词搜索少量摘要，默认排除敏感记忆
+- get_memory：知道记忆 ID 后按权限读取完整内容
+- get_changes：按 revision 读取增量变化
+- propose_memory：提交记忆候选，批准前不落库
+- propose_task_update：提交任务修改候选，批准前不修改任务
+- create_handoff：生成不含未授权敏感记忆的交接包
+
+建议调用规则（省 Token）
+- 项目开始时调用一次 get_project_brief，默认预算 600。
+- 只在遇到具体问题时调用 search_memories；先读摘要，需要时再按 ID 取详情。
+- 长任务使用 get_changes 获取增量，不要反复读取全部上下文。
+- 关键结论用 propose_memory 提交，在网页“权限与审计”中由用户批准。
+- Agent 切换前调用 create_handoff，不附带完整原始对话。
+
+安全边界
+- 每个 Agent 使用不同凭证和项目权限；凭证只保存在本机 data\mcp-credentials.json。
+- 敏感记忆在 SQL 查询层默认对 Agent 隐藏；本地用户可逐项目授权。
+- Life Memory 没有任何 MCP 工具。
+- 当前数据库和凭证文件没有应用层静态加密，请配合 Windows 账户与磁盘加密。
+- 检索仍使用 SQLite 关键词匹配，不是向量检索。
