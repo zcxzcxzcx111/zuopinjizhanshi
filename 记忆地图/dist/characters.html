@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MemoryMap Q版角色形象</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    h1 {
+      text-align: center;
+      color: white;
+      font-size: 28px;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .subtitle {
+      text-align: center;
+      color: rgba(255,255,255,0.8);
+      font-size: 14px;
+      margin-bottom: 40px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    @media (max-width: 600px) {
+      .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .card img { width: 120px; height: 120px; }
+      h1 { font-size: 22px; }
+    }
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.25);
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      border-radius: 20px 20px 0 0;
+    }
+    .card[data-scene="selfie"]::before { background: #FFD93D; }
+    .card[data-scene="rowing"]::before { background: #4ECDC4; }
+    .card[data-scene="dining"]::before { background: #FF6B6B; }
+    .card[data-scene="hiking"]::before { background: #95E1D3; }
+    .card[data-scene="shopping"]::before { background: #F38181; }
+    .card[data-scene="beach"]::before { background: #FCE38A; }
+    .card[data-scene="park"]::before { background: #95E1D3; }
+    .card[data-scene="city"]::before { background: #AA96DA; }
+    .card[data-scene="travel"]::before { background: #4ECDC4; }
+
+    .card img {
+      width: 160px;
+      height: 160px;
+      object-fit: contain;
+      margin-bottom: 10px;
+      animation: float 3s ease-in-out infinite;
+    }
+    .card:nth-child(2) img { animation-delay: 0.3s; }
+    .card:nth-child(3) img { animation-delay: 0.6s; }
+    .card:nth-child(4) img { animation-delay: 0.9s; }
+    .card:nth-child(5) img { animation-delay: 1.2s; }
+    .card:nth-child(6) img { animation-delay: 1.5s; }
+    .card:nth-child(7) img { animation-delay: 1.8s; }
+    .card:nth-child(8) img { animation-delay: 2.1s; }
+    .card:nth-child(9) img { animation-delay: 2.4s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .card .scene-emoji { font-size: 22px; margin-bottom: 6px; }
+    .card .scene-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 2px;
+    }
+    .card .scene-key {
+      font-size: 12px;
+      color: #bbb;
+      font-family: 'SF Mono', Consolas, monospace;
+    }
+    .missing { opacity: 0.4; border: 3px dashed #ccc; background: #f9f9f9; }
+    .missing .scene-name { color: #999; }
+    .missing img { animation: none; }
+
+    .status {
+      text-align: center;
+      margin-top: 40px;
+      color: rgba(255,255,255,0.9);
+      font-size: 14px;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      animation: popIn 0.3s ease;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-close {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      font-size: 24px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 101;
+    }
+  </style>
+</head>
+<body>
+  <h1>MemoryMap Q版角色形象</h1>
+  <p class="subtitle">9 个场景 · 抠图贴纸风格 · 256×256 PNG · 点击放大</p>
+
+  <div class="grid">
+    <div class="card" data-scene="selfie" onclick="showModal(this)">
+      <div class="scene-emoji"></div>
+      <img src="./assets/characters/selfie.png" alt="selfie" loading="lazy">
+      <div class="scene-name">拍照</div>
+      <div class="scene-key">selfie</div>
+    </div>
+    <div class="card" data-scene="rowing" onclick="showModal(this)">
+      <div class="scene-emoji"></div>
+      <img src="./assets/characters/rowing.png" alt="rowing" loading="lazy">
+      <div class="scene-name">划船</div>
+      <div class="scene-key">rowing</div>
+    </div>
+    <div class="card" data-scene="dining" onclick="showModal(this)">
+      <div class="scene-emoji"></div>
+      <img src="./assets/characters/dining.png" alt="dining" loading="lazy">
+      <div class="scene-name">美食</div>
+      <div class="scene-key">dining</div>
+    </div>
+    <div class="card" data-scene="hiking" onclick="showModal(this)">
+      <div class="scene-emoji"></div>
+      <img src="./assets/characters/hiking.png" alt="hiking" loading="lazy">
+      <div class="scene-name">登山</div>
+      <div class="scene-key">hiking</div>
+    </div>
+    <div class="card" data-scene="shopping" onclick="showModal(this)">
+      <div class="scene-emoji"></div>
+      <img src="./assets/characters/shopping.png" alt="shopping" loading="lazy">
+      <div class="scene-name">购物</div>
+      <div class="scene-key">shopping</div>
+    </div>
+    <div class="card" data-scene="beach" onclick="showModal(this)">
+      <div class="scene-emoji"></div>
+      <img src="./assets/characters/beach.png" alt="beach" loading="lazy">
+      <div class="scene-name">海边</div>
+      <div class="scene-key">beach</div>
+    </div>
+    <div class="card missing" data-scene="park" onclick="showModal(this)">
+      <div class="scene-emoji"></div>
+      <img src="./assets/characters/park.png" alt="park" loading="lazy">
+      <div class="scene-name">公园</div>
+      <div class="scene-key">park · 旧版</div>
+    </div>
+    <div class="card" data-scene="city" onclick="showModal(this)">
+      <div class="scene-emoji"></div>
+      <img src="./assets/characters/city.png" alt="city" loading="lazy">
+      <div class="scene-name">城市</div>
+      <div class="scene-key">city</div>
+    </div>
+    <div class="card" data-scene="travel" onclick="showModal(this)">
+      <div class="scene-emoji"></div>
+      <img src="./assets/characters/travel.png" alt="travel" loading="lazy">
+      <div class="scene-name">旅行</div>
+      <div class="scene-key">travel</div>
+    </div>
+  </div>
+
+  <div class="status">
+    8/9 已替换为抠图贴纸版 · park.png 仍为旧版
+  </div>
+
+  <div class="modal-overlay" id="modal" onclick="closeModal()">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <img class="modal-img" id="modal-img" src="" alt="">
+  </div>
+
+  <script>
+    function showModal(card) {
+      const img = card.querySelector('img');
+      document.getElementById('modal-img').src = img.src;
+      document.getElementById('modal').classList.add('active');
+    }
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>
